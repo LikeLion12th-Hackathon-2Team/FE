@@ -22,7 +22,7 @@ function Main() {
 export default Main;
 
 const Wrapper = styled.div`
-    background :linear-gradient(white,${({theme}) => theme.backgroundColors.mainColor});
+    background :linear-gradient(white 17%,${({theme}) => theme.backgroundColors.mainColor} 100%);
     height: 100vh;
     display: flex;
     justify-content: center;
@@ -31,4 +31,10 @@ const Wrapper = styled.div`
 const LogoBox = styled.div`
     margin: auto;
     text-align: center;
+    p{
+        font-family: 'Ownglyph_meetme-Rg';
+        font-size: 20px;
+        color: ${({theme})=>theme.colors.fontColor}
+    }
+    
 `
