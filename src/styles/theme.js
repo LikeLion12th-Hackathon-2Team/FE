@@ -1,18 +1,13 @@
 const theme = {
     colors :{
-        mainColor: "#B7E1FF",
-        mainColorDark: "#A0D6BB",
-        white: "#ffffff",
-        darkGray: "#616161",
-        lightGray: "#A9A9A9",
-        darkMint: "#419F70",
+        mainColor: "#0085FF",
+        fontBorder: "#032D99",
+        fontColor: "#505050",
     },
     backgroundColors: {
         mainColor: "#0085FF",
-        mainColorDark: "#A0D6BB",
-        white: "#ffffff",
-        darkGray: "#616161",
-        lightGray: "#A9A9A9",
+        borderDark: "#032D99",
+        btnColor: "#A6D4FF",
     },
     mobile: `375px`,
     tablet: "768px",
