@@ -8,7 +8,7 @@ const theme = {
         darkMint: "#419F70",
     },
     backgroundColors: {
-        mainColor: "#B7E1FF",
+        mainColor: "#0085FF",
         mainColorDark: "#A0D6BB",
         white: "#ffffff",
         darkGray: "#616161",

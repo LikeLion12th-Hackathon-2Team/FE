@@ -5,6 +5,7 @@ import styled from "styled-components";
 
 
 function App() {
+
   return (
       <>
           <Wrapper>
@@ -15,8 +16,6 @@ function App() {
                   </Routes>
               </Container>
           </Wrapper>
-
-
     </>
   );
 }
@@ -34,7 +33,7 @@ const Wrapper = styled.div`
 `
 
 const Container = styled.div`
-    width: 768px;
+    width: 100vw;
     height: 100vh;
     background: ${({theme}) => theme.backgroundColors.mainColor};
     overflow-y: scroll;
