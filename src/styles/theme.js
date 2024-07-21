@@ -9,6 +9,7 @@ const theme = {
     borderDark: "#032D99",
     btnColor: "#A6D4FF",
     cardHeaderColor: "#C9E8FF",
+    cardbackgroundColor: "#FFFFFF",
   },
   mobile: `375px`,
   tablet: "768px",
