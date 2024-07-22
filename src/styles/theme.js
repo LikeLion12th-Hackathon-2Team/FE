@@ -11,6 +11,9 @@ const theme = {
     cardHeaderColor: "#C9E8FF",
     cardbackgroundColor: "#FFFFFF",
   },
+  card: {
+    btnColor: "#96D3FF",
+  },
   mobile: `375px`,
   tablet: "768px",
 };

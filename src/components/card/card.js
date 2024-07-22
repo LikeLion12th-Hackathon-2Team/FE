@@ -1,15 +1,14 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import styled from "styled-components";
 import {
   PinImg,
   BookmarkImg,
   PublicSwitch,
-  PrivateSwitch,
   Stamp,
+  More,
 } from "../../components/icons/cardIcons";
 
-function Card({ dailyData }) {
+function Card({ dailyData, comments }) {
   return (
     <Diary>
       <DiaryHeader>
@@ -37,6 +36,19 @@ function Card({ dailyData }) {
         <p>{dailyData.advice}</p>
       </DiaryText>
       <hr />
+      <Visible>
+        <More />
+        <hr />
+        <div>
+          <CommentWrite placeholder="댓글을 입력해주세요" />
+          <Btn>작성</Btn>
+        </div>
+        {comments.map((comment, index) => (
+          <>
+            <Comment key={index}>{comment}</Comment>
+          </>
+        ))}
+      </Visible>
     </Diary>
   );
 }
@@ -93,4 +105,51 @@ const DiaryText = styled.div`
     font-weight: regular;
     margin: 10px;
   }
+`;
+
+const Visible = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10px;
+  flex-direction: column;
+  div {
+    display: flex;
+    padding: 5px;
+    border: 1px solid ${({ theme }) => theme.card.btnColor};
+    border-radius: 10px;
+    width: 100%;
+    justify-content: space-between;
+  }
+`;
+
+const CommentWrite = styled.input`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 200px;
+  padding: 5px;
+  border: none;
+  border-radius: 4px;
+`;
+
+const Btn = styled.button`
+  border: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 5px;
+  border-radius: 5px;
+  font-family: "Ownglyph_meetme-Rg";
+  font-size: 10px;
+  width: 40px;
+  background-color: ${({ theme }) => theme.card.btnColor};
+`;
+
+const Comment = styled.div`
+  flex-direction: column;
+  margin-top: 10px;
+  font-family: "Ownglyph_meetme-Rg";
+  font-size: 15px;
+  color: black;
 `;
