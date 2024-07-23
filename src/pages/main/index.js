@@ -1,6 +1,6 @@
 import {Link} from "react-router-dom";
 import styled from "styled-components";
-import {MainPageLogo} from "../../components/icons/icons";
+import {MainPageLogo} from "../../components/icons/logo";
 
 function Main() {
     return (
@@ -15,7 +15,6 @@ function Main() {
                 </LogoBox>
             </Wrapper>
         </>
-
     );
 }
 
@@ -36,5 +35,4 @@ const LogoBox = styled.div`
         font-size: 20px;
         color: ${({theme})=>theme.colors.fontColor}
     }
-    
 `
