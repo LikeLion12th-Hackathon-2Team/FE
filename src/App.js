@@ -2,6 +2,7 @@ import { Route, Routes } from "react-router-dom";
 import Main from "./pages/main";
 import Test from "./pages/test";
 import styled from "styled-components";
+import Mypage from "./pages/mypage";
 
 
 function App() {
@@ -13,6 +14,7 @@ function App() {
                   <Routes>
                       <Route path="/" element={<Main/>}/>
                       <Route path='/test' element={<Test/>}/>
+                      <Route path='/mypage' element={<Mypage/>}/>
                   </Routes>
               </Container>
           </Wrapper>
@@ -23,13 +25,9 @@ function App() {
 export default App;
 
 const Wrapper = styled.div`
-    //overflow: hidden;
-    width: 100vw;
-    height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #F5F5F5;
 `
 
 const Container = styled.div`
