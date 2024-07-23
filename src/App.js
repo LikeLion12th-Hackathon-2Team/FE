@@ -2,6 +2,8 @@ import { Route, Routes } from "react-router-dom";
 import Main from "./pages/main";
 import Test from "./pages/test";
 import Detail from "./pages/detail";
+import HealingCollection from "./pages/healingCollection";
+import NextDoor from "./pages/nextDoor";
 import styled from "styled-components";
 
 function App() {
@@ -12,6 +14,8 @@ function App() {
           <Routes>
             <Route path="/" element={<Main />} />
             <Route path="/detail" element={<Detail />} />
+            <Route path="/healingCollection" element={<HealingCollection />} />
+            <Route path="/nextDoor" element={<NextDoor />} />
             <Route path="/test" element={<Test />} />
           </Routes>
         </Container>

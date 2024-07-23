@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import Card from "../../components/card/card";
 
-function Detail() {
+function HealingCollection() {
   const dailyData = [
     {
       date: "7월 14일",
@@ -24,6 +24,16 @@ function Detail() {
       advice:
         "어쨌든 실컷 누웠으니 기분 째지고 너는 2팀이니까 완전 럭키비키잖아 ~",
     },
+    {
+      date: "7월 15일",
+      title: "결국 아무것도 못한 쓸애기",
+      percent: "20%",
+      time: "15:40:01",
+      content:
+        "결국 아무것도 못한 쓸애기 잇츠 미 ~! 등장..>! 누워있는게 최고야 ",
+      advice:
+        "어쨌든 실컷 누웠으니 기분 째지고 너는 2팀이니까 완전 럭키비키잖아 ~",
+    },
   ];
 
   const comments = [
@@ -31,11 +41,9 @@ function Detail() {
     "2222어쨌든 실컷 누웠으니 기분 째지고 너는 2팀이니까  완전 럭키비키잖아 ~",
   ];
 
-  const todayDate = dailyData.length > 0 ? dailyData[0].date : "날짜 없음";
-
   return (
     <Wrapper>
-      <Title>{todayDate}의 소다</Title>
+      <Title>힐링소다 모음집</Title>
       {dailyData.map((data, index) => (
         <Card key={index} dailyData={data} comments={comments} />
       ))}
@@ -43,7 +51,7 @@ function Detail() {
   );
 }
 
-export default Detail;
+export default HealingCollection;
 
 const Wrapper = styled.div`
   background: linear-gradient(

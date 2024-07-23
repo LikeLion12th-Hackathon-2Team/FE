@@ -74,6 +74,7 @@ const Diary = styled.div`
     background-color: black;
     height: 1px;
   }
+  margin: 20px;
 `;
 
 const DiaryHeader = styled.div`
