@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, Navigate } from "react-router-dom";
 import Main from "./pages/main";
 import Test from "./pages/test";
 import Detail from "./pages/detail";
@@ -9,7 +9,9 @@ import AddDiary from "./pages/addDiary";
 import styled from "styled-components";
 import Mypage from "./pages/mypage";
 import MonthlySoda from "./pages/monthlySoda";
-import WeeklySoda from "./pages/weeklySoda";
+import WeeklySoda from "./pages/weeklySoda";import Login from "./pages/login";
+import Signup from "./pages/signup";
+import Change from "./pages/change";
 
 function App() {
   return (
@@ -27,10 +29,14 @@ function App() {
             <Route path="/mypage" element={<Mypage />} />
             <Route path="/monthly" element={<MonthlySoda />} />
             <Route path={`/date/:year/:month`} element={<WeeklySoda />} />
+            <Route path="/loginpage" element={<Login />} />
+            <Route path="/signuppage" element={<Signup />} />
+            <Route path="/changepage" element={<Change />} />
           </Routes>
         </Container>
       </Wrapper>
     </>
+
   );
 }
 
@@ -58,3 +64,4 @@ const Container = styled.div`
     height: 100vh;
   }
 `;
+
