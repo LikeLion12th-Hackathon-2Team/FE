@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import {
   PinImg,
@@ -6,9 +6,16 @@ import {
   PublicSwitch,
   Stamp,
   More,
+  Modify,
 } from "../../components/icons/cardIcons";
 
 function Card({ dailyData, comments }) {
+  const [isShowComments, setIsShowComments] = useState(false);
+
+  const handleMoreClick = () => {
+    setIsShowComments(!isShowComments);
+  };
+
   return (
     <Diary>
       <DiaryHeader>
@@ -36,19 +43,26 @@ function Card({ dailyData, comments }) {
         <p>{dailyData.advice}</p>
       </DiaryText>
       <hr />
-      <Visible>
-        <More />
-        <hr />
-        <div>
-          <CommentWrite placeholder="댓글을 입력해주세요" />
-          <Btn>작성</Btn>
-        </div>
-        {comments.map((comment, index) => (
-          <>
-            <Comment key={index}>{comment}</Comment>
-          </>
-        ))}
-      </Visible>
+      <Row>
+        <More onClick={handleMoreClick} />
+        <Modify />
+      </Row>
+      {isShowComments ? (
+        <>
+          <hr />
+          <Visible>
+            <CommentsSection>
+              <div>
+                <CommentWrite placeholder="댓글을 입력해주세요" />
+                <Btn>작성</Btn>
+              </div>
+              {comments.map((comment, index) => (
+                <Comment key={index}>{comment}</Comment>
+              ))}
+            </CommentsSection>
+          </Visible>
+        </>
+      ) : null}
     </Diary>
   );
 }
@@ -96,10 +110,15 @@ const Row = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  width: 100%;
   p {
     font-size: 12px;
     font-weight: regular;
     margin: 0;
+  }
+  svg {
+    cursor: pointer;
+    margin-left: auto;
   }
 `;
 
@@ -112,13 +131,28 @@ const DiaryText = styled.div`
     margin: 10px;
   }
 `;
-
 const Visible = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
   margin-top: 10px;
   flex-direction: column;
+  div {
+    display: flex;
+    padding: 5px;
+    border: 1px solid ${({ theme }) => theme.card.btnColor};
+    border-radius: 10px;
+    width: 100%;
+    justify-content: space-between;
+  }
+`;
+
+const CommentsSection = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10px;
   div {
     display: flex;
     padding: 5px;
