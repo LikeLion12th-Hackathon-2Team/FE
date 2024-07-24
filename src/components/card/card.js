@@ -57,7 +57,6 @@ export default Card;
 const Diary = styled.div`
   display: flex;
   flex-direction: column;
-  width: 300px;
   height: auto;
   padding: 10px;
   border-radius: 8px;
@@ -75,6 +74,12 @@ const Diary = styled.div`
     height: 1px;
   }
   margin: 20px;
+  margin: 10px;
+  width: ${({ theme }) => theme.tablet};
+  border-radius: 13px;
+  @media (max-width: ${({ theme }) => theme.mobile}) {
+    width: 324px;
+  }
 `;
 
 const DiaryHeader = styled.div`
