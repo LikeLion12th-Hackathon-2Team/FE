@@ -3,6 +3,8 @@ import Main from "./pages/main";
 import Test from "./pages/test";
 import styled from "styled-components";
 import Mypage from "./pages/mypage";
+import MonthlySoda from "./pages/monthlySoda";
+import WeeklySoda from "./pages/weeklySoda";
 
 
 function App() {
@@ -15,6 +17,8 @@ function App() {
                       <Route path="/" element={<Main/>}/>
                       <Route path='/test' element={<Test/>}/>
                       <Route path='/mypage' element={<Mypage/>}/>
+                      <Route path='/monthly' element={<MonthlySoda/>}/>
+                      <Route path={`/date/:year/:month`} element={<WeeklySoda/>}/>
                   </Routes>
               </Container>
           </Wrapper>

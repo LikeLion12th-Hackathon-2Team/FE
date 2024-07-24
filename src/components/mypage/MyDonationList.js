@@ -39,7 +39,7 @@ const Wrapper = styled.div`
     height: 320px;
     width: ${({theme}) => theme.tablet};
     background:${({theme}) => theme.colors.white}; 
-    border-radius: 20px;
+    border-radius: 10px;
     color: ${({theme}) => theme.colors.fontColor};
     @media (max-width:${({theme}) => theme.mobile} ) {
         width: 324px;

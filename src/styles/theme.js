@@ -6,6 +6,7 @@ const theme = {
         white: "#ffffff",
         timeColor: "#8A8A8A",
         red:"#FF5E5E",
+        dailyColor: "#4789C7",
     },
     backgroundColors: {
         mainColor: "#0085FF",

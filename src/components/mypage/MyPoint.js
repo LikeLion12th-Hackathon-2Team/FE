@@ -80,7 +80,7 @@ const CircleBox =styled.div`
 const InformPointBox = styled.div`
     width: 80%;
     height: 40px;
-    border-radius: 20px;
+    border-radius:10px;
     background: white;
     margin: 20px auto;
     padding: 12px;
