@@ -1,6 +1,13 @@
 import styled from "styled-components";
+import {More} from "../../components/icons/weeklyIcons";
+import {useState} from "react";
 
 function Test() {
+    const [color, setColor] = useState('#ffffff');
+
+    const handleClick = () => {
+        setColor('#ff0000'); // Change color to red on click
+    };
   return (
     <Wrapper>
       <div>
@@ -10,6 +17,9 @@ function Test() {
         <span> 7월의 소다 </span>
         <ItemBox></ItemBox>
       </div>
+        <TestIcon onClick={handleClick}>
+            <More color={color} />
+        </TestIcon>
     </Wrapper>
   );
 }
@@ -44,3 +54,14 @@ const ItemBox = styled.div`
     height: 100vh;
   }
 `;
+
+const TestIcon =styled.div`
+    &:hover {
+        
+        //svg {
+        //    color: #87ceeb; // Sky blue on hover
+        //    fill: #87ceeb; // Ensure fill changes too, if applicable
+        //}
+    }
+ 
+`
