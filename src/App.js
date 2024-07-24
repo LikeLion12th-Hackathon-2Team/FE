@@ -4,6 +4,7 @@ import Test from "./pages/test";
 import Detail from "./pages/detail";
 import HealingCollection from "./pages/healingCollection";
 import NextDoor from "./pages/nextDoor";
+import NextdoorDetail from "./pages/nextdoorDetail";
 import styled from "styled-components";
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
             <Route path="/detail" element={<Detail />} />
             <Route path="/healingCollection" element={<HealingCollection />} />
             <Route path="/nextDoor" element={<NextDoor />} />
+            <Route path="/nextdoordetail" element={<NextdoorDetail />} />
             <Route path="/test" element={<Test />} />
           </Routes>
         </Container>
