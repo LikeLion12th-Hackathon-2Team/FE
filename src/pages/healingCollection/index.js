@@ -42,7 +42,7 @@ function HealingCollection() {
   ];
 
   return (
-    <Wrapper>
+    <Wrapper isTall={true}>
       <Title>힐링소다 모음집</Title>
       {dailyData.map((data, index) => (
         <Card key={index} dailyData={data} comments={comments} />

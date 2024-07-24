@@ -34,7 +34,7 @@ function NextdoorDetail() {
   const todayDate = dailyData.length > 0 ? dailyData[0].date : "날짜 없음";
 
   return (
-    <Wrapper>
+    <Wrapper isTall={true}>
       <Title>옆집 소다</Title>
       {dailyData.map((data, index) => (
         <Card key={index} dailyData={data} comments={comments} />

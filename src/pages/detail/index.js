@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import Card from "../../components/card/card";
+import { WriteDiary } from "../../components/icons/cardIcons";
 
 function Detail() {
   const dailyData = [
@@ -34,7 +35,7 @@ function Detail() {
   const todayDate = dailyData.length > 0 ? dailyData[0].date : "날짜 없음";
 
   return (
-    <Wrapper>
+    <Wrapper isTall={true}>
       <Title>{todayDate}의 소다</Title>
       {dailyData.map((data, index) => (
         <Card key={index} dailyData={data} comments={comments} />

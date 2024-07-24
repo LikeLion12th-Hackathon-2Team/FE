@@ -5,6 +5,7 @@ import Detail from "./pages/detail";
 import HealingCollection from "./pages/healingCollection";
 import NextDoor from "./pages/nextDoor";
 import NextdoorDetail from "./pages/nextdoorDetail";
+import AddDiary from "./pages/addDiary";
 import styled from "styled-components";
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
             <Route path="/healingCollection" element={<HealingCollection />} />
             <Route path="/nextDoor" element={<NextDoor />} />
             <Route path="/nextdoordetail" element={<NextdoorDetail />} />
+            <Route path="/writediary" element={<AddDiary />} />
             <Route path="/test" element={<Test />} />
           </Routes>
         </Container>
