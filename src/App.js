@@ -7,6 +7,9 @@ import NextDoor from "./pages/nextDoor";
 import NextdoorDetail from "./pages/nextdoorDetail";
 import AddDiary from "./pages/addDiary";
 import styled from "styled-components";
+import Mypage from "./pages/mypage";
+import MonthlySoda from "./pages/monthlySoda";
+import WeeklySoda from "./pages/weeklySoda";
 
 function App() {
   return (
@@ -21,6 +24,9 @@ function App() {
             <Route path="/nextdoordetail" element={<NextdoorDetail />} />
             <Route path="/writediary" element={<AddDiary />} />
             <Route path="/test" element={<Test />} />
+            <Route path="/mypage" element={<Mypage />} />
+            <Route path="/monthly" element={<MonthlySoda />} />
+            <Route path={`/date/:year/:month`} element={<WeeklySoda />} />
           </Routes>
         </Container>
       </Wrapper>
