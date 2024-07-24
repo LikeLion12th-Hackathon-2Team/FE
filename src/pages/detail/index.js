@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import Card from "../../components/card/card";
@@ -47,11 +47,11 @@ function Detail() {
       {dailyData.map((data, index) => (
         <Card key={index} dailyData={data} comments={comments} />
       ))}
-      <FixedWriteDiary onClick={handleWriteDiaryClick}>
+      {/* <FixedWriteDiary onClick={handleWriteDiaryClick}>
         <WriteDiary />
         123123213
         <Stamp />
-      </FixedWriteDiary>
+      </FixedWriteDiary> */}
     </Wrapper>
   );
 }

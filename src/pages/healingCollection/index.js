@@ -70,9 +70,10 @@ const Title = styled.p`
   display: flex;
   margin: 20px;
   color: white;
-  font-size: 3em;
   text-align: center;
-  text-shadow: 4px 4px ${({ theme }) => theme.backgroundColors.borderDark};
   font-family: "LOTTERIACHAB";
   color: white;
+  font-size: 40px;
+  padding: 20px;
+  text-shadow: 4px 4px ${({ theme }) => theme.backgroundColors.borderDark};
 `;

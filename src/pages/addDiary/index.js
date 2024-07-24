@@ -5,6 +5,10 @@ import {
   BookmarkImg,
   PublicSwitch,
   Stamp,
+  Stampred,
+  Stampblue,
+  Stampgreen,
+  Stampyellow,
 } from "../../components/icons/cardIcons";
 
 function AddDiary() {
@@ -73,10 +77,10 @@ function AddDiary() {
         <hr />
         <DiaryText>
           <StampWrapper>
-            <Stamp style={{ fill: "#3BADFF" }} />
-            <Stamp style={{ fill: "#35DB78" }} />
-            <Stamp style={{ fill: "#F19393" }} />
-            <Stamp style={{ fill: "#FFDF39" }} />
+            <Stampred />
+            <Stampyellow />
+            <Stampgreen />
+            <Stampblue />
           </StampWrapper>
         </DiaryText>
         <hr />
