@@ -59,7 +59,11 @@ function AddDiary() {
             value={inputData.diaryText}
             onChange={handleChange}
             placeholder="일기를 입력하세요"
-            style={{ width: "100%", height: "100px", padding: "5px" }}
+            style={{
+              width: "100%",
+              height: "100px",
+              padding: "5px",
+            }}
           ></textarea>
         </DiaryText>
         <hr />

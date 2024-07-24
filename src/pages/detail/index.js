@@ -1,9 +1,12 @@
 import React from "react";
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
 import Card from "../../components/card/card";
-import { WriteDiary } from "../../components/icons/cardIcons";
+import { More, Stamp, WriteDiary } from "../../components/icons/cardIcons";
 
 function Detail() {
+  const navigate = useNavigate();
+
   const dailyData = [
     {
       date: "7월 14일",
@@ -28,11 +31,15 @@ function Detail() {
   ];
 
   const comments = [
-    "1111어쨌든 실컷 누웠으니 기분 째지고 너는 2팀이니까  완전 럭키비키잖아 ~",
-    "2222어쨌든 실컷 누웠으니 기분 째지고 너는 2팀이니까  완전 럭키비키잖아 ~",
+    "1111어쨌든 실컷 누웠으니 기분 째지고 너는 2팀이니까 완전 럭키비키잖아 ~",
+    "2222어쨌든 실컷 누웠으니 기분 째지고 너는 2팀이니까 완전 럭키비키잖아 ~",
   ];
 
   const todayDate = dailyData.length > 0 ? dailyData[0].date : "날짜 없음";
+
+  const handleWriteDiaryClick = () => {
+    navigate("/writediary");
+  };
 
   return (
     <Wrapper isTall={true}>
@@ -40,6 +47,11 @@ function Detail() {
       {dailyData.map((data, index) => (
         <Card key={index} dailyData={data} comments={comments} />
       ))}
+      <FixedWriteDiary onClick={handleWriteDiaryClick}>
+        <WriteDiary />
+        123123213
+        <Stamp />
+      </FixedWriteDiary>
     </Wrapper>
   );
 }
@@ -67,5 +79,15 @@ const Title = styled.p`
   text-align: center;
   text-shadow: 4px 4px ${({ theme }) => theme.backgroundColors.borderDark};
   font-family: "LOTTERIACHAB";
-  color: white;
+`;
+
+const FixedWriteDiary = styled.div`
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+  cursor: pointer;
+  z-index: 1000;
+  width: 50px;
+  height: 50px;
+  background: ${(props) => props.theme.backgroundColors.mainColor};
 `;
