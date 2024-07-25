@@ -1,5 +1,7 @@
 import React from "react";
 import styled from "styled-components";
+import Header from "../../components/common/Header";
+import Menubar from "../../components/common/Menubar";
 
 function NextDoor() {
   const dailyData = [
@@ -41,25 +43,29 @@ function NextDoor() {
   ];
 
   return (
-    <Wrapper>
-      <Title>옆집 소다</Title>
-      {dailyData.map((data, index) => (
-        <TitleCard key={index}>
-          <p>{data.title}</p>
-          <p>{data.date}</p>
-        </TitleCard>
-      ))}
-    </Wrapper>
+      <>
+        <Header/>
+        <Wrapper>
+          <Title>옆집 소다</Title>
+          {dailyData.map((data, index) => (
+              <TitleCard key={index}>
+                <p>{data.title}</p>
+                <p>{data.date}</p>
+              </TitleCard>
+          ))}
+        </Wrapper>
+        <Menubar/>
+      </>
+
   );
 }
 
 export default NextDoor;
 
 const Wrapper = styled.div`
-  background: linear-gradient(
-    ${({ theme }) => theme.backgroundColors.mainColor} 0%,
-    white 83%
-  );
+  padding-top: 60px;
+  padding-bottom: 70px;
+  background :linear-gradient(${({theme}) => theme.backgroundColors.mainColor} 25%, white 100%);
   height: ${(props) => (props.isTall ? "auto" : "100vh")};
   display: flex;
   flex-direction: column;
