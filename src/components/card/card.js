@@ -54,7 +54,7 @@ function Card({ dailyData, comments }) {
             <CommentsSection>
               <div>
                 <CommentWrite placeholder="댓글을 입력해주세요" />
-                <Btn>작성</Btn>
+                <Btn>작 성</Btn>
               </div>
               {comments.map((comment, index) => (
                 <Comment key={index}>{comment}</Comment>
