@@ -10,6 +10,8 @@ import {
   Stampgreen,
   Stampyellow,
 } from "../../components/icons/cardIcons";
+import Header from "../../components/common/Header";
+import Menubar from "../../components/common/Menubar";
 
 function AddDiary() {
   const [inputData, setInputData] = useState({
@@ -27,78 +29,83 @@ function AddDiary() {
   };
 
   return (
-    <Wrapper isTall={true}>
-      <Title>소다쓰기</Title>
-      <Diary>
-        <DiaryHeader>
-          <PinImg />
-          <BookmarkImg />
-          <PublicSwitch />
-        </DiaryHeader>
-        <input
-          type="text"
-          name="title"
-          value={inputData.title}
-          onChange={handleChange}
-          placeholder="제목을 입력하세요"
-        />
-        <hr style={{ height: "2px" }} />
-        <Row>
-          <p>오늘의 하루 탄산지수:</p>
-          <div>
+      <>
+        <Header/>
+        <Wrapper isTall={true}>
+          <Title>소다쓰기</Title>
+          <Diary>
+            <DiaryHeader>
+              <PinImg />
+              <BookmarkImg />
+              <PublicSwitch />
+            </DiaryHeader>
             <input
-              type="number"
-              name="carbonationIndex"
-              value={inputData.carbonationIndex}
-              onChange={handleChange}
-              style={{ width: "60px", padding: "5px" }}
+                type="text"
+                name="title"
+                value={inputData.title}
+                onChange={handleChange}
+                placeholder="제목을 입력하세요"
             />
-            <p>%</p>
-          </div>
-        </Row>
-        <hr />
-        <DiaryText>
+            <hr style={{ height: "2px" }} />
+            <Row>
+              <p>오늘의 하루 탄산지수:</p>
+              <div>
+                <input
+                    type="number"
+                    name="carbonationIndex"
+                    value={inputData.carbonationIndex}
+                    onChange={handleChange}
+                    style={{ width: "60px", padding: "5px" }}
+                />
+                <p>%</p>
+              </div>
+            </Row>
+            <hr />
+            <DiaryText>
           <textarea
-            name="diaryText"
-            value={inputData.diaryText}
-            onChange={handleChange}
-            placeholder="일기를 입력하세요"
-            style={{
-              width: "100%",
-              height: "100px",
-              padding: "5px",
-            }}
+              name="diaryText"
+              value={inputData.diaryText}
+              onChange={handleChange}
+              placeholder="일기를 입력하세요"
+              style={{
+                width: "100%",
+                height: "100px",
+                padding: "5px",
+              }}
           ></textarea>
-        </DiaryText>
-        <hr />
-        <Row>
-          <p style={{ fontSize: "20px" }}>소다가 필요한 이유</p>
-        </Row>
-        <hr />
-        <DiaryText>
-          <StampWrapper>
-            <Stampred />
-            <Stampyellow />
-            <Stampgreen />
-            <Stampblue />
-          </StampWrapper>
-        </DiaryText>
-        <hr />
-        <ButtonContainer>
-          <Btn>작성완료</Btn>
-        </ButtonContainer>
-      </Diary>
-    </Wrapper>
+            </DiaryText>
+            <hr />
+            <Row>
+              <p style={{ fontSize: "20px" }}>소다가 필요한 이유</p>
+            </Row>
+            <hr />
+            <DiaryText>
+              <StampWrapper>
+                <Stampred />
+                <Stampyellow />
+                <Stampgreen />
+                <Stampblue />
+              </StampWrapper>
+            </DiaryText>
+            <hr />
+            <ButtonContainer>
+              <Btn>작성완료</Btn>
+            </ButtonContainer>
+          </Diary>
+        </Wrapper>
+        <Menubar/>
+      </>
+
   );
 }
 
 export default AddDiary;
 
 const Wrapper = styled.div`
-  background: linear-gradient(
-    ${({ theme }) => theme.backgroundColors.mainColor} 0%,
-    white 83%
-  );
+  padding-top: 60px;
+  padding-bottom: 70px;
+  background :linear-gradient(${({theme}) => theme.backgroundColors.mainColor} 25%, white 100%);
+
   height: ${(props) => (props.isTall ? "auto" : "100vh")};
   display: flex;
   flex-direction: column;

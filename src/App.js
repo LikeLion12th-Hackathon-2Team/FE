@@ -1,4 +1,4 @@
-import { Route, Routes, Navigate } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import Main from "./pages/main";
 import Test from "./pages/test";
 import Detail from "./pages/detail";
@@ -12,6 +12,8 @@ import MonthlySoda from "./pages/monthlySoda";
 import WeeklySoda from "./pages/weeklySoda";import Login from "./pages/login";
 import Signup from "./pages/signup";
 import Change from "./pages/change";
+import Header from "./components/common/Header";
+import Menubar from "./components/common/Menubar";
 
 function App() {
   return (
@@ -22,21 +24,20 @@ function App() {
             <Route path="/" element={<Main />} />
             <Route path="/detail" element={<Detail />} />
             <Route path="/healingCollection" element={<HealingCollection />} />
-            <Route path="/nextDoor" element={<NextDoor />} />
+            <Route path="/nextDoor" element={<NextDoor />}/>
             <Route path="/nextdoordetail" element={<NextdoorDetail />} />
-            <Route path="/writediary" element={<AddDiary />} />
+            <Route path="/writediary" element={<AddDiary />}/>
             <Route path="/test" element={<Test />} />
             <Route path="/mypage" element={<Mypage />} />
-            <Route path="/monthly" element={<MonthlySoda />} />
-            <Route path={`/date/:year/:month`} element={<WeeklySoda />} />
             <Route path="/loginpage" element={<Login />} />
             <Route path="/signuppage" element={<Signup />} />
-            <Route path="/changepage" element={<Change />} />
+            <Route path="/changepage" element={<Change />}/>
+            <Route path="/soda" element={<MonthlySoda />} />
+            <Route path={`/calender/date/:year/:month`} element={<WeeklySoda />} />
           </Routes>
         </Container>
       </Wrapper>
     </>
-
   );
 }
 
@@ -64,4 +65,3 @@ const Container = styled.div`
     height: 100vh;
   }
 `;
-

@@ -2,6 +2,7 @@ import styled from "styled-components";
 import {Circle, InformIcon} from "../icons/mypageIcons";
 import InformThanks from "../modal/InformThanks";
 import {useState} from "react";
+import {Link} from "react-router-dom";
 
 function MyPoint({onChangeInformation}) {
     const [isThanksModalOpen, setIsThanksModalOpen] =useState(false)
@@ -22,19 +23,22 @@ function MyPoint({onChangeInformation}) {
                     나의 소다 포인트
                 </Title>
                 <CircleBox onClick={handleThanksModal}>
-                    <h1>2999999999p</h1>
+                    <h1>299999999p</h1>
+
                     <ImgWrap>
                         <Circle/>
                     </ImgWrap>
                 </CircleBox>
                 <InformPointBox>
-                    <h1>기부 가능한 포인트 | 2000000점</h1>
+                <h1>기부 가능한 포인트 | 2000000점</h1>
                 </InformPointBox>
-                <AnotherDonation>
-                    <h2>
-                        기부 단체 알아보기 ▶
-                    </h2>
-                </AnotherDonation>
+                <Link to={'https://www.nanumkorea.go.kr/main.do'}>
+                    <AnotherDonation>
+                        <h2>
+                            기부 단체 알아보기 ▶
+                        </h2>
+                    </AnotherDonation>
+                </Link>
                 {isThanksModalOpen ? <InformThanks onChange={handleThanksModal}/>: null}
             </Wrapper>
         </>

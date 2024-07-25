@@ -5,9 +5,6 @@ import { MainPageLogo } from "../../components/icons/logo";
 function Main() {
   return (
     <>
-      <Link to={"/test"}>
-        <button> 테스트 페이지로 이동</button>
-      </Link>
       <Wrapper>
         <LogoBox>
           <MainPageLogo />
