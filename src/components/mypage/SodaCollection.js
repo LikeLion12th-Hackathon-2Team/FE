@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import {DropOutPinIcon, SodaCollectionIcon} from "../icons/mypageIcons";
+import {Link} from "react-router-dom";
 
 function SodaCollection() {
     return (
@@ -11,12 +12,16 @@ function SodaCollection() {
                     </IconBox>
                     <h1>소다 모음집 바로가기</h1>
                 </TitleGotoSoDa>
-                <BtnBox>
+                <Link to={'/nextdoor'}>
+                    <BtnBox>
                     <GotoBtn>옆집 소다 보러가기</GotoBtn>
-                </BtnBox>
-                <BtnBox>
-                    <GotoBtn>힐링 소다 모이보기</GotoBtn>
-                </BtnBox>
+                    </BtnBox>
+                </Link>
+                <Link to={'/healingCollection'}>
+                    <BtnBox>
+                        <GotoBtn>힐링 소다 모아보기</GotoBtn>
+                    </BtnBox>
+                </Link>
                 <BtnBox>
                     <LogoutBtn>로그아웃</LogoutBtn>
                 </BtnBox>
