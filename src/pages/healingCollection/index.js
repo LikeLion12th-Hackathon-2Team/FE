@@ -1,6 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 import Card from "../../components/card/card";
+import Header from "../../components/common/Header";
+import Menubar from "../../components/common/Menubar";
 
 function HealingCollection() {
   const dailyData = [
@@ -42,22 +44,28 @@ function HealingCollection() {
   ];
 
   return (
-    <Wrapper isTall={true}>
-      <Title>힐링소다 모음집</Title>
-      {dailyData.map((data, index) => (
-        <Card key={index} dailyData={data} comments={comments} />
-      ))}
-    </Wrapper>
+      <>
+        <Header/>
+        <Wrapper isTall={true}>
+          <Title>힐링소다 모음집</Title>
+          {dailyData.map((data, index) => (
+              <Card key={index} dailyData={data} comments={comments} />
+          ))}
+        </Wrapper>
+        <Menubar/>
+      </>
+
   );
 }
 
 export default HealingCollection;
 
+
 const Wrapper = styled.div`
-  background: linear-gradient(
-    ${({ theme }) => theme.backgroundColors.mainColor} 0%,
-    white 83%
-  );
+  padding-top: 60px;
+  padding-bottom: 70px;
+  background :linear-gradient(${({theme}) => theme.backgroundColors.mainColor} 25%, white 100%);
+ 
   height: ${(props) => (props.isTall ? "auto" : "100vh")};
   display: flex;
   flex-direction: column;

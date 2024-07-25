@@ -1,31 +1,20 @@
 import React from 'react';
 import styled from 'styled-components';
-import { ChangeLogo } from "../../components/icons/logo";
-import DiaryItem from '../../components/menu/DiaryItem';
-import MoodItem from '../../components/menu/MoodItem';
-import MyPageItem from '../../components/menu/MyPageItem';
-import { AD } from '../../components/icons/menuicons';
+import Menubar from "../../components/common/Menubar";
 
 const Change = () => {
     return (
     <>
-    <Wrapper>
-        <Header>
-            <ChangeLogo>
-            </ChangeLogo>
-        </Header>
-        <MainContent>
-            <Container>
-                <p>오늘의 기분전환</p>
-                <Box></Box>
-            </Container>
-        </MainContent>
-        <Footer>
-                <DiaryItem></DiaryItem>
-                <MoodItem></MoodItem>
-                <MyPageItem></MyPageItem>
-      </Footer>
-    </Wrapper>
+        <Header/>
+        <Wrapper>
+            <MainContent>
+                <Container>
+                    <p>오늘의 기분전환</p>
+                    <Box></Box>
+                </Container>
+            </MainContent>
+        </Wrapper>
+        <Menubar/>
     </>
     );
 };
@@ -33,7 +22,10 @@ const Change = () => {
 export default Change;
 
 const Wrapper = styled.div`
-    background :linear-gradient(${({theme}) => theme.backgroundColors.mainColor} 25%, white 100%);
+    padding-top: 60px;
+    padding-bottom: 70px;
+    background :linear-gradient(${({theme}) => theme.backgroundColors.mainColor} 25%, white 100%)
+
 `;
 
 const Header = styled.header`
@@ -69,6 +61,8 @@ const Container = styled.div`
         text-shadow: 4px 4px ${({theme}) => theme.backgroundColors.borderDark} ;
         text-align: center;
         margin-bottom: 20px;
+        padding: 10px;
+        
     }
 `;
 

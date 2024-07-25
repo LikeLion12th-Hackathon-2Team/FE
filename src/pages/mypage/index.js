@@ -5,6 +5,8 @@ import InformThanks from "../../components/modal/InformThanks";
 import InformDonation from "../../components/modal/InformDonation";
 import MyDonationList from "../../components/mypage/MyDonationList";
 import { useState } from "react";
+import Header from "../../components/common/Header";
+import Menubar from "../../components/common/Menubar";
 
 function Mypage() {
   const [isOpenInformation, setIsOpenInformation] = useState(false);
@@ -13,6 +15,7 @@ function Mypage() {
   };
   return (
     <>
+        <Header/>
       <Wrapper>
         <Container>
           <p>My page</p>
@@ -31,6 +34,7 @@ function Mypage() {
           </ItemBox>
         </Container>
       </Wrapper>
+        <Menubar/>
     </>
   );
 }
@@ -38,6 +42,8 @@ function Mypage() {
 export default Mypage;
 
 const Wrapper = styled.div`
+    padding-top: 60px;
+    padding-bottom: 70px;
   display: flex;
   justify-content: center;
   height: 100vh;
