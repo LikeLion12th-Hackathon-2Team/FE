@@ -4,7 +4,7 @@ import { DiaryLogo } from "../icons/menuicons";
 
 const DiaryItem = () => {
   return (
-    <Footer href="">
+    <Footer href="writeDiary">
       <DiaryLogo />
       <Text>일기쓰기</Text>
     </Footer>
