@@ -1,13 +1,17 @@
 import React from "react";
 import styled from 'styled-components';
 import { DiaryLogo } from "../icons/menuicons";
+import {Link} from "react-router-dom";
 
 const DiaryItem = () => {
   return (
-    <Footer href="writeDiary">
-      <DiaryLogo />
-      <Text>일기쓰기</Text>
-    </Footer>
+    <Link to="/writeDiary">
+        <Footer>
+            <DiaryLogo />
+            <Text>일기쓰기</Text>
+        </Footer>
+
+    </Link>
   );
 };
 

@@ -1,12 +1,16 @@
 import React from "react";
 import styled from 'styled-components';
 import { MyPageLogo } from "../icons/menuicons";
+import {Link} from "react-router-dom";
 
 const MyPageItem = () => (
-    <Footer href="mypage">
-      <MyPageLogo />
-      <Text>마이페이지</Text>
-    </Footer>
+    <Link to={'/mypage'}>
+        <Footer>
+            <MyPageLogo />
+            <Text>마이페이지</Text>
+        </Footer>
+    </Link>
+
  
   );
   

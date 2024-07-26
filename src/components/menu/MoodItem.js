@@ -1,12 +1,15 @@
 import React from "react";
 import styled from 'styled-components';
 import { MoodLogo } from "../icons/menuicons";
+import {Link} from "react-router-dom";
 
 const MoodItem = () => (
-    <Footer href="changepage">
+    <Link to={'/changepage'}>
+    <Footer>
         <MoodLogo />
       <Text>기분전환</Text>
     </Footer>
+    </Link>
   );
   
   export default MoodItem;
