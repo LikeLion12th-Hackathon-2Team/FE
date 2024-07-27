@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { MoodLogo } from "../icons/menuicons";
 
 const MoodItem = () => (
-    <Footer href="changepage">
+    <Footer href="moodchange">
         <MoodLogo />
       <Text>기분전환</Text>
     </Footer>

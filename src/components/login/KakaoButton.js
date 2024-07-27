@@ -30,4 +30,3 @@ const Button = styled.button`
     background-color: #ECD800;
   }
 `;
-
