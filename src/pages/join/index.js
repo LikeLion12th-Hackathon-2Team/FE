@@ -3,14 +3,14 @@ import styled from 'styled-components';
 import KakaoLogin from 'react-kakao-login';
 import NaverLogin from 'react-naver-login';
 import { GoogleLogin } from '@react-oauth/google';
-import {LoginPageLogo, SignupPageLogo} from "../../components/icons/logo";
+import {LoginPageLogo} from "../../components/icons/logo";
 import NaverButton from '../../components/login/NaverButton';
 import KakaoButton from '../../components/login/KakaoButton';
 import GoogleButton from '../../components/login/GoogleButton';
 
 
 // 회원가입 컴포넌트
-const Signup = () => {
+const Join = () => {
     return (
       <Container>
         <LogoBox>
@@ -26,7 +26,7 @@ const Signup = () => {
     );
   };
 
-export default Signup;
+export default Join;
 
 
 const Container = styled.div`
