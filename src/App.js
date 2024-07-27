@@ -9,11 +9,10 @@ import AddDiary from "./pages/addDiary";
 import styled from "styled-components";
 import Mypage from "./pages/mypage";
 import MonthlySoda from "./pages/monthlySoda";
-import WeeklySoda from "./pages/weeklySoda";import Login from "./pages/login";
-import Signup from "./pages/signup";
-import Change from "./pages/change";
-import Header from "./components/common/Header";
-import Menubar from "./components/common/Menubar";
+import WeeklySoda from "./pages/weeklySoda";
+import Login from "./pages/login";
+import Join from "./pages/join";
+import MoodChange from "./pages/moodChange";
 
 function App() {
   return (
@@ -29,11 +28,11 @@ function App() {
             <Route path="/writediary" element={<AddDiary />}/>
             <Route path="/test" element={<Test />} />
             <Route path="/mypage" element={<Mypage />} />
-            <Route path="/loginpage" element={<Login />} />
-            <Route path="/signuppage" element={<Signup />} />
-            <Route path="/changepage" element={<Change />}/>
+            <Route path="/login" element={<Login />} />
+            <Route path="/join" element={<Join />} />
             <Route path="/soda" element={<MonthlySoda />} />
             <Route path={`/calender/date/:year/:month`} element={<WeeklySoda />} />
+            <Route path="/moodchange" element={<MoodChange />} />
           </Routes>
         </Container>
       </Wrapper>
