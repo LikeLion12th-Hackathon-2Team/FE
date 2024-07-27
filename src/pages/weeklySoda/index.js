@@ -65,7 +65,7 @@ export default WeeklySoda;
 const Wrapper = styled.div`
     padding-top: 60px;
     padding-bottom: 70px;
-    background :linear-gradient(${({theme}) => theme.backgroundColors.mainColor} 25%, white 100%);
+    background : white;
     display: flex;
     justify-content: center;
     height: 100vh;

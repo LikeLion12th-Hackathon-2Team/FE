@@ -12,15 +12,7 @@ import MonthlySoda from "./pages/monthlySoda";
 import WeeklySoda from "./pages/weeklySoda";
 import Login from "./pages/login";
 import Join from "./pages/join";
-import Header from "./components/common/Header";
-import Menubar from "./components/common/Menubar";
 import MoodChange from "./pages/moodChange";
-
-
-
-
-
-
 
 function App() {
   return (
@@ -41,16 +33,6 @@ function App() {
             <Route path="/soda" element={<MonthlySoda />} />
             <Route path={`/calender/date/:year/:month`} element={<WeeklySoda />} />
             <Route path="/moodchange" element={<MoodChange />} />
-           
-          
-            
-           
-          
-         
-
-   
-      
-          
           </Routes>
         </Container>
       </Wrapper>
