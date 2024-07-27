@@ -2,6 +2,8 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { MainPageLogo } from "../../components/icons/logo";
 
+
+
 function Main() {
   return (
     <>
