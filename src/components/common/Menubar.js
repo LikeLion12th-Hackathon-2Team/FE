@@ -13,7 +13,7 @@ function Menubar() {
         // Update the active icon based on the current path
         if (currentPath === '/writeDiary') {
             setIsActive(1);
-        } else if (currentPath === '/changepage') {
+        } else if (currentPath === '/moodchange') {
             setIsActive(2);
         } else if (currentPath === '/mypage') {
             setIsActive(3);
@@ -34,7 +34,7 @@ function Menubar() {
                     </Footer>
 
                 </StyledLink>
-                <StyledLink to={'/changepage'}>
+                <StyledLink to={'/moodchange'}>
                     <Footer isActive={isIconActive === 2}>
                         <MoodLogo isActive={ isIconActive === 2 ? '#0184FF' : '#505050' }/>
                         <Text isActive={ isIconActive === 2}>기분전환</Text>
