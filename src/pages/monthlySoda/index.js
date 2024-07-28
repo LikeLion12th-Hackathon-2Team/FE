@@ -66,7 +66,7 @@ const Wrapper = styled.div`
     background :linear-gradient(${({theme}) => theme.backgroundColors.mainColor} 25%, white 100%);
     display: flex;
     justify-content: center;
-    height: 100vh;
+    //height: 100vh;
 `
 
 const Container = styled.div`
@@ -77,14 +77,22 @@ const Container = styled.div`
         color: ${({theme})=>theme.colors.white};
         -webkit-text-stroke-width: 3px;
         -webkit-text-stroke-color: ${({theme}) => theme.backgroundColors.borderDark};
+        @media (max-width: ${({theme}) => theme.mobile}) {
+            font-size: 40px;
+            -webkit-text-stroke-width: 2.5px;
+            -webkit-text-stroke-color: ${({theme}) => theme.backgroundColors.borderDark};
+
+        }
+        
     }
+    
 `
 const CalendarBox = styled.div`
+    margin: auto;
+    height: 100vh;
     overflow-y: scroll;
     -ms-overflow-style: none;
     scrollbar-width: none;
-    margin: auto;
-    height: 100vh;
     width: ${({theme}) => theme.tablet};
     @media (max-width:${({theme}) => theme.mobile} ) {
         width: 324px;
@@ -106,14 +114,12 @@ const CalendarBox = styled.div`
     }
     
     .react-calendar__navigation {
-        height: 80px;
-        width: 100%;
+        //height: 80px;
+        justify-content: center;
+        
     }
    
-    ///* 네비게이션 가운데 정렬 */
-    //.react-calendar__navigation {
-    //    justify-content: center;
-    //}
+    
     // 네비게이션 사이 간격 줄임 
     //.react-calendar__navigation__label {
     //    flex-grow: 0 !important;
@@ -124,20 +130,25 @@ const CalendarBox = styled.div`
 
 // 달력 네비게이션 CSS
     .react-calendar__navigation button {
-        padding: 20px 30px;
-        font-size: 40px;
+        padding: 0 8px;
+        font-size: 30px;
         font-family: 'LOTTERIACHAB';
         color: white;
         //-webkit-text-stroke-width: 3px;
         //-webkit-text-stroke-color: ${({theme}) => theme.backgroundColors.borderDark};
         //text-shadow: 4px 4px ${({theme}) => theme.backgroundColors.borderDark} ;
-
         &:hover{
             background: none;
         }
         &:focus{
             background: none;
         }
+        @media (min-width: ${({theme}) => theme.tablet}) {
+            padding: 20px 30px; /* Increase padding for larger screens */
+            font-size: 40px;
+        
+        }
+        
     }
     
     .react-calendar__year-view__months__month {
@@ -154,6 +165,8 @@ const CalendarBox = styled.div`
         &:focus{
             background: none;
         }
+        // @media (max-width: ${({ theme }) => theme.mobile}) {
+        // }
     }
     
   
