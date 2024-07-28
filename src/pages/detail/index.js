@@ -6,8 +6,6 @@ import Header from "../../components/common/Header";
 import Menubar from "../../components/common/Menubar";
 
 function Detail() {
-  const navigate = useNavigate();
-
   const dailyData = [
     {
       date: "7월 14일",

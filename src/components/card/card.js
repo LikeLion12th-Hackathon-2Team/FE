@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import {
   PinImg,
@@ -10,12 +10,26 @@ import {
 } from "../../components/icons/cardIcons";
 
 function Card({ dailyData, comments }) {
+  const [cardColor, setCardColor] = useState("#96D3FF");
   const [isShowComments, setIsShowComments] = useState(false);
+
+  const handleClick = () => {
+    if (cardColor === "#96D3FF") {
+      setCardColor("#8A8A8A");
+    } else {
+      setCardColor("#96D3FF");
+    }
+  };
 
   const handleMoreClick = () => {
     setIsShowComments(!isShowComments);
+    console.log("handleMoreClick 실행중");
   };
 
+  const MoreFunction = () => {
+    handleClick();
+    handleMoreClick();
+  };
   return (
     <Diary>
       <DiaryHeader>
@@ -44,28 +58,29 @@ function Card({ dailyData, comments }) {
       </DiaryText>
       <hr />
       <Row>
-        <More onClick={handleMoreClick} />
-        <Modify />
+        <MoreItems onClick={MoreFunction}>
+          <More cardColor={cardColor} />
+        </MoreItems>
+        <ModifyIcon />
       </Row>
       {isShowComments ? (
         <>
           <hr />
-          <Visible>
-            <CommentsSection>
-              <div>
-                <CommentWrite placeholder="댓글을 입력해주세요" />
-                <Btn>작성</Btn>
-              </div>
-              {comments.map((comment, index) => (
-                <Comment key={index}>{comment}</Comment>
-              ))}
-            </CommentsSection>
-          </Visible>
+          <CommentsSection>
+            <div>
+              <CommentWrite placeholder="댓글을 입력해주세요" />
+              <Btn>작성</Btn>
+            </div>
+            {comments.map((comment, index) => (
+              <Comment key={index}>{comment}</Comment>
+            ))}
+          </CommentsSection>
         </>
       ) : null}
     </Diary>
   );
 }
+
 export default Card;
 
 const Diary = styled.div`
@@ -122,7 +137,9 @@ const Row = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  position: relative;
   width: 100%;
+
   span {
     font-size: 30px;
     font-weight: regular;
@@ -137,7 +154,7 @@ const Row = styled.div`
   }
   svg {
     cursor: pointer;
-    margin-left: auto;
+    // margin-left: auto;
   }
 
   @media (max-width: ${({ theme }) => theme.mobile}) {
@@ -148,6 +165,19 @@ const Row = styled.div`
       font-size: 12px;
     }
   }
+`;
+const MoreItems = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+`;
+
+const ModifyIcon = styled(Modify)`
+  margin-left: auto;
+  margin-right: 10px;
+  display: flex;
+  align-items: center;
 `;
 
 const DiaryText = styled.div`
@@ -166,21 +196,6 @@ const DiaryText = styled.div`
     }
   }
 `;
-const Visible = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 10px;
-  flex-direction: column;
-  div {
-    display: flex;
-    padding: 5px;
-    border: 1px solid ${({ theme }) => theme.card.btnColor};
-    border-radius: 10px;
-    width: 100%;
-    justify-content: space-between;
-  }
-`;
 
 const CommentsSection = styled.div`
   display: flex;
@@ -190,11 +205,16 @@ const CommentsSection = styled.div`
   margin-top: 10px;
   div {
     display: flex;
-    padding: 5px;
+    padding: 15px;
     border: 1px solid ${({ theme }) => theme.card.btnColor};
     border-radius: 10px;
     width: 100%;
     justify-content: space-between;
+  }
+  @media (max-width: ${({ theme }) => theme.mobile}) {
+    div {
+      padding: 5px;
+    }
   }
 `;
 
@@ -202,10 +222,11 @@ const CommentWrite = styled.input`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 200px;
+  width: 85%;
   padding: 5px;
   border: none;
   border-radius: 4px;
+  outline: none;
 `;
 
 const Btn = styled.button`
@@ -216,15 +237,24 @@ const Btn = styled.button`
   padding: 5px;
   border-radius: 5px;
   font-family: "Ownglyph_meetme-Rg";
-  font-size: 10px;
-  width: 40px;
+  font-size: 20px;
+  width: 80px;
   background-color: ${({ theme }) => theme.card.btnColor};
+  @media (max-width: ${({ theme }) => theme.mobile}) {
+    font-size: 10px;
+    width: 40px;
+  }
 `;
 
 const Comment = styled.div`
   flex-direction: column;
   margin-top: 10px;
   font-family: "Ownglyph_meetme-Rg";
-  font-size: 15px;
+  font-size: 20px;
+
   color: black;
+  @media (max-width: ${({ theme }) => theme.mobile}) {
+    font-size: 15px;
+    width: 40px;
+  }
 `;

@@ -150,6 +150,7 @@ const Diary = styled.div`
     width: 100%;
     padding: 5px;
     margin-top: 10px;
+    // outline: none;
   }
   hr {
     margin: 30px 0;
