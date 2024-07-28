@@ -64,32 +64,36 @@ export default WeeklySoda;
 
 const Wrapper = styled.div`
     padding-top: 60px;
-    padding-bottom: 70px;
+    padding-bottom: 80px;
     background : white;
     display: flex;
     justify-content: center;
-    height: 100vh;
-        //background :linear-gradient(${({theme}) => theme.backgroundColors.mainColor} 25%, white 100%);
 `
 
 const Container = styled.div`
-    //padding: 20px;
     text-align: center;
     span{
         font-size: 45px;
         color: ${({theme})=>theme.colors.white};
         -webkit-text-stroke-width: 3px;
         -webkit-text-stroke-color: ${({theme}) => theme.backgroundColors.borderDark};
+        @media (max-width: ${({theme}) => theme.mobile}) {
+            font-size: 35px;
+            -webkit-text-stroke-width: 2.5px;
+            -webkit-text-stroke-color: ${({theme}) => theme.backgroundColors.borderDark};
+
+        }
     }
 `
 const CalendarBox = styled.div`
-   
     margin: auto;
     height: 100vh;
+    overflow-y: scroll;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
     width: ${({theme}) => theme.tablet};
     @media (max-width:${({theme}) => theme.mobile} ) {
-        width: 324px;
-        height: 100vh;
+        width: 340px;
     }
     
      //전체 틀
@@ -109,24 +113,30 @@ const CalendarBox = styled.div`
      }
     
     .react-calendar__navigation {
-        width: 100%;
+        //width: 100%;
         justify-content: center;
         
     }
     //네비게이션 폰트 설정 
     .react-calendar__navigation button {
         //padding: 10px 0;
-        padding: 20px 30px; /* 버튼 간격 조정 */
-        font-size: 40px;
+        padding: 20px 4px 10px 4px;
+        font-size: 30px;
         font-family: 'LOTTERIACHAB';
         color: white;
-        -webkit-text-stroke-width: 3px;
+        -webkit-text-stroke-width: 2.5px;
         -webkit-text-stroke-color: ${({theme}) => theme.backgroundColors.borderDark};
         &:hover{
             background: none;
         }
         &:focus{
             background: none;
+        }
+        @media (min-width: ${({theme}) => theme.tablet}) {
+            padding: 20px 30px; /* Increase padding for larger screens */
+            -webkit-text-stroke-width: 3px;
+            font-size: 40px;
+
         }
     }
     
@@ -158,10 +168,10 @@ const CalendarBox = styled.div`
         }
     }
 
-    /* 년/월 상단 네비게이션 칸 크기 줄이기 */
-    .react-calendar__navigation__label {
-        flex-grow: 0 !important;
-    }
+    ///* 년/월 상단 네비게이션 칸 크기 줄이기 */
+    //.react-calendar__navigation__label {
+    //    flex-grow: 0 !important;
+    //}
     /* 네비게이션 가운데 정렬 */
     .react-calendar__navigation {
         justify-content: center;
@@ -171,7 +181,7 @@ const CalendarBox = styled.div`
     .react-calendar__month-view__weekdays__weekday abbr {
         color: ${({theme})=>theme.colors.white};
         text-decoration: none;
-        -webkit-text-stroke-width: 1px;
+        -webkit-text-stroke-width: 1.5px;
         -webkit-text-stroke-color: ${({theme}) => theme.colors.dailyColor};
         font-size: 30px;
         background: none;
@@ -188,6 +198,7 @@ const CalendarBox = styled.div`
         -webkit-text-stroke-color: ${({theme}) => theme.colors.dailyColor};
         font-size: 15px;
         text-align: center;
+        padding: 10px;
         
     }
 
