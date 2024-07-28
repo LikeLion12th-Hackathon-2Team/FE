@@ -58,7 +58,8 @@ const Container = styled.div`
     -ms-overflow-style: none;
     scrollbar-width: none;
     p{
-        padding: 20px;
+        padding-top: 5px;
+        padding-bottom: 15px;
         font-family: 'LOTTERIACHAB';
         font-size: 40px;
         color: ${({theme})=>theme.colors.white};
