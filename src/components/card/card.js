@@ -14,6 +14,7 @@ function Card({ dailyData, comments }) {
 
   const handleMoreClick = () => {
     setIsShowComments(!isShowComments);
+    console.log('handleMoreClick 실행중');
   };
 
   return (
@@ -44,7 +45,9 @@ function Card({ dailyData, comments }) {
       </DiaryText>
       <hr />
       <Row>
-        <More onClick={handleMoreClick} />
+          <MoreIconBox onClick={handleMoreClick}>
+              <More/>
+          </MoreIconBox>
         <Modify />
       </Row>
       {isShowComments ? (
@@ -116,10 +119,7 @@ const Row = styled.div`
     font-weight: regular;
     margin: 0;
   }
-  svg {
-    cursor: pointer;
-    margin-left: auto;
-  }
+ 
 `;
 
 const DiaryText = styled.div`
@@ -193,3 +193,10 @@ const Comment = styled.div`
   font-size: 15px;
   color: black;
 `;
+
+const MoreIconBox = styled.div`
+    margin: auto;
+    cursor: pointer;
+        //margin-left: auto;
+
+`
