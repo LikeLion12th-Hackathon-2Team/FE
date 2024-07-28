@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import Card from "../../components/card/card";
-import { More, Stamp, WriteDiary } from "../../components/icons/cardIcons";
+import Header from "../../components/common/Header";
+import Menubar from "../../components/common/Menubar";
 
 function Detail() {
   const navigate = useNavigate();
@@ -37,32 +38,30 @@ function Detail() {
 
   const todayDate = dailyData.length > 0 ? dailyData[0].date : "날짜 없음";
 
-  const handleWriteDiaryClick = () => {
-    navigate("/writediary");
-  };
-
   return (
-    <Wrapper isTall={true}>
-      <Title>{todayDate}의 소다</Title>
-      {dailyData.map((data, index) => (
-        <Card key={index} dailyData={data} comments={comments} />
-      ))}
-      {/* <FixedWriteDiary onClick={handleWriteDiaryClick}>
-        <WriteDiary />
-        123123213
-        <Stamp />
-      </FixedWriteDiary> */}
-    </Wrapper>
+    <>
+      <Header />
+      <Wrapper isTall={true}>
+        <Title>{todayDate}의 소다</Title>
+        {dailyData.map((data, index) => (
+          <Card key={index} dailyData={data} comments={comments} />
+        ))}
+      </Wrapper>
+      <Menubar />
+    </>
   );
 }
 
 export default Detail;
 
 const Wrapper = styled.div`
+  padding-top: 60px;
+  padding-bottom: 70px;
   background: linear-gradient(
-    ${({ theme }) => theme.backgroundColors.mainColor} 0%,
-    white 83%
+    ${({ theme }) => theme.backgroundColors.mainColor} 25%,
+    white 100%
   );
+
   height: ${(props) => (props.isTall ? "auto" : "100vh")};
   display: flex;
   flex-direction: column;

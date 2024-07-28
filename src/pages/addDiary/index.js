@@ -29,40 +29,40 @@ function AddDiary() {
   };
 
   return (
-      <>
-        <Header/>
-        <Wrapper isTall={true}>
-          <Title>소다쓰기</Title>
-          <Diary>
-            <DiaryHeader>
-              <PinImg />
-              <BookmarkImg />
-              <PublicSwitch />
-            </DiaryHeader>
-            <input
-                type="text"
-                name="title"
-                value={inputData.title}
+    <>
+      <Header />
+      <Wrapper isTall={true}>
+        <Title>소다쓰기</Title>
+        <Diary>
+          <DiaryHeader>
+            <PinImg />
+            <BookmarkImg />
+            <PublicSwitch />
+          </DiaryHeader>
+          <input
+            type="text"
+            name="title"
+            value={inputData.title}
+            onChange={handleChange}
+            placeholder="제목을 입력하세요"
+          />
+          <hr style={{ height: "2px" }} />
+          <Row>
+            <p>오늘의 하루 탄산지수 :</p>
+            <div>
+              <input
+                type="number"
+                name="carbonationIndex"
+                value={inputData.carbonationIndex}
                 onChange={handleChange}
-                placeholder="제목을 입력하세요"
-            />
-            <hr style={{ height: "2px" }} />
-            <Row>
-              <p>오늘의 하루 탄산지수:</p>
-              <div>
-                <input
-                    type="number"
-                    name="carbonationIndex"
-                    value={inputData.carbonationIndex}
-                    onChange={handleChange}
-                    style={{ width: "60px", padding: "5px" }}
-                />
-                <p>%</p>
-              </div>
-            </Row>
-            <hr />
-            <DiaryText>
-          <textarea
+                style={{ width: "60px", padding: "5px", outline: "none" }}
+              />
+              <p>%</p>
+            </div>
+          </Row>
+          <hr />
+          <DiaryText>
+            <textarea
               name="diaryText"
               value={inputData.diaryText}
               onChange={handleChange}
@@ -71,31 +71,31 @@ function AddDiary() {
                 width: "100%",
                 height: "100px",
                 padding: "5px",
+                resize: "none",
               }}
-          ></textarea>
-            </DiaryText>
-            <hr />
-            <Row>
-              <p style={{ fontSize: "20px" }}>소다가 필요한 이유</p>
-            </Row>
-            <hr />
-            <DiaryText>
-              <StampWrapper>
-                <Stampred />
-                <Stampyellow />
-                <Stampgreen />
-                <Stampblue />
-              </StampWrapper>
-            </DiaryText>
-            <hr />
-            <ButtonContainer>
-              <Btn>작성완료</Btn>
-            </ButtonContainer>
-          </Diary>
-        </Wrapper>
-        <Menubar/>
-      </>
-
+            ></textarea>
+          </DiaryText>
+          <hr />
+          <Row>
+            <span>소다가 필요한 이유</span>
+          </Row>
+          <hr />
+          <DiaryText>
+            <StampWrapper>
+              <Stampred />
+              <Stampyellow />
+              <Stampgreen />
+              <Stampblue />
+            </StampWrapper>
+          </DiaryText>
+          <hr />
+          <ButtonContainer>
+            <Btn>작성완료</Btn>
+          </ButtonContainer>
+        </Diary>
+      </Wrapper>
+      <Menubar />
+    </>
   );
 }
 
@@ -104,15 +104,19 @@ export default AddDiary;
 const Wrapper = styled.div`
   padding-top: 60px;
   padding-bottom: 70px;
-  background :linear-gradient(${({theme}) => theme.backgroundColors.mainColor} 25%, white 100%);
-
+  background: linear-gradient(
+    ${({ theme }) => theme.backgroundColors.mainColor} 25%,
+    white 100%
+  );
   height: ${(props) => (props.isTall ? "auto" : "100vh")};
   display: flex;
   flex-direction: column;
   align-items: center;
   font-family: "LOTTERIACHAB";
   color: white;
-  height: 100vh;
+  @media (max-width: ${({ theme }) => theme.mobile}) {
+    height: 100vh;
+  }
 `;
 
 const Title = styled.p`
@@ -128,19 +132,19 @@ const Title = styled.p`
 const Diary = styled.div`
   display: flex;
   flex-direction: column;
-  width: 300px;
-  padding: 10px;
+  // padding: 10px;
+  padding: 30px 30px 20px 30px;
   border-radius: 8px;
   background-color: ${({ theme }) =>
     theme.backgroundColors.cardbackgroundColor};
   p {
     font-family: "Ownglyph_meetme-Rg";
-    font-size: 20px;
+    font-size: 30px;
     color: ${({ theme }) => theme.colors.fontColor};
   }
   input {
     font-family: "Ownglyph_meetme-Rg";
-    font-size: 20px;
+    font-size: 30px;
     color: ${({ theme }) => theme.colors.fontColor};
     border-width: 0;
     width: 100%;
@@ -148,12 +152,27 @@ const Diary = styled.div`
     margin-top: 10px;
   }
   hr {
-    margin: 10px 0;
+    margin: 30px 0;
     border: 0;
     background-color: black;
     height: 1px;
   }
   margin: 20px;
+  width: ${({ theme }) => theme.tablet};
+  border-radius: 13px;
+  @media (max-width: ${({ theme }) => theme.mobile}) {
+    width: 324px;
+    padding: 10px;
+    p {
+      font-size: 20px;
+    }
+    hr {
+      margin: 10px 0;
+    }
+    input {
+      font-size: 20px;
+    }
+  }
 `;
 
 const DiaryHeader = styled.div`
@@ -162,19 +181,56 @@ const DiaryHeader = styled.div`
   border-radius: 8px;
   justify-content: space-between;
   align-items: center;
-  padding: 5px;
+  padding: 15px;
   width: 100%;
+  margin-bottom: 20px;
+  @media (max-width: ${({ theme }) => theme.mobile}) {
+    justify-content: space-between;
+    padding: 5px;
+    margin-bottom: 0px;
+  }
 `;
 
 const Row = styled.div`
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
-  height: 30px;
-  p {
-    font-size: 12px;
+  width: 100%;
+  span {
+    font-size: 30px;
     font-weight: regular;
     margin: 0;
+    color: ${({ theme }) => theme.colors.fontColor};
+    font-family: "Ownglyph_meetme-Rg";
+  }
+  p {
+    font-size: 20px;
+    font-weight: regular;
+    margin: 0 20px 0 0;
+  }
+  svg {
+    cursor: pointer;
+    margin-left: auto;
+  }
+  div {
+    display: flex;
+    height: auto;
+    justify-content: center;
+    align-items: center;
+  }
+  div input {
+    outline: none;
+  }
+  ::-webkit-scrollbar {
+    display: none;
+  }
+  @media (max-width: ${({ theme }) => theme.mobile}) {
+    span {
+      font-size: 20px;
+    }
+    p {
+      font-size: 12px;
+    }
   }
 `;
 
@@ -182,9 +238,16 @@ const DiaryText = styled.div`
   display: flex;
   flex-direction: column;
   p {
-    font-size: 14px;
+    font-size: 23px;
     font-weight: regular;
     margin: 10px;
+    line-height: 2;
+  }
+  @media (max-width: ${({ theme }) => theme.mobile}) {
+    p {
+      font-size: 14px;
+      line-height: 1;
+    }
   }
 `;
 

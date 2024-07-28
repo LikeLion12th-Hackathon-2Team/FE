@@ -35,7 +35,7 @@ function Card({ dailyData, comments }) {
       </DiaryText>
       <hr />
       <Row>
-        <p style={{ fontSize: "20px" }}>당신을 위한 소다</p>
+        <span>당신을 위한 소다</span>
         <Stamp />
       </Row>
       <hr />
@@ -54,7 +54,7 @@ function Card({ dailyData, comments }) {
             <CommentsSection>
               <div>
                 <CommentWrite placeholder="댓글을 입력해주세요" />
-                <Btn>작 성</Btn>
+                <Btn>작성</Btn>
               </div>
               {comments.map((comment, index) => (
                 <Comment key={index}>{comment}</Comment>
@@ -72,27 +72,33 @@ const Diary = styled.div`
   display: flex;
   flex-direction: column;
   height: auto;
-  padding: 10px;
+  padding: 30px 30px 20px 30px;
   border-radius: 8px;
   background-color: ${({ theme }) =>
     theme.backgroundColors.cardbackgroundColor};
   p {
     font-family: "Ownglyph_meetme-Rg";
-    font-size: 20px;
+    font-size: 30px;
     color: ${({ theme }) => theme.colors.fontColor};
   }
   hr {
-    margin: 10px 0;
+    margin: 30px 0;
     border: 0;
     background-color: black;
     height: 1px;
   }
   margin: 20px;
-  margin: 10px;
   width: ${({ theme }) => theme.tablet};
   border-radius: 13px;
   @media (max-width: ${({ theme }) => theme.mobile}) {
     width: 324px;
+    padding: 10px;
+    p {
+      font-size: 20px;
+    }
+    hr {
+      margin: 10px 0;
+    }
   }
 `;
 
@@ -102,8 +108,14 @@ const DiaryHeader = styled.div`
   border-radius: 8px;
   justify-content: space-between;
   align-items: center;
-  padding: 5px;
+  padding: 15px;
   width: 100%;
+  margin-bottom: 20px;
+  @media (max-width: ${({ theme }) => theme.mobile}) {
+    justify-content: space-between;
+    padding: 5px;
+    margin-bottom: 0px;
+  }
 `;
 
 const Row = styled.div`
@@ -111,8 +123,15 @@ const Row = styled.div`
   justify-content: space-between;
   align-items: center;
   width: 100%;
+  span {
+    font-size: 30px;
+    font-weight: regular;
+    margin: 0;
+    color: ${({ theme }) => theme.colors.fontColor};
+    font-family: "Ownglyph_meetme-Rg";
+  }
   p {
-    font-size: 12px;
+    font-size: 20px;
     font-weight: regular;
     margin: 0;
   }
@@ -120,15 +139,31 @@ const Row = styled.div`
     cursor: pointer;
     margin-left: auto;
   }
+
+  @media (max-width: ${({ theme }) => theme.mobile}) {
+    span {
+      font-size: 20px;
+    }
+    p {
+      font-size: 12px;
+    }
+  }
 `;
 
 const DiaryText = styled.div`
   display: flex;
   flex-direction: column;
   p {
-    font-size: 14px;
+    font-size: 23px;
     font-weight: regular;
     margin: 10px;
+    line-height: 2;
+  }
+  @media (max-width: ${({ theme }) => theme.mobile}) {
+    p {
+      font-size: 14px;
+      line-height: 1;
+    }
   }
 `;
 const Visible = styled.div`
