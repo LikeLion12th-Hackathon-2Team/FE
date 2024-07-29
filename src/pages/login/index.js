@@ -50,9 +50,12 @@ const Login = () => {
         <KakaoButton onClick={handleLogin2} />
         <GoogleButton onClick={handleLogin3} />
       </ButtonContainer>
+        <Message>계정이 없으신가요?</Message>
+        <JoinLink href="/join">회원가입</JoinLink>
     </Container>
-  );
+   );
 };
+   
 
 export default Login;
 
@@ -84,6 +87,8 @@ const LogoBox = styled.div`
 
 // 버튼들을 담는 컨테이너 스타일
 const ButtonContainer = styled.div`
+  top: 17px;
+  position: relative;
   display: flex;
   flex-direction: column; 
   align-items: center; 
@@ -92,6 +97,31 @@ const ButtonContainer = styled.div`
   max-width: 400px; 
 `;
 
+
+const Message = styled.div`
+    align-items: center;
+    top: 90px;
+    position: relative;
+    color: #8A8A8A;
+    font-size: 13px;
+`;
+
+
+const JoinLink = styled.a`
+    align-items: center;
+    position: relative;
+    top: 100px;
+    color: #8A8A8A;
+    cursor: pointer;
+    font-family: 'inter';
+    font-weight: bold;
+    font-size: 15px;
+    text-decoration: none;
+
+    &:hover {
+        color: #1E90FF;
+    }
+`;
 
 
 
