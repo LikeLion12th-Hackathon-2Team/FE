@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import Calendar from "react-calendar";
 import {useState} from "react";
-import {EmptySoda} from "../../components/icons/monthlyIcons";
+import {EmptySoda, FullSoda} from "../../components/icons/monthlyIcons";
 import {useNavigate} from "react-router-dom";
 import Header from "../../components/common/Header";
 import Menubar from "../../components/common/Menubar";
@@ -10,17 +10,21 @@ function MonthlySoda() {
     const currentMonth = new Date().getMonth();
     const currentYear = new Date().getFullYear();
     const navigate = useNavigate();
-
+    
     // tileContent :월별 칸에 보여지는 콘텐츠
     const tileContent = ({ date, view }) => {
-        // if (view === 'year'&& date.getFullYear() === currentYear && date.getMonth() === currentMonth) {
-        //     return (
-        //         <CurrentMonthIconBox className="current-month">
-        //             <EmptySoda />
-        //         </CurrentMonthIconBox>
-        //     );
-        // }
+
+        if (view === 'year'&& date.getFullYear() === currentYear && date.getMonth() === currentMonth) {
+            console.log('view:',view );
+            console.log(date.getFullYear(), currentYear);
             return (
+                <IconBox className="current-month">
+                    <FullSoda />
+                </IconBox>
+            );
+        }
+            return (
+
                 <IconBox>
                     <EmptySoda/>
                 </IconBox>
