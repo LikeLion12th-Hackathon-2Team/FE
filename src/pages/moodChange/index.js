@@ -55,7 +55,6 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
   height: 100%;
-  padding: 0 20px;
   width: ${({ theme }) => theme.tablet};
   @media (max-width: ${({ theme }) => theme.mobile}) {
     width: 324px;
@@ -63,20 +62,19 @@ const Container = styled.div`
   
     
     p{
-        top: 12px;
+        top: 5px;
         position: absolute;
         font-family: 'LOTTERIACHAB';
         font-size: 40px;
         color: ${({theme})=>theme.colors.white};
         text-shadow: 4px 4px ${({theme}) => theme.backgroundColors.borderDark} ;
         text-align: center;
-        margin-bottom: 20px;
+        padding: 20px;
         
     }
 `;
 
 const Box1 = styled.div`
-  width: 324px; 
   height: 300px; 
   background-color: #FFFF;
   border-radius: 10px; 
@@ -94,13 +92,16 @@ const Box1 = styled.div`
   text-align: center;  
   font-weight: bold; 
   width: ${({ theme }) => theme.tablet};
+  @media (max-width: ${({ theme }) => theme.mobile}) {
+    border-radius: 15px; 
+    width: 315px;
+  }
 
   
 `;
 
 
 const Box2 = styled.div`
-  width: 290px; 
   height: 80px; 
   background-color: #FFFF;
   border-radius: 15px; 
@@ -110,18 +111,22 @@ const Box2 = styled.div`
   align-items: center;
   width: ${({ theme }) => theme.tablet};
   position: absolute; 
-  top: 425px;
+  top: 428px;
   color: black; 
   font-family: "Ownglyph_meetme-Rg";
   font-size: 19px;
   text-align: center;  
   gap: 100px;
+  @media (max-width: ${({ theme }) => theme.mobile}) {
+    border-radius: 15px; 
+    width: 290px;
+  }
 `;
 
 const LogoWrapper = styled.div`
   position: absolute;
   left: 1px;
-  top: 394px;
+  top: 398px;
   width: 50px;
   height: 50px;
 `;
