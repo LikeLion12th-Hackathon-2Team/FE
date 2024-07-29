@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import Card from "../../components/card/card";
 import Header from "../../components/common/Header";
@@ -43,29 +43,42 @@ function HealingCollection() {
     "2222어쨌든 실컷 누웠으니 기분 째지고 너는 2팀이니까  완전 럭키비키잖아 ~",
   ];
 
-  return (
-      <>
-        <Header/>
-        <Wrapper isTall={true}>
-          <Title>힐링소다 모음집</Title>
-          {dailyData.map((data, index) => (
-              <Card key={index} dailyData={data} comments={comments} />
-          ))}
-        </Wrapper>
-        <Menubar/>
-      </>
+  const [pinnedIndex, setPinnedIndex] = useState(0);
+  const handlePinClick = (index) => {
+    setPinnedIndex(index);
+    console.log(index, " 🐰");
+  };
 
+  return (
+    <>
+      <Header />
+      <Wrapper isTall={true}>
+        <Title>힐링소다 모음집</Title>
+        {dailyData.map((data, index) => (
+          <Card
+            key={index}
+            dailyData={data}
+            comments={comments}
+            isPinned={pinnedIndex === index}
+            onPinClick={() => handlePinClick(index)}
+          />
+        ))}
+      </Wrapper>
+      <Menubar />
+    </>
   );
 }
 
 export default HealingCollection;
 
-
 const Wrapper = styled.div`
   padding-top: 60px;
   padding-bottom: 70px;
-  background :linear-gradient(${({theme}) => theme.backgroundColors.mainColor} 25%, white 100%);
- 
+  background: linear-gradient(
+    ${({ theme }) => theme.backgroundColors.mainColor} 25%,
+    white 100%
+  );
+
   height: ${(props) => (props.isTall ? "auto" : "100vh")};
   display: flex;
   flex-direction: column;

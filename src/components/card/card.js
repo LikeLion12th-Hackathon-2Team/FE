@@ -2,40 +2,54 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import {
   PinImg,
+  PinImgNone,
   BookmarkImg,
+  BookmarkImgNone,
   PublicSwitch,
+  PrivateSwitch,
   Stamp,
   More,
   Modify,
 } from "../../components/icons/cardIcons";
 
-function Card({ dailyData, comments }) {
+function Card({
+  dailyData,
+  comments,
+  isPinned,
+  onPinClick,
+  isBookmarked,
+  onBookmarkClick,
+  isSwitched,
+  onSwitchClick,
+}) {
   const [cardColor, setCardColor] = useState("#96D3FF");
   const [isShowComments, setIsShowComments] = useState(false);
 
-  const handleClick = () => {
-    if (cardColor === "#96D3FF") {
-      setCardColor("#8A8A8A");
-    } else {
-      setCardColor("#96D3FF");
-    }
-  };
-
   const handleMoreClick = () => {
     setIsShowComments(!isShowComments);
-    console.log("handleMoreClick 실행중");
+    setCardColor(cardColor === "#96D3FF" ? "#8A8A8A" : "#96D3FF");
   };
 
-  const MoreFunction = () => {
-    handleClick();
-    handleMoreClick();
-  };
   return (
     <Diary>
       <DiaryHeader>
-        <PinImg />
-        <BookmarkImg />
-        <PublicSwitch />
+        <IconDiv color={isPinned ? "#C9E8FF" : "#C9E8FF"} onClick={onPinClick}>
+          {/* <PinImg /> */}
+          {isPinned ? <PinImg /> : <PinImgNone />}
+        </IconDiv>
+        <IconDiv
+          color={isBookmarked ? "#C9E8FF" : "#C9E8FF"}
+          onClick={onBookmarkClick}
+        >
+          {/* <BookmarkImg /> */}
+          {isBookmarked ? <BookmarkImg /> : <BookmarkImgNone />}
+        </IconDiv>
+        <IconDiv
+          color={isSwitched ? "#C9E8FF" : "#C9E8FF"}
+          onClick={onSwitchClick}
+        >
+          {isSwitched ? <PrivateSwitch /> : <PublicSwitch />}
+        </IconDiv>
       </DiaryHeader>
       <p style={{ marginTop: "10px" }}>{dailyData.title}</p>
       <hr style={{ height: "2px" }} />
@@ -58,7 +72,7 @@ function Card({ dailyData, comments }) {
       </DiaryText>
       <hr />
       <Row>
-        <MoreItems onClick={MoreFunction}>
+        <MoreItems onClick={handleMoreClick}>
           <More cardColor={cardColor} />
         </MoreItems>
         <ModifyIcon />
@@ -166,6 +180,7 @@ const Row = styled.div`
     }
   }
 `;
+
 const MoreItems = styled.div`
   display: flex;
   justify-content: center;
@@ -251,10 +266,23 @@ const Comment = styled.div`
   margin-top: 10px;
   font-family: "Ownglyph_meetme-Rg";
   font-size: 20px;
-
   color: black;
   @media (max-width: ${({ theme }) => theme.mobile}) {
     font-size: 15px;
     width: 40px;
+  }
+`;
+
+const IconDiv = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: ${({ color }) => color};
+  width: 40px;
+  height: 40px;
+  border-radius: 20px;
+  cursor: pointer;
+  &:hover {
+    opacity: 0.8;
   }
 `;
