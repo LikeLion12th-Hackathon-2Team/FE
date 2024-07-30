@@ -1,10 +1,12 @@
 import React, { useState } from "react";
-import styled from "styled-components";
+import styled, { css, keyframes } from "styled-components";
 import {
   PinImg,
+  PinImgNone,
   BookmarkImg,
+  BookmarkImgNone,
   PublicSwitch,
-  Stamp,
+  PrivateSwitch,
   Stampred,
   Stampblue,
   Stampgreen,
@@ -28,6 +30,46 @@ function AddDiary() {
     }));
   };
 
+  const [pinned, setPinned] = useState(false);
+  const handlePinClick = () => {
+    setPinned(!pinned);
+    console.log("📍 Pin toggled");
+  };
+
+  const [bookmarkIndex, setBookmarkIndex] = useState([]);
+  const handleBookmarkClick = (index) => {
+    setBookmarkIndex((prev) =>
+      prev.includes(index) ? prev.filter((i) => i !== index) : [...prev, index]
+    );
+    console.log(index, " 📚");
+  };
+
+  const [switchIndex, setSwitchIndex] = useState([]);
+  const handleSwitchClick = (index) => {
+    setSwitchIndex((prev) =>
+      prev.includes(index) ? prev.filter((i) => i !== index) : [...prev, index]
+    );
+    console.log(index, "🍀");
+  };
+
+  const [selectedStamp, setSelectedStamp] = useState(null);
+  const handleStampClick = (stampColor) => {
+    setSelectedStamp(stampColor);
+    console.log(stampColor, " 🛑");
+  };
+
+  const handleSubmit = () => {
+    const diaryData = {
+      ...inputData,
+      pinned,
+      bookmarked: bookmarkIndex,
+      switched: switchIndex,
+      stamp: selectedStamp,
+    };
+    console.log("Diary Submitted: ", diaryData);
+    // 여기서 데이터전송
+  };
+
   return (
     <>
       <Header />
@@ -35,9 +77,28 @@ function AddDiary() {
         <Title>소다쓰기</Title>
         <Diary>
           <DiaryHeader>
-            <PinImg />
-            <BookmarkImg />
-            <PublicSwitch />
+            <IconDiv
+              color={pinned ? "#C9E8FF" : "#C9E8FF"}
+              onClick={handlePinClick}
+            >
+              {pinned ? <PinImg /> : <PinImgNone />}
+            </IconDiv>
+            <IconDiv
+              color={bookmarkIndex.includes(0) ? "#C9E8FF" : "#C9E8FF"}
+              onClick={() => handleBookmarkClick(0)}
+            >
+              {bookmarkIndex.includes(0) ? (
+                <BookmarkImg />
+              ) : (
+                <BookmarkImgNone />
+              )}
+            </IconDiv>
+            <IconDiv
+              color={switchIndex.includes(0) ? "#C9E8FF" : "#C9E8FF"}
+              onClick={() => handleSwitchClick(0)}
+            >
+              {switchIndex.includes(0) ? <PrivateSwitch /> : <PublicSwitch />}
+            </IconDiv>
           </DiaryHeader>
           <input
             type="text"
@@ -82,15 +143,35 @@ function AddDiary() {
           <hr />
           <DiaryText>
             <StampWrapper>
-              <Stampred />
-              <Stampyellow />
-              <Stampgreen />
-              <Stampblue />
+              <Stamp
+                isSelected={selectedStamp === "red"}
+                onClick={() => handleStampClick("red")}
+              >
+                <Stampred />
+              </Stamp>
+              <Stamp
+                isSelected={selectedStamp === "yellow"}
+                onClick={() => handleStampClick("yellow")}
+              >
+                <Stampyellow />
+              </Stamp>
+              <Stamp
+                isSelected={selectedStamp === "green"}
+                onClick={() => handleStampClick("green")}
+              >
+                <Stampgreen />
+              </Stamp>
+              <Stamp
+                isSelected={selectedStamp === "blue"}
+                onClick={() => handleStampClick("blue")}
+              >
+                <Stampblue />
+              </Stamp>
             </StampWrapper>
           </DiaryText>
           <hr />
           <ButtonContainer>
-            <Btn>작성완료</Btn>
+            <Btn onClick={handleSubmit}>작성완료</Btn>
           </ButtonContainer>
         </Diary>
       </Wrapper>
@@ -121,9 +202,9 @@ const Wrapper = styled.div`
 
 const Title = styled.p`
   display: flex;
-  margin: 20px;
   color: white;
-  font-size: 3em;
+  font-size: 40px;
+  padding: 20px;
   text-align: center;
   text-shadow: 4px 4px ${({ theme }) => theme.backgroundColors.borderDark};
   font-family: "LOTTERIACHAB";
@@ -132,7 +213,6 @@ const Title = styled.p`
 const Diary = styled.div`
   display: flex;
   flex-direction: column;
-  // padding: 10px;
   padding: 30px 30px 20px 30px;
   border-radius: 8px;
   background-color: ${({ theme }) =>
@@ -150,7 +230,6 @@ const Diary = styled.div`
     width: 100%;
     padding: 5px;
     margin-top: 10px;
-    // outline: none;
   }
   hr {
     margin: 30px 0;
@@ -190,6 +269,13 @@ const DiaryHeader = styled.div`
     padding: 5px;
     margin-bottom: 0px;
   }
+`;
+
+const IconDiv = styled.div`
+  background-color: ${(props) => props.color};
+  border-radius: 50%;
+  padding: 10px;
+  cursor: pointer;
 `;
 
 const Row = styled.div`
@@ -256,22 +342,57 @@ const StampWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 10px;
   svg {
+    cursor: pointer;
+    // width: 100px;
   }
 `;
+
+const grow = keyframes`
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.5);
+  }
+`;
+
+const shrink = keyframes`
+  from {
+    transform: scale(1.5);
+  }
+  to {
+    transform: scale(1);
+  }
+`;
+
+const Stamp = styled.div`
+  &:hover {
+    transform: scale(1.1);
+    // transition: transform 0.2s;
+    animation-play-state: paused;
+  }
+  ${({ isSelected }) =>
+    isSelected &&
+    css`
+      animation: ${grow} 0.2s forwards;
+    `}
+`;
+// animation: ${grow} 0.2s forwards, ${shrink} 0.2s forwards 0.2s;
 
 const Btn = styled.button`
   border: none;
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 10px; /* 버튼 크기 조정 */
+  padding: 10px;
   border-radius: 5px;
   font-family: "Ownglyph_meetme-Rg";
-  font-size: 16px; /* 버튼 글씨 크기 조정 */
-  width: 120px; /* 버튼 크기 조정 */
+  font-size: 16px;
+  width: 120px;
   background-color: ${({ theme }) => theme.card.btnColor};
-  color: white; /* 버튼 글씨 색상 */
+  color: white;
 `;
 
 const ButtonContainer = styled.div`
@@ -279,22 +400,4 @@ const ButtonContainer = styled.div`
   justify-content: center;
   width: 100%;
   margin-top: 10px;
-`;
-
-const CommentWrite = styled.input`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 200px;
-  padding: 5px;
-  border: none;
-  border-radius: 4px;
-`;
-
-const Comment = styled.div`
-  flex-direction: column;
-  margin-top: 10px;
-  font-family: "Ownglyph_meetme-Rg";
-  font-size: 15px;
-  color: black;
 `;

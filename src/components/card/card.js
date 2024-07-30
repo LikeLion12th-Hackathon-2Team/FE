@@ -14,13 +14,13 @@ import {
 
 function Card({
   dailyData,
-  comments,
-  isPinned,
-  onPinClick,
-  isBookmarked,
-  onBookmarkClick,
-  isSwitched,
-  onSwitchClick,
+  // comments,
+  // isPinned,
+  // onPinClick,
+  // isBookmarked,
+  // onBookmarkClick,
+  // isSwitched,
+  // onSwitchClick,
 }) {
   const [cardColor, setCardColor] = useState("#96D3FF");
   const [isShowComments, setIsShowComments] = useState(false);
@@ -32,25 +32,7 @@ function Card({
 
   return (
     <Diary>
-      <DiaryHeader>
-        <IconDiv color={isPinned ? "#C9E8FF" : "#C9E8FF"} onClick={onPinClick}>
-          {/* <PinImg /> */}
-          {isPinned ? <PinImg /> : <PinImgNone />}
-        </IconDiv>
-        <IconDiv
-          color={isBookmarked ? "#C9E8FF" : "#C9E8FF"}
-          onClick={onBookmarkClick}
-        >
-          {/* <BookmarkImg /> */}
-          {isBookmarked ? <BookmarkImg /> : <BookmarkImgNone />}
-        </IconDiv>
-        <IconDiv
-          color={isSwitched ? "#C9E8FF" : "#C9E8FF"}
-          onClick={onSwitchClick}
-        >
-          {isSwitched ? <PrivateSwitch /> : <PublicSwitch />}
-        </IconDiv>
-      </DiaryHeader>
+      {/* 여기 다이어리 헤더 들어감 */}
       <p style={{ marginTop: "10px" }}>{dailyData.title}</p>
       <hr style={{ height: "2px" }} />
       <Row>
@@ -85,7 +67,7 @@ function Card({
               <CommentWrite placeholder="댓글을 입력해주세요" />
               <Btn>작성</Btn>
             </div>
-            {comments.map((comment, index) => (
+            {dailyData.comments.map((comment, index) => (
               <Comment key={index}>{comment}</Comment>
             ))}
           </CommentsSection>
@@ -101,8 +83,8 @@ const Diary = styled.div`
   display: flex;
   flex-direction: column;
   height: auto;
-  padding: 30px 30px 20px 30px;
-  border-radius: 8px;
+  // padding: 30px 30px 20px 30px;
+  // border-radius: 8px;
   background-color: ${({ theme }) =>
     theme.backgroundColors.cardbackgroundColor};
   p {
@@ -116,11 +98,11 @@ const Diary = styled.div`
     background-color: black;
     height: 1px;
   }
-  margin: 20px;
-  width: ${({ theme }) => theme.tablet};
+  // margin: 20px;
+  // width: ${({ theme }) => theme.tablet};
   border-radius: 13px;
   @media (max-width: ${({ theme }) => theme.mobile}) {
-    width: 324px;
+    width: 304px;
     padding: 10px;
     p {
       font-size: 20px;
@@ -131,21 +113,21 @@ const Diary = styled.div`
   }
 `;
 
-const DiaryHeader = styled.div`
-  display: flex;
-  background-color: ${({ theme }) => theme.backgroundColors.cardHeaderColor};
-  border-radius: 8px;
-  justify-content: space-between;
-  align-items: center;
-  padding: 15px;
-  width: 100%;
-  margin-bottom: 20px;
-  @media (max-width: ${({ theme }) => theme.mobile}) {
-    justify-content: space-between;
-    padding: 5px;
-    margin-bottom: 0px;
-  }
-`;
+// const DiaryHeader = styled.div`
+//   display: flex;
+//   background-color: ${({ theme }) => theme.backgroundColors.cardHeaderColor};
+//   border-radius: 8px;
+//   justify-content: space-between;
+//   align-items: center;
+//   padding: 15px;
+//   width: 100%;
+//   margin-bottom: 20px;
+//   @media (max-width: ${({ theme }) => theme.mobile}) {
+//     justify-content: space-between;
+//     padding: 5px;
+//     margin-bottom: 0px;
+//   }
+// `;
 
 const Row = styled.div`
   display: flex;
@@ -273,16 +255,16 @@ const Comment = styled.div`
   }
 `;
 
-const IconDiv = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: ${({ color }) => color};
-  width: 40px;
-  height: 40px;
-  border-radius: 20px;
-  cursor: pointer;
-  &:hover {
-    opacity: 0.8;
-  }
-`;
+// const IconDiv = styled.div`
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
+//   background-color: ${({ color }) => color};
+//   width: 40px;
+//   height: 40px;
+//   border-radius: 20px;
+//   cursor: pointer;
+//   &:hover {
+//     opacity: 0.8;
+//   }
+// `;
