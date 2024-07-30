@@ -13,7 +13,8 @@ import WeeklySoda from "./pages/weeklySoda";
 import Login from "./pages/login";
 import Join from "./pages/join";
 import MoodChange from "./pages/moodChange";
-
+import NaverLogin from "./components/login/redirectionPage/NaverLogin";
+import KaKaoLoginRedirection from "./components/login/redirectionPage/KaKaoLoginRedirection";
 function App() {
   return (
     <>
@@ -33,6 +34,8 @@ function App() {
             <Route path="/soda" element={<MonthlySoda />} />
             <Route path={`/calender/date/:year/:month`} element={<WeeklySoda />} />
             <Route path="/moodchange" element={<MoodChange />} />
+            <Route path={`/naverLogin`} element={<NaverLogin/>}/>
+            <Route path={'/kakaoLogin'} element={<KaKaoLoginRedirection/>}/>
           </Routes>
         </Container>
       </Wrapper>
