@@ -1,8 +1,15 @@
 import styled from "styled-components";
 import {DropOutPinIcon, SodaCollectionIcon} from "../icons/mypageIcons";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
+import {removeCookie} from "../../auth/cookie";
 
 function SodaCollection() {
+    const navigate = useNavigate()
+    const handleLogOut =()=>{
+        removeCookie('accessToken')
+        navigate('/')
+    }
+
     return (
         <>
             <Wrapper>
@@ -23,7 +30,7 @@ function SodaCollection() {
                     </BtnBox>
                 </Link>
                 <BtnBox>
-                    <LogoutBtn>로그아웃</LogoutBtn>
+                    <LogoutBtn onClick={handleLogOut}>로그아웃</LogoutBtn>
                 </BtnBox>
                 <InformDropOut>
                     <IconBox>
