@@ -58,20 +58,24 @@ const Container = styled.div`
     -ms-overflow-style: none;
     scrollbar-width: none;
     p{
-        padding: 20px;
+        padding-top: 5px;
+        padding-bottom: 15px;
         font-family: 'LOTTERIACHAB';
         font-size: 40px;
         color: ${({theme})=>theme.colors.white};
         text-shadow: 4px 4px ${({theme}) => theme.backgroundColors.borderDark} ;
     }
+  
+    
 `
 const ItemBox=styled.div`
     margin: 10px;
     width: ${({theme}) => theme.tablet};
     background: ${({theme}) => theme.backgroundColors.pageBC};
     border-radius: 13px;
+    background: ${({theme}) => theme.backgroundColors.pageBC};
     @media (max-width:${({theme}) => theme.mobile} ) {
-       
+        width: 324px;
     }
 
 

@@ -28,6 +28,7 @@ function Card({
   const handleMoreClick = () => {
     setIsShowComments(!isShowComments);
     setCardColor(cardColor === "#96D3FF" ? "#8A8A8A" : "#96D3FF");
+    console.log("handleMoreClick 실행중");
   };
 
   return (
@@ -249,22 +250,4 @@ const Comment = styled.div`
   font-family: "Ownglyph_meetme-Rg";
   font-size: 20px;
   color: black;
-  @media (max-width: ${({ theme }) => theme.mobile}) {
-    font-size: 15px;
-    width: 40px;
-  }
 `;
-
-// const IconDiv = styled.div`
-//   display: flex;
-//   align-items: center;
-//   justify-content: center;
-//   background-color: ${({ color }) => color};
-//   width: 40px;
-//   height: 40px;
-//   border-radius: 20px;
-//   cursor: pointer;
-//   &:hover {
-//     opacity: 0.8;
-//   }
-// `;

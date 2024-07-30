@@ -7,12 +7,14 @@ import { MainPageLogo } from "../../components/icons/logo";
 function Main() {
   return (
     <>
-      <Wrapper>
-        <LogoBox>
-          <MainPageLogo />
-          <p>소소하지만 확실한 행복을 담은, 소확행 다이어리</p>
-        </LogoBox>
-      </Wrapper>
+        <Link to={'/login'}>
+            <Wrapper>
+                <LogoBox>
+                    <MainPageLogo />
+                    <p>소소하지만 확실한 행복을 담은, 소확행 다이어리</p>
+                </LogoBox>
+            </Wrapper>
+        </Link>
     </>
   );
 }
