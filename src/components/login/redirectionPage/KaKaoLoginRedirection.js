@@ -20,6 +20,7 @@ function KaKaoLoginRedirection() {
                 .then(response => {
                     console.log(response.data);
                     setCookie('accessToken',response.data.accessToken)
+                    setCookie('refreshToken',response.data.refreshToken)
                     // 로그인 후 처리
                     navigate('/soda');
                 })
