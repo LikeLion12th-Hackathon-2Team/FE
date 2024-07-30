@@ -4,7 +4,7 @@ import InformThanks from "../modal/InformThanks";
 import {useState} from "react";
 import {Link} from "react-router-dom";
 
-function MyPoint({onChangeInformation}) {
+function MyPoint({onChangeInformation, point}) {
     const [isThanksModalOpen, setIsThanksModalOpen] =useState(false)
     const handleThanksModal = ()=>{
         setIsThanksModalOpen(!isThanksModalOpen)
@@ -23,7 +23,7 @@ function MyPoint({onChangeInformation}) {
                     나의 소다 포인트
                 </Title>
                 <CircleBox>
-                    <h1>299999999p</h1>
+                    <h1>{point}p</h1>
                     <ImgWrap>
                         <Circle/>
                     </ImgWrap>

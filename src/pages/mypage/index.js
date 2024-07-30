@@ -1,18 +1,45 @@
 import styled from "styled-components";
 import MyPoint from "../../components/mypage/MyPoint";
 import SodaCollection from "../../components/mypage/SodaCollection";
-import InformThanks from "../../components/modal/InformThanks";
 import InformDonation from "../../components/modal/InformDonation";
 import MyDonationList from "../../components/mypage/MyDonationList";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import Header from "../../components/common/Header";
 import Menubar from "../../components/common/Menubar";
+import {getCookie} from "../../auth/cookie";
+import instance from "../../api/axios";
 
 function Mypage() {
     const [isOpenInformation, setIsOpenInformation] =useState(false);
+    // const [accessToken, setAccessToken] = useState(getCookie('accessToken'));
+    const [pointData, setPointData] =useState(null)
+    const accessToken = getCookie('accessToken')
     const handleOpenDonation = ()=>{
         setIsOpenInformation(!isOpenInformation)
     }
+
+    const getPointDate = async ()=>{
+        try{
+            const response = await  instance.get('/api/point',{
+                headers:{
+                    Authorization:` Bearer ${accessToken}`
+                }
+            })
+            console.log('백엔드 응답:', response.data);
+            setPointData(response.data)
+            
+
+        }catch (e){
+            console.log('에러발생:', e);
+        }
+    }
+
+
+    useEffect(() => {
+        getPointDate();
+    }, []);
+
+
     return (
         <>
         <Header/>
@@ -27,7 +54,7 @@ function Mypage() {
                             </>
                         ):(
                         <>
-                            <MyPoint onChangeInformation={handleOpenDonation}/>
+                            <MyPoint onChangeInformation={handleOpenDonation} point={pointData}/>
                             <SodaCollection/>
                         </>
                         )}
