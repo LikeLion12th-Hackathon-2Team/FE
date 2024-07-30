@@ -19,7 +19,7 @@ function KaKaoLoginRedirection() {
             },)
                 .then(response => {
                     console.log(response.data);
-                    setCookie('kakaoT',response.data.accessToken)
+                    setCookie('accessToken',response.data.accessToken)
                     // 로그인 후 처리
                     navigate('/soda');
                 })
