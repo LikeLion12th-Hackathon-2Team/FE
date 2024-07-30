@@ -1,13 +1,18 @@
 import styled from "styled-components";
-import {More} from "../../components/icons/weeklyIcons";
-import {useState} from "react";
+import { More } from "../../components/icons/weeklyIcons";
+import { useState } from "react";
 
 function Test() {
-    const [color, setColor] = useState('#ffffff');
+  const [color, setColor] = useState("");
 
-    const handleClick = () => {
-        setColor('#ff0000'); // Change color to red on click
-    };
+  const handleClick = () => {
+    if (color === "#96D3FF") {
+      setColor("#ff0000");
+    } else {
+      setColor("#96D3FF");
+    }
+  };
+
   return (
     <Wrapper>
       <div>
@@ -17,9 +22,9 @@ function Test() {
         <span> 7월의 소다 </span>
         <ItemBox></ItemBox>
       </div>
-        <TestIcon onClick={handleClick}>
-            <More color={color} />
-        </TestIcon>
+      <TestIcon onClick={handleClick}>
+        <More color={color} />
+      </TestIcon>
     </Wrapper>
   );
 }
@@ -55,13 +60,11 @@ const ItemBox = styled.div`
   }
 `;
 
-const TestIcon =styled.div`
-    &:hover {
-        
-        //svg {
-        //    color: #87ceeb; // Sky blue on hover
-        //    fill: #87ceeb; // Ensure fill changes too, if applicable
-        //}
-    }
- 
-`
+const TestIcon = styled.div`
+  &:hover {
+    // svg {
+    //     color: #87ceeb; // 호버 시 스카이 블루
+    //     fill: #87ceeb; // 필요한 경우 fill 속성도 변경
+    // }
+  }
+`;

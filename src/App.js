@@ -24,18 +24,21 @@ function App() {
             <Route path="/" element={<Main />} />
             <Route path="/detail" element={<Detail />} />
             <Route path="/healingCollection" element={<HealingCollection />} />
-            <Route path="/nextDoor" element={<NextDoor />}/>
+            <Route path="/nextdoor" element={<NextDoor />} />
             <Route path="/nextdoordetail" element={<NextdoorDetail />} />
-            <Route path="/writediary" element={<AddDiary />}/>
+            <Route path="/writediary" element={<AddDiary />} />
             <Route path="/test" element={<Test />} />
             <Route path="/mypage" element={<Mypage />} />
             <Route path="/login" element={<Login />} />
             <Route path="/join" element={<Join />} />
             <Route path="/soda" element={<MonthlySoda />} />
-            <Route path={`/calender/date/:year/:month`} element={<WeeklySoda />} />
+            <Route
+              path={`/calender/date/:year/:month`}
+              element={<WeeklySoda />}
+            />
             <Route path="/moodchange" element={<MoodChange />} />
-            <Route path={`/naverLogin`} element={<NaverLogin/>}/>
-            <Route path={'/kakaoLogin'} element={<KaKaoLoginRedirection/>}/>
+            <Route path={`/naverLogin`} element={<NaverLogin />} />
+            <Route path={"/kakaoLogin"} element={<KaKaoLoginRedirection />} />
           </Routes>
         </Container>
       </Wrapper>
