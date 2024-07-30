@@ -7,7 +7,7 @@ import { MainPageLogo } from "../../components/icons/logo";
 function Main() {
   return (
     <>
-        <Link to={'/soda'}>
+        <Link to={'/login'}>
             <Wrapper>
                 <LogoBox>
                     <MainPageLogo />
