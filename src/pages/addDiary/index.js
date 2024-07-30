@@ -70,6 +70,13 @@ function AddDiary() {
     // 데이터 전송 로직 추가
   };
 
+  const stamps = [
+    { color: "red", Component: Stampred },
+    { color: "yellow", Component: Stampyellow },
+    { color: "green", Component: Stampgreen },
+    { color: "blue", Component: Stampblue },
+  ];
+
   return (
     <>
       <Header />
@@ -143,34 +150,16 @@ function AddDiary() {
           <hr />
           <DiaryText>
             <StampWrapper>
-              <Stamp
-                color={selectedStamp === "red" ? "#ffffff" : "#ffffff"}
-                isSelected={selectedStamp === "red"}
-                onClick={() => handleStampClick("red")}
-              >
-                <Stampred />
-              </Stamp>
-              <Stamp
-                color={selectedStamp === "yellow" ? "#ffffff" : "#ffffff"}
-                isSelected={selectedStamp === "yellow"}
-                onClick={() => handleStampClick("yellow")}
-              >
-                <Stampyellow />
-              </Stamp>
-              <Stamp
-                color={selectedStamp === "green" ? "#ffffff" : "#ffffff"}
-                isSelected={selectedStamp === "green"}
-                onClick={() => handleStampClick("green")}
-              >
-                <Stampgreen />
-              </Stamp>
-              <Stamp
-                color={selectedStamp === "blue" ? "#ffffff" : "#ffffff"}
-                isSelected={selectedStamp === "blue"}
-                onClick={() => handleStampClick("blue")}
-              >
-                <Stampblue />
-              </Stamp>
+              {stamps.map(({ color, Component }) => (
+                <Stamp
+                  key={color}
+                  color={selectedStamp === color ? "#ffffff" : "#ffffff"}
+                  isSelected={selectedStamp === color}
+                  onClick={() => handleStampClick(color)}
+                >
+                  <Component />
+                </Stamp>
+              ))}
             </StampWrapper>
           </DiaryText>
           <hr />
@@ -357,7 +346,7 @@ const grow = keyframes`
     transform: scale(1);
   }
   to {
-    transform: scale(1.5);
+    transform: scale(1.2);
   }
 `;
 
@@ -365,16 +354,28 @@ const grow = keyframes`
 const Stamp = styled.div`
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-around;
   background-color: ${({ color }) => color};
-  width: 40px;
-  height: 40px;
-  border-radius: 20px;
+  width: 90px
+  height: 90px;
+  border-radius: 30px;
   cursor: pointer;
 
   &:hover {
     animation: ${grow} 0.2s forwards;
     transition: transform 0.2s;
+  }
+  svg {
+    width: 90px;
+    height: 90px;
+  }
+  @media (max-width: ${({ theme }) => theme.mobile}) {
+    width: 50px;
+    height: 50px;
+    svg {
+      width: 50px;
+      height: 50px;
+    }
   }
 
   ${({ isSelected }) =>
