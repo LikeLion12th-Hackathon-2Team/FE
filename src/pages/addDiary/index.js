@@ -67,13 +67,13 @@ function AddDiary() {
       stamp: selectedStamp,
     };
     console.log("Diary Submitted: ", diaryData);
-    // 여기서 데이터전송
+    // 데이터 전송 로직 추가
   };
 
   return (
     <>
       <Header />
-      <Wrapper isTall={true}>
+      <Wrapper>
         <Title>소다쓰기</Title>
         <Diary>
           <DiaryHeader>
@@ -144,24 +144,28 @@ function AddDiary() {
           <DiaryText>
             <StampWrapper>
               <Stamp
+                color={selectedStamp === "red" ? "#ffffff" : "#ffffff"}
                 isSelected={selectedStamp === "red"}
                 onClick={() => handleStampClick("red")}
               >
                 <Stampred />
               </Stamp>
               <Stamp
+                color={selectedStamp === "yellow" ? "#ffffff" : "#ffffff"}
                 isSelected={selectedStamp === "yellow"}
                 onClick={() => handleStampClick("yellow")}
               >
                 <Stampyellow />
               </Stamp>
               <Stamp
+                color={selectedStamp === "green" ? "#ffffff" : "#ffffff"}
                 isSelected={selectedStamp === "green"}
                 onClick={() => handleStampClick("green")}
               >
                 <Stampgreen />
               </Stamp>
               <Stamp
+                color={selectedStamp === "blue" ? "#ffffff" : "#ffffff"}
                 isSelected={selectedStamp === "blue"}
                 onClick={() => handleStampClick("blue")}
               >
@@ -189,7 +193,7 @@ const Wrapper = styled.div`
     ${({ theme }) => theme.backgroundColors.mainColor} 25%,
     white 100%
   );
-  height: ${(props) => (props.isTall ? "auto" : "100vh")};
+  height: auto; /* isTall prop 제거 */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -345,7 +349,6 @@ const StampWrapper = styled.div`
   padding: 10px;
   svg {
     cursor: pointer;
-    // width: 100px;
   }
 `;
 
@@ -358,28 +361,28 @@ const grow = keyframes`
   }
 `;
 
-const shrink = keyframes`
-  from {
-    transform: scale(1.5);
-  }
-  to {
-    transform: scale(1);
-  }
-`;
-
+// 스타일드 컴포넌트 정의
 const Stamp = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: ${({ color }) => color};
+  width: 40px;
+  height: 40px;
+  border-radius: 20px;
+  cursor: pointer;
+
   &:hover {
-    transform: scale(1.1);
-    // transition: transform 0.2s;
-    animation-play-state: paused;
+    animation: ${grow} 0.2s forwards;
+    transition: transform 0.2s;
   }
+
   ${({ isSelected }) =>
     isSelected &&
     css`
       animation: ${grow} 0.2s forwards;
     `}
 `;
-// animation: ${grow} 0.2s forwards, ${shrink} 0.2s forwards 0.2s;
 
 const Btn = styled.button`
   border: none;
