@@ -28,6 +28,7 @@ function Card({
   const handleMoreClick = () => {
     setIsShowComments(!isShowComments);
     setCardColor(cardColor === "#96D3FF" ? "#8A8A8A" : "#96D3FF");
+    console.log('handleMoreClick 실행중');
   };
 
   return (
@@ -58,6 +59,10 @@ function Card({
           <More cardColor={cardColor} />
         </MoreItems>
         <ModifyIcon />
+          <MoreIconBox onClick={handleMoreClick}>
+              <More/>
+          </MoreIconBox>
+        <Modify />
       </Row>
       {isShowComments ? (
         <>
@@ -161,6 +166,7 @@ const Row = styled.div`
       font-size: 12px;
     }
   }
+ 
 `;
 
 const MoreItems = styled.div`
@@ -268,3 +274,9 @@ const Comment = styled.div`
 //     opacity: 0.8;
 //   }
 // `;
+const MoreIconBox = styled.div`
+    margin: auto;
+    cursor: pointer;
+        //margin-left: auto;
+
+`;

@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import Calendar from "react-calendar";
 import {useState} from "react";
-import {EmptySoda} from "../../components/icons/monthlyIcons";
+import {EmptySoda, FullSoda} from "../../components/icons/monthlyIcons";
 import {useNavigate} from "react-router-dom";
 import Header from "../../components/common/Header";
 import Menubar from "../../components/common/Menubar";
@@ -10,17 +10,21 @@ function MonthlySoda() {
     const currentMonth = new Date().getMonth();
     const currentYear = new Date().getFullYear();
     const navigate = useNavigate();
-
+    
     // tileContent :월별 칸에 보여지는 콘텐츠
     const tileContent = ({ date, view }) => {
+
         if (view === 'year'&& date.getFullYear() === currentYear && date.getMonth() === currentMonth) {
+            console.log('view:',view );
+            console.log(date.getFullYear(), currentYear);
             return (
-                <CurrentMonthIconBox className="current-month">
-                    <EmptySoda />
-                </CurrentMonthIconBox>
+                <IconBox className="current-month">
+                    <FullSoda />
+                </IconBox>
             );
         }
             return (
+
                 <IconBox>
                     <EmptySoda/>
                 </IconBox>
@@ -66,7 +70,7 @@ const Wrapper = styled.div`
     background :linear-gradient(${({theme}) => theme.backgroundColors.mainColor} 25%, white 100%);
     display: flex;
     justify-content: center;
-    height: 100vh;
+    //height: 100vh;
 `
 
 const Container = styled.div`
@@ -77,18 +81,25 @@ const Container = styled.div`
         color: ${({theme})=>theme.colors.white};
         -webkit-text-stroke-width: 3px;
         -webkit-text-stroke-color: ${({theme}) => theme.backgroundColors.borderDark};
+        @media (max-width: ${({theme}) => theme.mobile}) {
+            font-size: 40px;
+            -webkit-text-stroke-width: 2.5px;
+            -webkit-text-stroke-color: ${({theme}) => theme.backgroundColors.borderDark};
+
+        }
+        
     }
+    
 `
 const CalendarBox = styled.div`
+    margin: auto;
+    height: 100vh;
     overflow-y: scroll;
     -ms-overflow-style: none;
     scrollbar-width: none;
-    margin: auto;
-    height: 100vh;
     width: ${({theme}) => theme.tablet};
     @media (max-width:${({theme}) => theme.mobile} ) {
-        width: 324px;
-        height: 100vh;
+        width: 340px;
     }
     
     .react-calendar {
@@ -106,38 +117,30 @@ const CalendarBox = styled.div`
     }
     
     .react-calendar__navigation {
-        height: 80px;
-        width: 100%;
+        justify-content: center;
+        
     }
-   
-    ///* 네비게이션 가운데 정렬 */
-    //.react-calendar__navigation {
-    //    justify-content: center;
-    //}
-    // 네비게이션 사이 간격 줄임 
-    //.react-calendar__navigation__label {
-    //    flex-grow: 0 !important;
-    //
-    //}
-
-   
+    
 
 // 달력 네비게이션 CSS
     .react-calendar__navigation button {
-        padding: 20px 30px;
+        padding: 0 6px;
         font-size: 40px;
         font-family: 'LOTTERIACHAB';
         color: white;
-        //-webkit-text-stroke-width: 3px;
-        //-webkit-text-stroke-color: ${({theme}) => theme.backgroundColors.borderDark};
-        //text-shadow: 4px 4px ${({theme}) => theme.backgroundColors.borderDark} ;
-
+        -webkit-text-stroke-width: 3px;
+        -webkit-text-stroke-color: ${({theme}) => theme.backgroundColors.borderDark};
         &:hover{
             background: none;
         }
         &:focus{
             background: none;
         }
+        @media (min-width: ${({theme}) => theme.tablet}) {
+            padding: 20px 30px; /* Increase padding for larger screens */
+        
+        }
+        
     }
     
     .react-calendar__year-view__months__month {
@@ -158,11 +161,19 @@ const CalendarBox = styled.div`
     
   
     .react-calendar__tile {
-        //background: none;
         border-radius: 20px;
         
     }
-    
+    .react-calendar__tile--now {
+        background:none;
+        border-radius: 20px;
+        //background: ${({theme})=>theme.colors.white};
+        border: 4px solid ${({theme})=>theme.backgroundColors.borderDark} ;
+        //오늘날짜 글씨 바꾸기
+        abbr {
+            //color: ${({theme})=>theme.backgroundColors.borderDark};
+        }
+    }
 `
 
 const IconBox =styled.div`
@@ -170,10 +181,10 @@ const IconBox =styled.div`
     justify-content: center;
 `
 
-//오늘 날짜
-const CurrentMonthIconBox =styled.div`
-    display: flex;
-    justify-content: center;
-    //padding: 10px;
-
-`
+// //오늘 날짜
+// const CurrentMonthIconBox =styled.div`
+//     display: flex;
+//     justify-content: center;
+//     //padding: 10px;
+//
+// `
