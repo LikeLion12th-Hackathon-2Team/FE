@@ -140,6 +140,8 @@ function AddDiary() {
                 height: "100px",
                 padding: "5px",
                 resize: "none",
+                fontFamily: "Ownglyph_meetme-Rg",
+                fontSize: "20px",
               }}
             ></textarea>
           </DiaryText>
@@ -327,6 +329,9 @@ const DiaryText = styled.div`
     p {
       font-size: 14px;
       line-height: 1;
+    }
+    textarea {
+      font-size: 10px;
     }
   }
 `;

@@ -151,6 +151,7 @@ const Wrapper = styled.div`
     white 100%
   );
   height: ${(props) => (props.isTall ? "auto" : "100vh")};
+
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -172,17 +173,24 @@ const TitleCard = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  width: 300px;
+  width: ${({ theme }) => theme.tablet};
   height: auto;
-  padding: 10px;
+  padding: 20px;
   border-radius: 8px;
   background-color: ${({ theme }) =>
     theme.backgroundColors.cardbackgroundColor};
   p {
     font-family: "Ownglyph_meetme-Rg";
-    font-size: 20px;
+    font-size: 25px;
     color: ${({ theme }) => theme.colors.fontColor};
   }
   margin: 10px;
   cursor: pointer;
+  @media (max-width: ${({ theme }) => theme.mobile}) {
+    width: 300px;
+    padding: 10px;
+    p {
+      font-size: 20px;
+    }
+  }
 `;
