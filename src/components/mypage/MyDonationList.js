@@ -1,7 +1,27 @@
 import styled from "styled-components";
 import {MyDonationListIcon, WonIcon} from "../icons/mypageIcons";
+import instance from "../../api/axios";
+import {useEffect} from "react";
 
-function MyDonationList() {
+function MyDonationList({accessToken}) {
+    const getDonationDate = async ()=>{
+        try{
+            const response = await  instance.get('/api/donate-history/get',{
+                headers:{
+                    Authorization:` Bearer ${accessToken}`
+                }
+            })
+            console.log('response:', response.data);
+
+        }catch (e){
+            console.log('error:', e);
+        }
+    }
+
+
+    useEffect(() => {
+        getDonationDate();
+    }, []);
     return (
         <>
             <Wrapper>
