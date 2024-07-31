@@ -50,15 +50,15 @@ function Test() {
         <span> 7월의 소다 </span>
         <ItemBox>
          <p>여기에서 부터 api 데이터</p>
-          {/*<div>*/}
-          {/*  {testData.map((item)=>(*/}
-          {/*      <ApiDataBox>*/}
-          {/*        <h1>{item.diaryId}</h1>*/}
-          {/*        <h1>생성시간: {item.createdAt}</h1>*/}
-          {/*        <h1>쥐피티왈: {item.gptComment}</h1>*/}
-          {/*      </ApiDataBox>*/}
-          {/*  ))}*/}
-          {/*</div>*/}
+          <div>
+            {testData && testData.map((item)=>(
+                <ApiDataBox>
+                  <h1>{item.diaryId}</h1>
+                  <h1>생성시간: {item.createdAt}</h1>
+                  <h1>쥐피티왈: {item.gptComment}</h1>
+                </ApiDataBox>
+            ))}
+          </div>
         </ItemBox>
       </div>
       <TestIcon onClick={handleClick}>
