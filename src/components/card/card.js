@@ -1,39 +1,63 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 import {
-  PinImg,
-  PinImgNone,
-  BookmarkImg,
-  BookmarkImgNone,
-  PublicSwitch,
-  PrivateSwitch,
   Stamp,
   More,
   Modify,
+  CommentDelete,
+  CommentModify,
 } from "../../components/icons/cardIcons";
 
-function Card({
-  dailyData,
-  // comments,
-  // isPinned,
-  // onPinClick,
-  // isBookmarked,
-  // onBookmarkClick,
-  // isSwitched,
-  // onSwitchClick,
-}) {
+function Card({ dailyData }) {
   const [cardColor, setCardColor] = useState("#96D3FF");
   const [isShowComments, setIsShowComments] = useState(false);
+  const [editableCommentIndex, setEditableCommentIndex] = useState(null);
+  const [editedCommentText, setEditedCommentText] = useState("");
+  const [comments, setComments] = useState(dailyData.comments || []);
+  const [newComment, setNewComment] = useState("");
 
   const handleMoreClick = () => {
     setIsShowComments(!isShowComments);
     setCardColor(cardColor === "#96D3FF" ? "#8A8A8A" : "#96D3FF");
-    console.log("handleMoreClick 실행중");
+  };
+
+  const handleCommentModifyClick = (index, text) => {
+    setEditableCommentIndex(index);
+    setEditedCommentText(text);
+  };
+
+  const handleCommentSave = (index) => {
+    const updatedComments = comments.map((comment, i) =>
+      i === index ? editedCommentText : comment
+    );
+    setComments(updatedComments);
+    setEditableCommentIndex(null);
+    setEditedCommentText("");
+  };
+
+  const handleCommentChange = (e) => {
+    setEditedCommentText(e.target.value);
+  };
+
+  const handleNewCommentChange = (e) => {
+    setNewComment(e.target.value);
+  };
+
+  const handleAddComment = () => {
+    if (newComment.trim()) {
+      setComments([...comments, newComment]);
+      setNewComment("");
+    }
+  };
+
+  const handleCommentDelete = (index) => {
+    const updatedComments = comments.filter((_, i) => i !== index);
+    setComments(updatedComments);
   };
 
   return (
     <Diary>
-      {/* 여기 다이어리 헤더 들어감 */}
       <p style={{ marginTop: "10px" }}>{dailyData.title}</p>
       <hr style={{ height: "2px" }} />
       <Row>
@@ -58,18 +82,47 @@ function Card({
         <MoreItems onClick={handleMoreClick}>
           <More cardColor={cardColor} />
         </MoreItems>
-        <ModifyIcon />
+        <Link to="/modifydiary" state={{ dailyData }}>
+          <ModifyIcon />
+        </Link>
       </Row>
       {isShowComments ? (
         <>
           <hr />
           <CommentsSection>
             <div>
-              <CommentWrite placeholder="댓글을 입력해주세요" />
-              <Btn>작성</Btn>
+              <CommentWrite
+                value={newComment}
+                onChange={handleNewCommentChange}
+                placeholder="댓글을 입력해주세요"
+              />
+              <Btn onClick={handleAddComment}>작성</Btn>
             </div>
-            {dailyData.comments.map((comment, index) => (
-              <Comment key={index}>{comment}</Comment>
+            {comments.map((comment, index) => (
+              <Comment key={index}>
+                {editableCommentIndex === index ? (
+                  <div>
+                    <CommentWrite
+                      value={editedCommentText}
+                      onChange={handleCommentChange}
+                      placeholder="수정할 댓글을 입력하세요"
+                    />
+                    <Btn onClick={() => handleCommentSave(index)}>저장</Btn>
+                  </div>
+                ) : (
+                  <>
+                    <p>{comment}</p>
+                    <div>
+                      <CommentDelete
+                        onClick={() => handleCommentDelete(index)}
+                      />
+                      <CommentModify
+                        onClick={() => handleCommentModifyClick(index, comment)}
+                      />
+                    </div>
+                  </>
+                )}
+              </Comment>
             ))}
           </CommentsSection>
         </>
@@ -80,12 +133,12 @@ function Card({
 
 export default Card;
 
+// Styled components
+
 const Diary = styled.div`
   display: flex;
   flex-direction: column;
   height: auto;
-  // padding: 30px 30px 20px 30px;
-  // border-radius: 8px;
   background-color: ${({ theme }) =>
     theme.backgroundColors.cardbackgroundColor};
   p {
@@ -99,8 +152,6 @@ const Diary = styled.div`
     background-color: black;
     height: 1px;
   }
-  // margin: 20px;
-  // width: ${({ theme }) => theme.tablet};
   border-radius: 13px;
   @media (max-width: ${({ theme }) => theme.mobile}) {
     width: 304px;
@@ -113,22 +164,6 @@ const Diary = styled.div`
     }
   }
 `;
-
-// const DiaryHeader = styled.div`
-//   display: flex;
-//   background-color: ${({ theme }) => theme.backgroundColors.cardHeaderColor};
-//   border-radius: 8px;
-//   justify-content: space-between;
-//   align-items: center;
-//   padding: 15px;
-//   width: 100%;
-//   margin-bottom: 20px;
-//   @media (max-width: ${({ theme }) => theme.mobile}) {
-//     justify-content: space-between;
-//     padding: 5px;
-//     margin-bottom: 0px;
-//   }
-// `;
 
 const Row = styled.div`
   display: flex;
@@ -151,7 +186,6 @@ const Row = styled.div`
   }
   svg {
     cursor: pointer;
-    // margin-left: auto;
   }
 
   @media (max-width: ${({ theme }) => theme.mobile}) {
@@ -245,9 +279,23 @@ const Btn = styled.button`
 `;
 
 const Comment = styled.div`
-  flex-direction: column;
+  flex-direction: row;
   margin-top: 10px;
   font-family: "Ownglyph_meetme-Rg";
   font-size: 20px;
   color: black;
+  width: 100%;
+  align-items: center;
+  div {
+    display: flex;
+    justify-content: space-around;
+    padding: 5px;
+    border: none;
+    width: 100px;
+    align-items: center;
+  }
+  @media (max-width: ${({ theme }) => theme.mobile}) {
+    font-size: 10px;
+    width: 40px;
+  }
 `;

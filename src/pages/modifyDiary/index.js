@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import styled, { css, keyframes } from "styled-components";
+import { useLocation } from "react-router-dom";
 import {
   PinImg,
   PinImgNone,
@@ -15,11 +16,13 @@ import {
 import Header from "../../components/common/Header";
 import Menubar from "../../components/common/Menubar";
 
-function AddDiary() {
+function ModifyDiary() {
+  const location = useLocation();
+  const { dailyData } = location.state || { dailyData: {} }; // 기본값 설정
   const [inputData, setInputData] = useState({
-    title: "",
-    carbonationIndex: "",
-    diaryText: "",
+    title: dailyData.title || "",
+    carbonationIndex: dailyData.percent || "",
+    diaryText: dailyData.content || "",
   });
 
   const handleChange = (e) => {
@@ -29,6 +32,8 @@ function AddDiary() {
       [name]: value,
     }));
   };
+
+  const todayDate = dailyData.date || "날짜 없음";
 
   const [pinned, setPinned] = useState(false);
   const handlePinClick = () => {
@@ -81,7 +86,7 @@ function AddDiary() {
     <>
       <Header />
       <Wrapper>
-        <Title>소다쓰기</Title>
+        <Title>{todayDate}의 소다</Title>
         <Diary>
           <DiaryHeader>
             <IconDiv
@@ -164,7 +169,8 @@ function AddDiary() {
           </DiaryText>
           <hr />
           <ButtonContainer>
-            <Btn onClick={handleSubmit}>작성완료</Btn>
+            <Btn onClick={handleSubmit}>삭제하기</Btn>
+            <Btn onClick={handleSubmit}>수정하기</Btn>
           </ButtonContainer>
         </Diary>
       </Wrapper>
@@ -173,7 +179,7 @@ function AddDiary() {
   );
 }
 
-export default AddDiary;
+export default ModifyDiary;
 
 const Wrapper = styled.div`
   padding-top: 60px;
@@ -401,7 +407,7 @@ const Btn = styled.button`
 
 const ButtonContainer = styled.div`
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
   width: 100%;
   margin-top: 10px;
 `;

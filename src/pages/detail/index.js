@@ -45,11 +45,6 @@ function Detail() {
     },
   ];
 
-  // const comments = [
-  //   "1111어쨌든 실컷 누웠으니 기분 째지고 너는 2팀이니까 완전 럭키비키잖아 ~",
-  //   "2222어쨌든 실컷 누웠으니 기분 째지고 너는 2팀이니까 완전 럭키비키잖아 ~",
-  // ];
-
   const todayDate = dailyData.length > 0 ? dailyData[0].date : "날짜 없음";
 
   const [pinnedIndex, setPinnedIndex] = useState(0);
