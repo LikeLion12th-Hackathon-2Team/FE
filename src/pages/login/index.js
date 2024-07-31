@@ -22,6 +22,8 @@ const Login = () => {
         <KakaoButton/>
         <GoogleButton/>
       </ButtonContainer>
+        <Message>계정이 없으신가요?</Message>
+        <JoinLink href="/join">회원가입</JoinLink>
     </Container>
   );
 };
@@ -62,6 +64,30 @@ const ButtonContainer = styled.div`
   gap: 10px; 
   width: 100%;
   max-width: 400px; 
+`;
+
+const Message = styled.div`
+    align-items: center;
+    top: 90px;
+    position: relative;
+    color: #8A8A8A;
+    font-size: 13px;
+`;
+
+
+const JoinLink = styled.a`
+    align-items: center;
+    position: relative;
+    top: 100px;
+    color: #8A8A8A;
+    cursor: pointer;
+    font-family: 'inter';
+    font-weight: bold;
+    font-size: 15px;
+    text-decoration: none;
+    &:hover {
+        color: #1E90FF;
+    }
 `;
 
 
