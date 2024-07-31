@@ -34,7 +34,6 @@ function Mypage() {
         }
     }
 
-
     useEffect(() => {
         getPointDate();
     }, []);
@@ -49,8 +48,8 @@ function Mypage() {
                     <ItemBox>
                         {isOpenInformation ? (
                             <>
-                                <InformDonation onChangeInformation={handleOpenDonation}/>
-                                <MyDonationList/>
+                                <InformDonation onChangeInformation={handleOpenDonation} />
+                                <MyDonationList accessToken={accessToken}/>
                             </>
                         ):(
                         <>

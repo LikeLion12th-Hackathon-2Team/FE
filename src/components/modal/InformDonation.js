@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import {InformIcon} from "../icons/mypageIcons";
-
 function InformDonation({onChangeInformation}) {
+
     const handleIsOpen = ()=>{
         onChangeInformation()
     }

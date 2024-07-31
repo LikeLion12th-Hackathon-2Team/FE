@@ -7,7 +7,9 @@ import {Link} from "react-router-dom";
 function MyPoint({onChangeInformation, point}) {
     const [isThanksModalOpen, setIsThanksModalOpen] =useState(false)
     const handleThanksModal = ()=>{
-        setIsThanksModalOpen(!isThanksModalOpen)
+        if(point && point>=100000){
+            setIsThanksModalOpen(!isThanksModalOpen)
+        }
     }
     const handleOpenInformation =()=>{
         onChangeInformation()
@@ -29,11 +31,17 @@ function MyPoint({onChangeInformation, point}) {
                     </ImgWrap>
                 </CircleBox>
                 <InformPointBox onClick={handleThanksModal}>
-                    <IconBox>
-                        <DonateIcon/>
+                    {point && point >= 10000 ? (
+                        <>
+                            <IconBox>
+                                <DonateIcon/>
+                            </IconBox>
+                            <h1>{point}점 기부하기</h1>
+                        </>
+                    ): (
+                        <h1>🤗  10000점부터 기부가 가능해요!</h1>
+                    )}
 
-                    </IconBox>
-                <h1>2000000점 기부하기</h1>
                 </InformPointBox>
                 <Link to={'https://www.nanumkorea.go.kr/main.do'}>
                     <AnotherDonation>
