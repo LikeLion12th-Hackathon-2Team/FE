@@ -4,7 +4,7 @@ import InformThanks from "../modal/InformThanks";
 import {useState} from "react";
 import {Link} from "react-router-dom";
 
-function MyPoint({onChangeInformation, point}) {
+function MyPoint({onChangeInformation, point, donationPoint}) {
     const [isThanksModalOpen, setIsThanksModalOpen] =useState(false)
     const handleThanksModal = ()=>{
         if(point && point>=100000){
@@ -36,12 +36,11 @@ function MyPoint({onChangeInformation, point}) {
                             <IconBox>
                                 <DonateIcon/>
                             </IconBox>
-                            <h1>{point}점 기부하기</h1>
+                            <h1>{donationPoint}점 기부하기</h1>
                         </>
                     ): (
                         <h1>🤗  10000점부터 기부가 가능해요!</h1>
                     )}
-
                 </InformPointBox>
                 <Link to={'https://www.nanumkorea.go.kr/main.do'}>
                     <AnotherDonation>

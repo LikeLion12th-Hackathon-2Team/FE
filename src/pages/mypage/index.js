@@ -12,11 +12,12 @@ import instance from "../../api/axios";
 function Mypage() {
     const [isOpenInformation, setIsOpenInformation] =useState(false);
     // const [accessToken, setAccessToken] = useState(getCookie('accessToken'));
-    const [pointData, setPointData] =useState(null)
+    const [pointData, setPointData] =useState([])
     const accessToken = getCookie('accessToken')
     const handleOpenDonation = ()=>{
         setIsOpenInformation(!isOpenInformation)
     }
+    console.log('pointData.point:',pointData.point);
 
     const getPointDate = async ()=>{
         try{
@@ -53,7 +54,7 @@ function Mypage() {
                             </>
                         ):(
                         <>
-                            <MyPoint onChangeInformation={handleOpenDonation} point={pointData}/>
+                            <MyPoint onChangeInformation={handleOpenDonation} point={pointData.point} donationPoint={pointData.donationPoint} />
                             <SodaCollection/>
                         </>
                         )}
