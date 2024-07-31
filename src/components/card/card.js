@@ -1,27 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
-import {
-  PinImg,
-  PinImgNone,
-  BookmarkImg,
-  BookmarkImgNone,
-  PublicSwitch,
-  PrivateSwitch,
-  Stamp,
-  More,
-  Modify,
-} from "../../components/icons/cardIcons";
+import { Link } from "react-router-dom";
+import { Stamp, More, Modify } from "../../components/icons/cardIcons";
 
-function Card({
-  dailyData,
-  // comments,
-  // isPinned,
-  // onPinClick,
-  // isBookmarked,
-  // onBookmarkClick,
-  // isSwitched,
-  // onSwitchClick,
-}) {
+function Card({ dailyData }) {
   const [cardColor, setCardColor] = useState("#96D3FF");
   const [isShowComments, setIsShowComments] = useState(false);
 
@@ -33,7 +15,6 @@ function Card({
 
   return (
     <Diary>
-      {/* 여기 다이어리 헤더 들어감 */}
       <p style={{ marginTop: "10px" }}>{dailyData.title}</p>
       <hr style={{ height: "2px" }} />
       <Row>
@@ -58,7 +39,9 @@ function Card({
         <MoreItems onClick={handleMoreClick}>
           <More cardColor={cardColor} />
         </MoreItems>
-        <ModifyIcon />
+        <Link to="/modifydiary" state={{ dailyData }}>
+          <ModifyIcon />
+        </Link>
       </Row>
       {isShowComments ? (
         <>

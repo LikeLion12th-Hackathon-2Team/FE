@@ -6,6 +6,7 @@ import HealingCollection from "./pages/healingCollection";
 import NextDoor from "./pages/nextDoor";
 import NextdoorDetail from "./pages/nextdoorDetail";
 import AddDiary from "./pages/addDiary";
+import ModifyDiary from "./pages/modifyDiary";
 import styled from "styled-components";
 import Mypage from "./pages/mypage";
 import MonthlySoda from "./pages/monthlySoda";
@@ -27,6 +28,7 @@ function App() {
             <Route path="/nextdoor" element={<NextDoor />} />
             <Route path="/nextdoordetail" element={<NextdoorDetail />} />
             <Route path="/writediary" element={<AddDiary />} />
+            <Route path="/modifydiary" element={<ModifyDiary />} />
             <Route path="/test" element={<Test />} />
             <Route path="/mypage" element={<Mypage />} />
             <Route path="/login" element={<Login />} />
