@@ -74,8 +74,8 @@ function AddDiary() {
     };
 
     try {
-      const response = await instance.post("/diaries", diaryData, {
-        headers: { Authorization: `Bearer ${getCookie("token")}` },
+      const response = await instance.post("/api/diary", diaryData, {
+        headers: { Authorization: `Bearer ${getCookie("accessToken")}` },
       });
       console.log("Diary Submitted: ", response.data);
     } catch (error) {
