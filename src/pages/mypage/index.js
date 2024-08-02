@@ -17,8 +17,6 @@ function Mypage() {
     const handleOpenDonation = ()=>{
         setIsOpenInformation(!isOpenInformation)
     }
-    console.log('pointData.point:',pointData.point);
-
     const getPointDate = async ()=>{
         try{
             const response = await  instance.get('/api/point',{
@@ -55,7 +53,7 @@ function Mypage() {
                         ):(
                         <>
                             <MyPoint onChangeInformation={handleOpenDonation} point={pointData.point} donationPoint={pointData.donationPoint} />
-                            <SodaCollection/>
+                            <SodaCollection accessToken={accessToken}/>
                         </>
                         )}
 

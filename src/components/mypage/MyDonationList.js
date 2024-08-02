@@ -1,9 +1,10 @@
 import styled from "styled-components";
 import {MyDonationListIcon, WonIcon} from "../icons/mypageIcons";
 import instance from "../../api/axios";
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 
 function MyDonationList({accessToken}) {
+    const [donationData, setDonationData] = useState([])
     const getDonationDate = async ()=>{
         try{
             const response = await  instance.get('/api/donate-history/get',{
@@ -12,41 +13,56 @@ function MyDonationList({accessToken}) {
                 }
             })
             console.log('response:', response.data);
+            setDonationData(response.data)
 
         }catch (e){
             console.log('error:', e);
         }
     }
-
+    
 
     useEffect(() => {
         getDonationDate();
     }, []);
+
+
+    const isNotEmpty = donationData.some(item =>
+        item && (item.donateHistoryId !== null || item.point !== null || item.location !== null || item.userId !== null || item.createdAt !== null)
+    );
+
+    console.log('isNotEmpty:', isNotEmpty);
+
     return (
         <>
             <Wrapper>
-                <div>
                     <TitleText>
                         <IconBox>
                             <MyDonationListIcon/>
                         </IconBox>
                         <h1>나의 기부 내역</h1>
                     </TitleText>
-                </div>
-                <ListItemBox>
-                    <TimeStamp>2024 07. 19 20:59:37</TimeStamp>
-                    <DonationItems>
-                        <GroupName>꽃동네</GroupName>
-                        <Amount>
-                            <IconBox>
-                                <WonIcon/>
-                            </IconBox>
-                            <h1>
-                                2000
-                            </h1>
-                        </Amount>
-                    </DonationItems>
-                </ListItemBox>
+
+                {isNotEmpty? (
+                        donationData && donationData.map((item)=>(
+                        <ListItemBox>
+                        <TimeStamp>{item.createdAt}</TimeStamp>
+                        <DonationItems>
+                            <GroupName>{item.location}</GroupName>
+                            <Amount>
+                                <IconBox>
+                                    <WonIcon/>
+                                </IconBox>
+                                <h1>
+                                    {item.point}
+                                </h1>
+                            </Amount>
+                        </DonationItems>
+                    </ListItemBox>
+                ))
+                ):(
+                    <NoDataInform>기부 내역이 없습니다. </NoDataInform>
+                )}
+
             </Wrapper>
         </>
 
@@ -99,7 +115,7 @@ const DonationItems = styled.div`
     display: grid;
     grid-template-columns: 1fr 1fr;
     border-bottom: 1px solid ${({theme})=>theme.backgroundColors.borderBottom};
-
+ 
 `
 const GroupName = styled.div`
     display: flex;
@@ -117,5 +133,13 @@ const Amount =styled.div`
         font-weight: bold;
         font-size: 20px;
     }
-    
+`
+
+const NoDataInform = styled.div`
+    font-weight: bold;
+    font-size: 15px;
+    display: flex;
+    justify-content: center;
+  
+
 `
