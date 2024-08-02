@@ -1,43 +1,97 @@
 import styled from "styled-components";
 import Calendar from "react-calendar";
-import {useState} from "react";
-import {EmptySoda, FullSoda} from "../../components/icons/monthlyIcons";
+import {useEffect, useState} from "react";
+import {EmptySoda, FullSoda, HalfSoda, Soda_25per, Soda_75per} from "../../components/icons/monthlyIcons";
 import {useNavigate} from "react-router-dom";
 import Header from "../../components/common/Header";
 import Menubar from "../../components/common/Menubar";
+import instance from "../../api/axios";
+import {getCookie} from "../../auth/cookie";
 function MonthlySoda() {
     const [value, onChange] = useState(new Date());
-    const currentMonth = new Date().getMonth();
     const currentYear = new Date().getFullYear();
     const navigate = useNavigate();
-    
-    // tileContent :월별 칸에 보여지는 콘텐츠
+    const accessToken = getCookie('accessToken')
+    const [year, setYear] = useState(currentYear)
+    const [data, setData] = useState({});
+    const testData = {1: 25, 2: 100, 3: 50, 4: 75, 5: 25, 6: 100, 7: 75, 8:100, 9: 50, 10: 25, 11: 75, 12: 0}
     const tileContent = ({ date, view }) => {
+        if (view === 'year') {
+            const month = date.getMonth() + 1; // 월은 0부터 시작하므로 +1
+            const value = data[month];
 
-        if (view === 'year'&& date.getFullYear() === currentYear && date.getMonth() === currentMonth) {
-            console.log('view:',view );
-            console.log(date.getFullYear(), currentYear);
-            return (
-                <IconBox className="current-month">
-                    <FullSoda />
-                </IconBox>
-            );
+            if (date.getFullYear() === year) {
+                if (value === 100) {
+                    return (
+                        <IconBox className="current-month">
+                            <FullSoda />
+                        </IconBox>
+                    );
+                } else if (value === 75) {
+                    return (
+                        <IconBox className="current-month">
+                            <Soda_75per/>
+                        </IconBox>
+                    );
+                } else if (value === 50) {
+                    return (
+                        <IconBox className="current-month">
+                            <HalfSoda/>
+                        </IconBox>
+                    );
+                }
+                else if (value === 25) {
+                    return (
+                        <IconBox className="current-month">
+                            <Soda_25per/>
+                        </IconBox>
+                    );
+                }
+                else if (value === 0) {
+                    return (
+                        <IconBox className="current-month">
+                            <EmptySoda/>
+                        </IconBox>
+                    );
+                }
+            }
         }
-            return (
 
-                <IconBox>
-                    <EmptySoda/>
-                </IconBox>
-               );
     };
 
-    const handleMonthClick = (date) => {
+
+const handleMonthClick = (date) => {
         if (date instanceof Date) {
             const month = date.getMonth() + 1; // months are 0-indexed
             const year = date.getFullYear();
             navigate(`/calender/date/${year}/${month}`);
         }
     }
+
+    const getDateData = async (selectedYear)=>{
+        try{
+            const response = await  instance.get(`/api/diary/yearly-diaries/${selectedYear}`,{
+                headers:{
+                    Authorization:` Bearer ${accessToken}`
+                }
+            })
+            console.log(selectedYear);
+            console.log('response:', response.data);
+            setData(response.data)
+
+        }catch (e){
+            console.log('error:', e);
+        }
+    }
+
+    useEffect(() => {
+        getDateData(year);
+    }, [year]);
+
+    const handleYearChange = ({ activeStartDate }) => {
+        setYear(activeStartDate.getFullYear());
+    };
+
 
     return (
         <>
@@ -49,9 +103,9 @@ function MonthlySoda() {
                             onChange={onChange}
                             value={value}
                             view="year"
-                            // tileDisabled={({ view }) => view === 'month'} // 연간 보기에서 월 선택 비활성화
                             tileContent={tileContent}
                             onClickMonth={handleMonthClick}
+                            onActiveStartDateChange={handleYearChange}
                         />
                     </CalendarBox>
                 </Container>
@@ -181,10 +235,3 @@ const IconBox =styled.div`
     justify-content: center;
 `
 
-// //오늘 날짜
-// const CurrentMonthIconBox =styled.div`
-//     display: flex;
-//     justify-content: center;
-//     //padding: 10px;
-//
-// `
