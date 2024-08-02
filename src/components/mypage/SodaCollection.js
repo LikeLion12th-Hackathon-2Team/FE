@@ -2,12 +2,29 @@ import styled from "styled-components";
 import {DropOutPinIcon, SodaCollectionIcon} from "../icons/mypageIcons";
 import {Link, useNavigate} from "react-router-dom";
 import {removeCookie} from "../../auth/cookie";
+import instance from "../../api/axios";
 
-function SodaCollection() {
+function SodaCollection({accessToken}) {
+
     const navigate = useNavigate()
     const handleLogOut =()=>{
         removeCookie('accessToken')
         navigate('/')
+    }
+
+    async function handleDropOut(){
+        try{
+            await instance.delete('/api/auth/delete-account',{
+                headers:{
+                    Authorization:` Bearer ${accessToken}`
+                }
+            })
+            removeCookie('accessToken')
+            removeCookie('refreshToken')
+            navigate('/')
+        }catch (e){
+            console.log('error:',e);
+        }
     }
 
     return (
@@ -40,7 +57,7 @@ function SodaCollection() {
                     탈퇴 버튼을 누르면 계정은 삭제 되며 복구되지 않습니다.
                     </span>
                 </InformDropOut>
-                <DropOut>
+                <DropOut onClick={handleDropOut}>
                     회원 탈퇴
                 </DropOut>
             </Wrapper>

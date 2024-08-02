@@ -39,7 +39,7 @@ function MyPoint({onChangeInformation, point, donationPoint}) {
                             <h1>{donationPoint}점 기부하기</h1>
                         </>
                     ): (
-                        <h1>🤗  10000점부터 기부가 가능해요!</h1>
+                        <h2>🤗  10000점부터 기부가 가능해요!</h2>
                     )}
                 </InformPointBox>
                 <Link to={'https://www.nanumkorea.go.kr/main.do'}>
@@ -104,6 +104,13 @@ const InformPointBox = styled.div`
         color: ${({theme})=>theme.colors.fontColor};
         font-weight: bold;
         font-size: 15px;
+        padding-left: 10px;
+        padding-top: 5px;
+    }
+    h2{
+        color: ${({theme})=>theme.colors.fontColor};
+        font-weight: bold;
+        font-size: 13px;
         padding-left: 10px;
         padding-top: 5px;
     }
