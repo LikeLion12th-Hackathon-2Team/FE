@@ -14,12 +14,15 @@ import {
 } from "../../components/icons/cardIcons";
 import Header from "../../components/common/Header";
 import Menubar from "../../components/common/Menubar";
+import instance from "../../api/axios";
+import { getCookie } from "../../auth/cookie";
 
 function AddDiary() {
   const [inputData, setInputData] = useState({
     title: "",
     carbonationIndex: "",
     diaryText: "",
+    diaryDate: "",
   });
 
   const handleChange = (e) => {
@@ -58,16 +61,28 @@ function AddDiary() {
     console.log(stampColor, " 🛑");
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const diaryData = {
-      ...inputData,
-      pinned,
-      bookmarked: bookmarkIndex,
-      switched: switchIndex,
-      stamp: selectedStamp,
+      diaryTitle: inputData.title,
+      sodaIndex: parseInt(inputData.carbonationIndex, 10),
+      content: inputData.diaryText,
+      purpose: selectedStamp || "",
+      diaryDate: inputData.diaryDate,
+      isRepresentative: pinned,
+      isFavorite: bookmarkIndex.length > 0,
+      isShared: switchIndex.length > 0,
     };
+
+    try {
+      const response = await instance.post("/api/diary", diaryData, {
+        headers: { Authorization: `Bearer ${getCookie("accessToken")}` },
+      });
+      console.log("Diary Submitted: ", response.data);
+    } catch (error) {
+      console.error("Error submitting diary: ", error);
+    }
+
     console.log("Diary Submitted: ", diaryData);
-    // 데이터 전송 로직 추가
   };
 
   const stamps = [
@@ -116,8 +131,8 @@ function AddDiary() {
           />
           <hr style={{ height: "2px" }} />
           <Row>
-            <p>오늘의 하루 탄산지수 :</p>
             <div>
+              <p>오늘의 하루 탄산지수 :</p>
               <input
                 type="number"
                 name="carbonationIndex"
@@ -126,6 +141,17 @@ function AddDiary() {
                 style={{ width: "60px", padding: "5px", outline: "none" }}
               />
               <p>%</p>
+            </div>
+            <div>
+              <input
+                type="date"
+                id="date"
+                name="diaryDate"
+                max="2094-10-19"
+                min="2004-10-19"
+                onChange={handleChange}
+                value={inputData.diaryDate}
+              />
             </div>
           </Row>
           <hr />
@@ -275,7 +301,7 @@ const IconDiv = styled.div`
 
 const Row = styled.div`
   display: flex;
-  justify-content: flex-start;
+  justify-content: space-between;
   align-items: center;
   width: 100%;
   span {
@@ -312,6 +338,9 @@ const Row = styled.div`
     }
     p {
       font-size: 12px;
+    }
+    input {
+      font-size: 18px;
     }
   }
 `;
