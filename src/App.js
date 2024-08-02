@@ -23,7 +23,10 @@ function App() {
         <Container>
           <Routes>
             <Route path="/" element={<Main />} />
-            <Route path="/detail" element={<Detail />} />
+            <Route
+              path={`/detail/date/:year/:month/:date`}
+              element={<Detail />}
+            />
             <Route path="/healingCollection" element={<HealingCollection />} />
             <Route path="/nextdoor" element={<NextDoor />} />
             <Route path="/nextdoordetail" element={<NextdoorDetail />} />
