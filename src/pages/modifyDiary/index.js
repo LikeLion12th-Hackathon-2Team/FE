@@ -20,22 +20,40 @@ import { getCookie } from "../../auth/cookie";
 
 function ModifyDiary() {
   const accessToken = getCookie("accessToken");
-  // const [dailyData, setDailyData] = useState("");
   const navigate = useNavigate();
   const location = useLocation();
-  const { dailyData } = location.state || { dailyData: {} }; // 기본값 설정
+  const locationState = location.state || { dailyData: {} };
+  const { dailyData: initialDailyData } = locationState;
 
+  const [dailyData, setDailyData] = useState(initialDailyData);
   const [inputData, setInputData] = useState({
     diaryTitle: dailyData.diaryTitle || "",
     carbonationIndex: dailyData.sodaIndex || "",
-    diaryText: dailyData.content || "",
+    content: dailyData.content || "",
+    purpose: dailyData.purpose || "",
   });
+
+  useEffect(() => {
+    if (dailyData) {
+      setInputData({
+        diaryTitle: dailyData.diaryTitle || "",
+        carbonationIndex: dailyData.sodaIndex || "",
+        content: dailyData.content || "",
+        purpose: dailyData.purpose || "",
+      });
+    }
+  }, [dailyData]);
+
+  useEffect(() => {
+    console.log("dailyData:", dailyData);
+    console.log("inputData:", inputData);
+  }, [dailyData, inputData]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setInputData((prevData) => ({
       ...prevData,
-      [name]: value,
+      [name]: name === "carbonationIndex" ? Number(value) : value,
     }));
   };
 
@@ -51,10 +69,13 @@ function ModifyDiary() {
         }
       );
       console.log("Diary Modified: ", response.data);
-      // setDailyData(response.data);
+      setDailyData(response.data);
       navigate(-1); // 이전 페이지로 이동
-    } catch (e) {
-      console.error("Error:", e);
+    } catch (error) {
+      console.error(
+        "Error:",
+        error.response ? error.response.data : error.message
+      );
     }
   };
 
@@ -69,14 +90,17 @@ function ModifyDiary() {
         }
       );
       console.log("Diary Deleted: ", response.data);
-      // setDailyData(response.data);
+      console.log("Diary Deleted: ", dailyData.diaryId);
       navigate(-1);
-    } catch (e) {
-      console.error("Error:", e);
+    } catch (error) {
+      console.error(
+        "Error:",
+        error.response ? error.response.data : error.message
+      );
     }
   };
 
-  const todayDate = dailyData
+  const todayDate = dailyData.diaryDate
     ? `${dailyData.diaryDate.split("-")[1]}월 ${
         dailyData.diaryDate.split("-")[2]
       }일`
@@ -85,6 +109,10 @@ function ModifyDiary() {
   const [selectedStamp, setSelectedStamp] = useState(null);
   const handleStampClick = (stampColor) => {
     setSelectedStamp(stampColor);
+    setInputData((prevData) => ({
+      ...prevData,
+      purpose: stampColor,
+    }));
     console.log(stampColor, " 🛑");
   };
 
@@ -136,8 +164,8 @@ function ModifyDiary() {
           <hr />
           <DiaryText>
             <textarea
-              name="diaryText"
-              value={inputData.diaryText}
+              name="content"
+              value={inputData.content}
               onChange={handleChange}
               placeholder="일기를 입력하세요"
               style={{

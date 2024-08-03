@@ -42,6 +42,11 @@ function Detail() {
       console.error("Error:", `${paddedYear}-${paddedMonth}-${paddedDate}`);
     }
   };
+  // const [pinned, setPinned] = useState(false);
+  // const handlePinClick = () => {
+  //   setPinned(!pinned);
+  //   console.log("📍 Pin toggled");
+  // };
 
   useEffect(() => {
     getDailyData();
@@ -68,17 +73,17 @@ function Detail() {
           <Diary key={index}>
             <DiaryHeader>
               <IconDiv>
-                {data.isRepresentative === index ? <PinImgNone /> : <PinImg />}
+                {data.isRepresentative == true ? <PinImg /> : <PinImgNone />}
               </IconDiv>
               <IconDiv>
-                {data.isFavorite === index ? (
-                  <BookmarkImgNone />
-                ) : (
+                {data.isFavorite == true ? (
                   <BookmarkImg />
+                ) : (
+                  <BookmarkImgNone />
                 )}
               </IconDiv>
               <IconDiv>
-                {data.isShared === index ? <PublicSwitch /> : <PrivateSwitch />}
+                {data.isShared == true ? <PublicSwitch /> : <PrivateSwitch />}
               </IconDiv>
             </DiaryHeader>
             <Card dailyData={data} />
