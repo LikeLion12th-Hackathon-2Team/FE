@@ -7,6 +7,7 @@ import {
   Modify,
   CommentDelete,
   CommentModify,
+  CommentLogo,
 } from "../../components/icons/cardIcons";
 
 function Card({ dailyData }) {
@@ -90,36 +91,41 @@ function Card({ dailyData }) {
         <>
           <hr />
           <CommentsSection>
-            <div>
+            <CommentWrapper>
               <CommentWrite
                 value={newComment}
                 onChange={handleNewCommentChange}
                 placeholder="댓글을 입력해주세요"
               />
               <Btn onClick={handleAddComment}>작성</Btn>
-            </div>
+            </CommentWrapper>
             {comments.map((comment, index) => (
               <Comment key={index}>
                 {editableCommentIndex === index ? (
-                  <div>
+                  <CommentWrapper>
                     <CommentWrite
                       value={editedCommentText}
                       onChange={handleCommentChange}
                       placeholder="수정할 댓글을 입력하세요"
                     />
                     <Btn onClick={() => handleCommentSave(index)}>저장</Btn>
-                  </div>
+                  </CommentWrapper>
                 ) : (
                   <>
-                    <p>{comment}</p>
-                    <div>
-                      <CommentDelete
-                        onClick={() => handleCommentDelete(index)}
-                      />
-                      <CommentModify
-                        onClick={() => handleCommentModifyClick(index, comment)}
-                      />
-                    </div>
+                    <CommentWrapper>
+                      <CommentMenu>
+                        <div>
+                          <CommentLogo />
+                          <span>l_yerimi</span>
+                        </div>
+                        <p>{comment}</p>
+                        <div>
+                          <CommentBtn>수정하기</CommentBtn>
+                          <CommentBtn>| 삭제하기</CommentBtn>
+                          <CommentBtn>| 채택하기</CommentBtn>
+                        </div>
+                      </CommentMenu>
+                    </CommentWrapper>
                   </>
                 )}
               </Comment>
@@ -235,18 +241,23 @@ const CommentsSection = styled.div`
   justify-content: center;
   align-items: center;
   margin-top: 10px;
-  div {
-    display: flex;
-    padding: 15px;
-    border: 1px solid ${({ theme }) => theme.card.btnColor};
-    border-radius: 10px;
-    width: 100%;
-    justify-content: space-between;
-  }
   @media (max-width: ${({ theme }) => theme.mobile}) {
-    div {
-      padding: 5px;
-    }
+    // div {
+    //   padding: 5px;
+    // }
+  }
+`;
+
+const CommentWrapper = styled.div`
+  display: flex;
+  padding: 10px;
+  border: 1px solid ${({ theme }) => theme.card.btnColor};
+  border-radius: 10px;
+  width: 100%;
+  justify-content: row;
+  align-items: center;
+  @media (max-width: ${({ theme }) => theme.mobile}) {
+    padding: 5px;
   }
 `;
 
@@ -279,23 +290,69 @@ const Btn = styled.button`
 `;
 
 const Comment = styled.div`
-  flex-direction: row;
+  display: flex;
+  align-items: center;
   margin-top: 10px;
   font-family: "Ownglyph_meetme-Rg";
   font-size: 20px;
   color: black;
   width: 100%;
-  align-items: center;
-  div {
-    display: flex;
-    justify-content: space-around;
-    padding: 5px;
-    border: none;
-    width: 100px;
-    align-items: center;
-  }
+
   @media (max-width: ${({ theme }) => theme.mobile}) {
     font-size: 10px;
-    width: 40px;
+    // width: 40px;
+  }
+`;
+
+const CommentMenu = styled.div`
+  margin-left: 10px;
+  font-size: 20px;
+  display: flex;
+  flex-direction: column;
+  border: none;
+  span {
+    font-size: 15px;
+    // margin: 10px 5px 10px 5px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin-left: 8px;
+    // background-color: gray;
+  }
+  p {
+    font-size: 20px;
+    margin: 5px;
+    // color: #848484;
+  }
+  div {
+    display: flex;
+    align-items: center;
+
+    // justify-content: center;
+  }
+  @media (max-width: ${({ theme }) => theme.mobile}) {
+    span {
+      font-size: 15px;
+      margin: 10px 5px 10px 5px;
+      padding-top: 5px;
+      padding-bottom: 5px;
+    }
+  }
+`;
+const CommentBtn = styled.button`
+  border: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: "Ownglyph_meetme-Rg";
+  font-size: 15px;
+  width: auto;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  color: #848484;
+  @media (max-width: ${({ theme }) => theme.mobile}) {
+    font-size: 15px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    width: auto;
   }
 `;
