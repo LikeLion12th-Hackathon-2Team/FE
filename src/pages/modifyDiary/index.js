@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled, { css, keyframes } from "styled-components";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import {
   PinImg,
   PinImgNone,
@@ -15,64 +15,105 @@ import {
 } from "../../components/icons/cardIcons";
 import Header from "../../components/common/Header";
 import Menubar from "../../components/common/Menubar";
+import instance from "../../api/axios";
+import { getCookie } from "../../auth/cookie";
 
 function ModifyDiary() {
+  const accessToken = getCookie("accessToken");
+  const navigate = useNavigate();
   const location = useLocation();
-  const { dailyData } = location.state || { dailyData: {} }; // 기본값 설정
+  const locationState = location.state || { dailyData: {} };
+  const { dailyData: initialDailyData } = locationState;
+
+  const [dailyData, setDailyData] = useState(initialDailyData);
   const [inputData, setInputData] = useState({
-    title: dailyData.title || "",
-    carbonationIndex: dailyData.percent || "",
-    diaryText: dailyData.content || "",
+    diaryTitle: dailyData.diaryTitle || "",
+    carbonationIndex: dailyData.sodaIndex || "",
+    content: dailyData.content || "",
+    purpose: dailyData.purpose || "",
   });
+
+  useEffect(() => {
+    if (dailyData) {
+      setInputData({
+        diaryTitle: dailyData.diaryTitle || "",
+        carbonationIndex: dailyData.sodaIndex || "",
+        content: dailyData.content || "",
+        purpose: dailyData.purpose || "",
+      });
+    }
+  }, [dailyData]);
+
+  useEffect(() => {
+    console.log("dailyData:", dailyData);
+    console.log("inputData:", inputData);
+  }, [dailyData, inputData]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setInputData((prevData) => ({
       ...prevData,
-      [name]: value,
+      [name]: name === "carbonationIndex" ? Number(value) : value,
     }));
   };
 
-  const todayDate = dailyData.date || "날짜 없음";
-
-  const [pinned, setPinned] = useState(false);
-  const handlePinClick = () => {
-    setPinned(!pinned);
-    console.log("📍 Pin toggled");
+  const handleDailyModifySubmit = async () => {
+    try {
+      const response = await instance.put(
+        `/api/diary/${dailyData.diaryId}`,
+        inputData,
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
+      console.log("Diary Modified: ", response.data);
+      setDailyData(response.data);
+      navigate(-1); // 이전 페이지로 이동
+    } catch (error) {
+      console.error(
+        "Error:",
+        error.response ? error.response.data : error.message
+      );
+    }
   };
 
-  const [bookmarkIndex, setBookmarkIndex] = useState([]);
-  const handleBookmarkClick = (index) => {
-    setBookmarkIndex((prev) =>
-      prev.includes(index) ? prev.filter((i) => i !== index) : [...prev, index]
-    );
-    console.log(index, " 📚");
+  const handleDailyDeleteSubmit = async () => {
+    try {
+      const response = await instance.delete(
+        `/api/diary/${dailyData.diaryId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
+      console.log("Diary Deleted: ", response.data);
+      console.log("Diary Deleted: ", dailyData.diaryId);
+      navigate(-1);
+    } catch (error) {
+      console.error(
+        "Error:",
+        error.response ? error.response.data : error.message
+      );
+    }
   };
 
-  const [switchIndex, setSwitchIndex] = useState([]);
-  const handleSwitchClick = (index) => {
-    setSwitchIndex((prev) =>
-      prev.includes(index) ? prev.filter((i) => i !== index) : [...prev, index]
-    );
-    console.log(index, "🍀");
-  };
+  const todayDate = dailyData.diaryDate
+    ? `${dailyData.diaryDate.split("-")[1]}월 ${
+        dailyData.diaryDate.split("-")[2]
+      }일`
+    : "날짜 없음";
 
   const [selectedStamp, setSelectedStamp] = useState(null);
   const handleStampClick = (stampColor) => {
     setSelectedStamp(stampColor);
+    setInputData((prevData) => ({
+      ...prevData,
+      purpose: stampColor,
+    }));
     console.log(stampColor, " 🛑");
-  };
-
-  const handleSubmit = () => {
-    const diaryData = {
-      ...inputData,
-      pinned,
-      bookmarked: bookmarkIndex,
-      switched: switchIndex,
-      stamp: selectedStamp,
-    };
-    console.log("Diary Submitted: ", diaryData);
-    // 데이터 전송 로직 추가
   };
 
   const stamps = [
@@ -89,33 +130,20 @@ function ModifyDiary() {
         <Title>{todayDate}의 소다</Title>
         <Diary>
           <DiaryHeader>
-            <IconDiv
-              color={pinned ? "#C9E8FF" : "#C9E8FF"}
-              onClick={handlePinClick}
-            >
-              {pinned ? <PinImg /> : <PinImgNone />}
+            <IconDiv>
+              {dailyData.isRepresentative ? <PinImg /> : <PinImgNone />}
             </IconDiv>
-            <IconDiv
-              color={bookmarkIndex.includes(0) ? "#C9E8FF" : "#C9E8FF"}
-              onClick={() => handleBookmarkClick(0)}
-            >
-              {bookmarkIndex.includes(0) ? (
-                <BookmarkImg />
-              ) : (
-                <BookmarkImgNone />
-              )}
+            <IconDiv>
+              {dailyData.isFavorite ? <BookmarkImgNone /> : <BookmarkImg />}
             </IconDiv>
-            <IconDiv
-              color={switchIndex.includes(0) ? "#C9E8FF" : "#C9E8FF"}
-              onClick={() => handleSwitchClick(0)}
-            >
-              {switchIndex.includes(0) ? <PrivateSwitch /> : <PublicSwitch />}
+            <IconDiv>
+              {dailyData.isShared ? <PrivateSwitch /> : <PublicSwitch />}
             </IconDiv>
           </DiaryHeader>
           <input
             type="text"
-            name="title"
-            value={inputData.title}
+            name="diaryTitle"
+            value={inputData.diaryTitle}
             onChange={handleChange}
             placeholder="제목을 입력하세요"
           />
@@ -136,8 +164,8 @@ function ModifyDiary() {
           <hr />
           <DiaryText>
             <textarea
-              name="diaryText"
-              value={inputData.diaryText}
+              name="content"
+              value={inputData.content}
               onChange={handleChange}
               placeholder="일기를 입력하세요"
               style={{
@@ -145,6 +173,7 @@ function ModifyDiary() {
                 height: "100px",
                 padding: "5px",
                 resize: "none",
+                fontFamily: "Ownglyph_meetme-Rg",
               }}
             ></textarea>
           </DiaryText>
@@ -169,8 +198,8 @@ function ModifyDiary() {
           </DiaryText>
           <hr />
           <ButtonContainer>
-            <Btn onClick={handleSubmit}>삭제하기</Btn>
-            <Btn onClick={handleSubmit}>수정하기</Btn>
+            <Btn onClick={handleDailyDeleteSubmit}>삭제하기</Btn>
+            <Btn onClick={handleDailyModifySubmit}>수정하기</Btn>
           </ButtonContainer>
         </Diary>
       </Wrapper>

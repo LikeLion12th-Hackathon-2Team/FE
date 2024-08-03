@@ -4,6 +4,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import Card from "../../components/card/card";
 import Header from "../../components/common/Header";
 import Menubar from "../../components/common/Menubar";
+import Loading from "../../components/common/Loading";
 import {
   PinImg,
   PinImgNone,
@@ -41,13 +42,22 @@ function Detail() {
       console.error("Error:", `${paddedYear}-${paddedMonth}-${paddedDate}`);
     }
   };
+  // const [pinned, setPinned] = useState(false);
+  // const handlePinClick = () => {
+  //   setPinned(!pinned);
+  //   console.log("📍 Pin toggled");
+  // };
 
   useEffect(() => {
     getDailyData();
   }, [year, month, date]);
 
   if (!dailyData) {
-    return <div>Loading...</div>;
+    return (
+      <>
+        <Loading />
+      </>
+    );
   }
 
   const todayDate = dailyData.length > 0 ? dailyData[0].date : "날짜 없음";
@@ -63,17 +73,17 @@ function Detail() {
           <Diary key={index}>
             <DiaryHeader>
               <IconDiv>
-                {data.isRepresentative === index ? <PinImgNone /> : <PinImg />}
+                {data.isRepresentative == true ? <PinImg /> : <PinImgNone />}
               </IconDiv>
               <IconDiv>
-                {data.isFavorite === index ? (
-                  <BookmarkImgNone />
-                ) : (
+                {data.isFavorite == true ? (
                   <BookmarkImg />
+                ) : (
+                  <BookmarkImgNone />
                 )}
               </IconDiv>
               <IconDiv>
-                {data.isShared === index ? <PublicSwitch /> : <PrivateSwitch />}
+                {data.isShared == true ? <PublicSwitch /> : <PrivateSwitch />}
               </IconDiv>
             </DiaryHeader>
             <Card dailyData={data} />

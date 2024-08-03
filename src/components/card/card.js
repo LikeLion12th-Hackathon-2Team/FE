@@ -2,10 +2,13 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import {
-  Stamp,
   More,
   Modify,
   CommentLogo,
+  Stampred,
+  Stampblue,
+  Stampgreen,
+  Stampyellow,
 } from "../../components/icons/cardIcons";
 
 function Card({ dailyData }) {
@@ -55,13 +58,28 @@ function Card({ dailyData }) {
     setComments(updatedComments);
   };
 
+  const stamps = [
+    { color: "red", Component: Stampred },
+    { color: "yellow", Component: Stampyellow },
+    { color: "green", Component: Stampgreen },
+    { color: "blue", Component: Stampblue },
+  ];
+
+  const StampWrapper = ({ purpose }) => {
+    const stamp = stamps.find((stamp) => stamp.color === purpose);
+    if (!stamp) {
+      return null;
+    }
+    const StampComponent = stamp.Component;
+    return <StampComponent />;
+  };
   return (
     <Diary>
       <p style={{ marginTop: "10px" }}>{dailyData.diaryTitle}</p>
       <hr style={{ height: "2px" }} />
       <Row>
         <p>오늘의 하루 탄산지수: {dailyData.sodaIndex}%</p>
-        <p>{dailyData.time}</p>
+        <p>{dailyData.updatedAt.split("T")[1]}</p>
       </Row>
       <hr />
       <DiaryText>
@@ -70,7 +88,7 @@ function Card({ dailyData }) {
       <hr />
       <Row>
         <span>당신을 위한 소다</span>
-        <Stamp />
+        <StampWrapper purpose={dailyData.purpose} />
       </Row>
       <hr />
       <DiaryText>
