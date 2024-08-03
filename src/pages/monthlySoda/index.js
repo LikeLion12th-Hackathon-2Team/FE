@@ -128,11 +128,9 @@ const Wrapper = styled.div`
     background :linear-gradient(${({theme}) => theme.backgroundColors.mainColor} 25%, white 100%);
     display: flex;
     justify-content: center;
-    //height: 100vh;
 `
 
 const Container = styled.div`
-    //padding: 20px;
     text-align: center;
     span{
         font-size: 45px;
@@ -217,10 +215,8 @@ const CalendarBox = styled.div`
         }
     }
     
-  
     .react-calendar__tile {
         border-radius: 20px;
-        
     }
     .react-calendar__tile--now {
         background:none;
