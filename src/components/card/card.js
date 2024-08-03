@@ -61,7 +61,7 @@ function Card({ dailyData }) {
       <hr style={{ height: "2px" }} />
       <Row>
         <p>오늘의 하루 탄산지수: {dailyData.sodaIndex}%</p>
-        <p>{dailyData.time}</p>
+        <p>{dailyData.updatedAt.split("T")[1]}</p>
       </Row>
       <hr />
       <DiaryText>

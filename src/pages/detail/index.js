@@ -4,6 +4,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import Card from "../../components/card/card";
 import Header from "../../components/common/Header";
 import Menubar from "../../components/common/Menubar";
+import Loading from "../../components/common/Loading";
 import {
   PinImg,
   PinImgNone,
@@ -47,7 +48,11 @@ function Detail() {
   }, [year, month, date]);
 
   if (!dailyData) {
-    return <div>Loading...</div>;
+    return (
+      <>
+        <Loading />
+      </>
+    );
   }
 
   const todayDate = dailyData.length > 0 ? dailyData[0].date : "날짜 없음";
