@@ -56,7 +56,11 @@ function MonthlySoda() {
                 }
             }
         }
-
+        return (
+            <IconBox className="current-month">
+                <EmptySoda/>
+            </IconBox>
+        )
     };
 
 
