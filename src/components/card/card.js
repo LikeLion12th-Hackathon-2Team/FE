@@ -5,8 +5,6 @@ import {
   Stamp,
   More,
   Modify,
-  CommentDelete,
-  CommentModify,
   CommentLogo,
 } from "../../components/icons/cardIcons";
 
@@ -59,10 +57,10 @@ function Card({ dailyData }) {
 
   return (
     <Diary>
-      <p style={{ marginTop: "10px" }}>{dailyData.title}</p>
+      <p style={{ marginTop: "10px" }}>{dailyData.diaryTitle}</p>
       <hr style={{ height: "2px" }} />
       <Row>
-        <p>오늘의 하루 탄산지수: {dailyData.percent}</p>
+        <p>오늘의 하루 탄산지수: {dailyData.sodaIndex}%</p>
         <p>{dailyData.time}</p>
       </Row>
       <hr />
@@ -76,7 +74,7 @@ function Card({ dailyData }) {
       </Row>
       <hr />
       <DiaryText>
-        <p>{dailyData.advice}</p>
+        <p>{dailyData.gptComment}</p>
       </DiaryText>
       <hr />
       <Row>
