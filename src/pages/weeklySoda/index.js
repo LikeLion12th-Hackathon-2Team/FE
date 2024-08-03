@@ -14,16 +14,14 @@ import Menubar from "../../components/common/Menubar";
 import {getCookie} from "../../auth/cookie";
 import instance from "../../api/axios";
 
-const formatDate = (year, month) => {
-  const paddedMonth = month.toString().padStart(2, '0');
-  return `${year}-${paddedMonth}`;
-};
+
 function WeeklySoda() {
   const { year, month } = useParams();
   const [date, setDate] = useState(new Date());
   const navigate = useNavigate();
   const accessToken = getCookie('accessToken')
   const [data, setData] = useState([])
+
   const testData ={
     1: { color: 'red', soda: 20 },
     2: { color: 'yellow', soda: 40 },
@@ -100,6 +98,11 @@ function WeeklySoda() {
     }
   };
 
+  const formatDate = (year, month) => {
+    const paddedMonth = month.toString().padStart(2, '0');
+    return `${year}-${paddedMonth}`;
+  };
+
   const getData = async ()=>{
     try{
       const formattedDate = formatDate(year, month)
@@ -108,31 +111,26 @@ function WeeklySoda() {
           Authorization:` Bearer ${accessToken}`
         }
       })
+      console.log(year, month);
       console.log('response:', response.data);
       setData(response.data)
     }catch (e){
       console.log('error:', e);
     }
   }
+
+  const handleYearMonthChange = ({ activeStartDate }) => {
+    const newYear = activeStartDate.getFullYear();
+    const newMonth = activeStartDate.getMonth() + 1;
+    navigate(`/calender/date/${newYear}/${newMonth}`);
+  };
+
   useEffect(() => {
-    // if (year && month) {
-    //   setDate(new Date(year, month - 1)); // month is 0-indexed
-    // }
     if (year && month) {
-      const initialDate = new Date(year, month - 1);
-      setDate(initialDate);
-      setActiveDate(initialDate); // Set initial active date
+      setDate(new Date(year, month - 1)); // month is 0-indexed
     }
     getData()
   }, [year, month]);
-
-  const [activeDate, setActiveDate] = useState(new Date());
-
-  useEffect(() => {
-    const activeYear = activeDate.getFullYear();
-    const activeMonth = activeDate.getMonth() + 1; // months are 0-indexed
-    getData(activeYear, activeMonth);
-  }, [activeDate]);
 
   return (
     <>
@@ -144,11 +142,10 @@ function WeeklySoda() {
               onChange={onChange}
               value={date}
               view="month"
-              // tileDisabled={({ view }) => view === 'month'} // 연간 보기에서 월 선택 비활성화
               tileContent={tileContent}
               formatDay={formatDay}
               onClickDay={handleDateClick}
-
+              onActiveStartDateChange={handleYearMonthChange}
             />
           </CalendarBox>
         </Container>
@@ -164,12 +161,17 @@ const Wrapper = styled.div`
   padding-top: 60px;
   padding-bottom: 80px;
   background: white;
+  height: 100vh;
   display: flex;
   justify-content: center;
 `;
 
 const Container = styled.div`
   text-align: center;
+  overflow-y: scroll;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  
   span {
     font-size: 45px;
     color: ${({ theme }) => theme.colors.white};
@@ -184,15 +186,13 @@ const Container = styled.div`
     }
   }
 `;
+
 const CalendarBox = styled.div`
   margin: auto;
-  height: 100vh;
-  overflow-y: scroll;
-  -ms-overflow-style: none;
-  scrollbar-width: none;
   width: ${({ theme }) => theme.tablet};
   @media (max-width: ${({ theme }) => theme.mobile}) {
     width: 340px;
+    
   }
 
   //전체 틀
@@ -200,7 +200,7 @@ const CalendarBox = styled.div`
     background: none;
     border: none;
     width: 100%;
-    line-height: 40px;
+    line-height: 60px;
     font-family: "LOTTERIACHAB";
     &:hover {
       background: none;
@@ -209,6 +209,7 @@ const CalendarBox = styled.div`
       background: none;
     }
   }
+ 
 
   .react-calendar__navigation {
     //width: 100%;
