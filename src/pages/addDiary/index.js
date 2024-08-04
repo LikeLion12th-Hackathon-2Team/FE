@@ -16,8 +16,10 @@ import Header from "../../components/common/Header";
 import Menubar from "../../components/common/Menubar";
 import instance from "../../api/axios";
 import { getCookie } from "../../auth/cookie";
+import {useNavigate} from "react-router-dom";
 
 function AddDiary() {
+  const navigate = useNavigate()
   const [inputData, setInputData] = useState({
     title: "",
     carbonationIndex: "",
@@ -78,6 +80,7 @@ function AddDiary() {
         headers: { Authorization: `Bearer ${getCookie("accessToken")}` },
       });
       console.log("Diary Submitted: ", response.data);
+      navigate('/soda')
     } catch (error) {
       console.error("Error submitting diary: ", error);
     }
