@@ -27,20 +27,20 @@ function MonthlySoda() {
                             <FullSoda />
                         </IconBox>
                     );
-                } else if (value === 75) {
+                } else if (50 < value && value <= 75) {
                     return (
                         <IconBox className="current-month">
                             <Soda_75per/>
                         </IconBox>
                     );
-                } else if (value === 50) {
+                } else if (25 < value && value <= 50) {
                     return (
                         <IconBox className="current-month">
                             <HalfSoda/>
                         </IconBox>
                     );
                 }
-                else if (value === 25) {
+                else if (value > 0 && value <= 25) {
                     return (
                         <IconBox className="current-month">
                             <Soda_25per/>
