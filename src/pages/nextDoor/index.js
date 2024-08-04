@@ -42,8 +42,8 @@ function NextDoor() {
             key={index}
             onClick={() => navigate("/nextdoordetail", { state: { data } })}
           >
-            <p>{dailyData.diaryTitle}</p>
-            <p style={{ color: "#FC8D8D" }}>{dailyData.diaryDate}</p>
+            <p>{data.diaryTitle}</p>
+            <p style={{ color: "#FC8D8D" }}>{data.diaryDate}</p>
           </TitleCard>
         ))}
       </Wrapper>

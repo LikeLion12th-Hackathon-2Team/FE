@@ -17,25 +17,11 @@ function NextdoorDetail() {
   const navigate = useNavigate();
   const { data } = location.state;
 
-  const [bookmarkIndex, setBookmarkIndex] = useState([]);
-  const handleBookmarkClick = (index) => {
-    setBookmarkIndex((prev) =>
-      prev.includes(index) ? prev.filter((i) => i !== index) : [...prev, index]
-    );
-    console.log(index, " 📚");
-  };
-
-  const [switchIndex, setSwitchIndex] = useState([]);
-  const handleSwitchClick = (index) => {
-    setSwitchIndex((prev) =>
-      prev.includes(index) ? prev.filter((i) => i !== index) : [...prev, index]
-    );
-    console.log(index, "🍀");
-  };
-
   const handleClosedClick = () => {
     navigate("/nextdoor");
   };
+
+  console.log(location.state);
 
   return (
     <>
@@ -47,21 +33,11 @@ function NextdoorDetail() {
             <IconDiv onClick={handleClosedClick}>
               <Closed />
             </IconDiv>
-            <IconDiv
-              color={bookmarkIndex.includes(0) ? "#C9E8FF" : "#C9E8FF"}
-              onClick={() => handleBookmarkClick(0)}
-            >
-              {bookmarkIndex.includes(0) ? (
-                <BookmarkImg />
-              ) : (
-                <BookmarkImgNone />
-              )}
+            <IconDiv>
+              {data.isFavorite == true ? <BookmarkImg /> : <BookmarkImgNone />}
             </IconDiv>
-            <IconDiv
-              color={switchIndex.includes(0) ? "#C9E8FF" : "#C9E8FF"}
-              onClick={() => handleSwitchClick(0)}
-            >
-              {switchIndex.includes(0) ? <PrivateSwitch /> : <PublicSwitch />}
+            <IconDiv>
+              {data.isShared == true ? <PublicSwitch /> : <PrivateSwitch />}
             </IconDiv>
           </DiaryHeader>
           <Card dailyData={data} />
