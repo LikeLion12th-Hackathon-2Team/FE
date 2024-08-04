@@ -3,16 +3,39 @@ import {Circle, DonateIcon, InformIcon} from "../icons/mypageIcons";
 import InformThanks from "../modal/InformThanks";
 import {useState} from "react";
 import {Link} from "react-router-dom";
+import instance from "../../api/axios";
 
-function MyPoint({onChangeInformation, point, donatePoint}) {
+function MyPoint({onChangeInformation, point, donatePoint, accessToken,getPointDate}) {
     const [isThanksModalOpen, setIsThanksModalOpen] =useState(false)
-    const handleThanksModal = ()=>{
-        if(point && point>=100000){
-            setIsThanksModalOpen(!isThanksModalOpen)
-        }
-    }
+    // const handleThanksModal = ()=>{
+    //     if(point && point>=100000){
+    //         setIsThanksModalOpen(!isThanksModalOpen)
+    //     }
+    // }
     const handleOpenInformation =()=>{
         onChangeInformation()
+    }
+
+    const postDonatePoint = async ()=>{
+        if(point && point>=100000){
+            try{
+                const response = await instance.post('/api/donate-history/save',{
+                    point:donatePoint,
+                    location: '초록우산'
+                },{
+                    headers:{
+                        Authorization:` Bearer ${accessToken}`
+                    }
+                })
+                console.log('백엔드 응답:', response.data);
+                setIsThanksModalOpen(!isThanksModalOpen)
+                getPointDate()
+
+            }catch (e){
+                console.log('에러발생:', e);
+            }
+        }
+
     }
 
     return (
@@ -30,7 +53,7 @@ function MyPoint({onChangeInformation, point, donatePoint}) {
                         <Circle/>
                     </ImgWrap>
                 </CircleBox>
-                <InformPointBox onClick={handleThanksModal}>
+                <InformPointBox onClick={postDonatePoint}>
                     {point && point >= 10000 ? (
                         <>
                             <IconBox>
@@ -49,7 +72,7 @@ function MyPoint({onChangeInformation, point, donatePoint}) {
                         </h2>
                     </AnotherDonation>
                 </Link>
-                {isThanksModalOpen ? <InformThanks onChange={handleThanksModal}/>: null}
+                {isThanksModalOpen ? <InformThanks onChange={handleOpenInformation}/>: null}
             </Wrapper>
         </>
 
