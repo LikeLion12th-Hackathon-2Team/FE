@@ -258,7 +258,8 @@ const CalendarBox = styled.div`
   .react-calendar__tile--now {
     background: none;
     border-radius: 20px;
-    background: ${({ theme }) => theme.backgroundColors.borderColor};
+    border: 2px solid  ${({ theme }) => theme.backgroundColors.borderColor};
+    //background: ${({ theme }) => theme.backgroundColors.borderColor};
     //오늘날짜 글씨 바꾸기
     abbr {
     }

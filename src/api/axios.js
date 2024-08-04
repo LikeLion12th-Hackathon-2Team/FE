@@ -5,6 +5,7 @@ const instance = axios.create({
   baseURL: `https://hyunwoo9930.store`,
 });
 
+
 instance.interceptors.response.use(
     response => response,
     async (error) => {
