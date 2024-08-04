@@ -52,7 +52,7 @@ function Mypage() {
                             </>
                         ):(
                         <>
-                            <MyPoint onChangeInformation={handleOpenDonation} point={pointData.point} donationPoint={pointData.donationPoint} />
+                            <MyPoint onChangeInformation={handleOpenDonation} point={pointData.point} donatePoint={pointData.donatePoint} />
                             <SodaCollection accessToken={accessToken}/>
                         </>
                         )}
