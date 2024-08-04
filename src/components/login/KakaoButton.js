@@ -16,7 +16,9 @@ function KakaoButton() {
     return (
         <>
             <Button onClick={handleLogin2}>
-                <KakaoLogo style={{ width: '24px', height: '24px' }} />
+                <KakaoLogoWrapper>
+                    <KakaoLogo width={32} height={32} />
+                </KakaoLogoWrapper> 
                 카카오톡으로 로그인
             </Button>
         </>
@@ -28,7 +30,8 @@ export default KakaoButton;
 
 
 const Button = styled.button`
-  width: 70%;
+  width: 275px;
+  height: 55px;
   padding: 17px;
   margin-top: 3px;
   background-color: #FEE500;
@@ -39,9 +42,15 @@ const Button = styled.button`
   display: flex;
   align-items: center; 
   justify-content: center; 
-  gap: 8px; 
+  gap: 4px; 
 
   &:hover {
     background-color: #ECD800;
   }
+`;
+
+const KakaoLogoWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;

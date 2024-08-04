@@ -11,7 +11,6 @@ import instance from "../../api/axios";
 
 function Mypage() {
     const [isOpenInformation, setIsOpenInformation] =useState(false);
-    // const [accessToken, setAccessToken] = useState(getCookie('accessToken'));
     const [pointData, setPointData] =useState([])
     const accessToken = getCookie('accessToken')
     const handleOpenDonation = ()=>{
@@ -26,8 +25,6 @@ function Mypage() {
             })
             console.log('백엔드 응답:', response.data);
             setPointData(response.data)
-            
-
         }catch (e){
             console.log('에러발생:', e);
         }
@@ -52,7 +49,12 @@ function Mypage() {
                             </>
                         ):(
                         <>
-                            <MyPoint onChangeInformation={handleOpenDonation} point={pointData.point} donatePoint={pointData.donatePoint} />
+                            <MyPoint onChangeInformation={handleOpenDonation}
+                                     point={pointData.point}
+                                     donatePoint={pointData.donatePoint}
+                                     accessToken={accessToken}
+                                     getPointDate={getPointDate}
+                            />
                             <SodaCollection accessToken={accessToken}/>
                         </>
                         )}

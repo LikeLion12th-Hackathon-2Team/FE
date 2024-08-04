@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react';
-import {useLocation, useNavigate} from 'react-router-dom';
 import axios from 'axios';
-import styled from "styled-components";
-import Loading from "../../common/Loading";
+import { useLocation, useNavigate } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import Loading from '../../common/Loading';
+import instance from '../../../api/axios';
 
 function NaverLogin() {
     const location = useLocation();
@@ -11,30 +11,27 @@ function NaverLogin() {
     const code = searchParams.get('code');
     const state = searchParams.get('state');
 
+    const postData = async () => {
+        if (code && state) {
+            try {
+                const response = await instance.post('/api/auth/naver', {
+                    authorizationCode: code,
+                    state: state,
+                });
+                console.log('백엔드 응답:', response.data);
+                navigate('/soda');
+            } catch (error) {
+                // 자바스크립트에서는 error 객체의 속성 접근을 적절히 처리
+                console.log('에러 발생:', error.response ? error.response.data : error.message);
+            }
+        }
+    };
 
     useEffect(() => {
-        if (code && state) {
-            // 백엔드로 code와 state를 전달
-            axios.post('http://54.180.217.161:8081/swagger-ui/index.html#/api/auth/naver', {
-                "authorizationCode": code,
-                "state": state,
-            })
-                .then(response => {
-                    console.log('백엔드 응답:', response.data);
-                    // 로그인 후 처리
-                    navigate('/soda');
-                })
-                .catch(error => {
-                    console.error('에러 발생:', error);
-                });
-        }
-    }, [code, state,navigate]);
+        postData();
+    }, [code, state, navigate]);
 
-    return (
-
-            <Loading/>
-
-    );
+    return <Loading />;
 }
 
 export default NaverLogin;
