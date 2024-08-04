@@ -19,7 +19,7 @@ import { getCookie } from "../../auth/cookie";
 function Detail() {
   const { year, month, date } = useParams();
   const accessToken = getCookie("accessToken");
-  const [dailyData, setDailyData] = useState(null);
+  const [dailyData, setDailyData] = useState("");
 
   const getDailyData = async () => {
     // year를 4자리로, month를 2자리로 date를 2자리로 채움
