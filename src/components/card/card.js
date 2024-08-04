@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import {
   More,
   Modify,
@@ -14,13 +14,11 @@ import instance from "../../api/axios";
 import { getCookie } from "../../auth/cookie";
 
 function Card({ dailyData, CommentWriteData }) {
-  // const [inputComment,setInputComment] = useState([]);
-
   const [cardColor, setCardColor] = useState("#96D3FF");
   const [isShowComments, setIsShowComments] = useState(false);
   const [editableCommentIndex, setEditableCommentIndex] = useState(null);
   const [editedCommentText, setEditedCommentText] = useState("");
-  const [comments, setComments] = useState(dailyData.comments || []);
+  const [comments, setComments] = useState(dailyData.commentResponses || []);
   const [newComment, setNewComment] = useState("");
 
   const handleMoreClick = () => {
@@ -28,39 +26,49 @@ function Card({ dailyData, CommentWriteData }) {
     setCardColor(cardColor === "#96D3FF" ? "#8A8A8A" : "#96D3FF");
   };
 
-  const handleCommentModifyClick = (index, text) => {
-    setEditableCommentIndex(index);
-    setEditedCommentText(text);
-  };
-
-  const handleCommentSave = (index) => {
-    const updatedComments = comments.map((comment, i) =>
-      i === index ? editedCommentText : comment
-    );
-    setComments(updatedComments);
-    setEditableCommentIndex(null);
-    setEditedCommentText("");
-  };
-
-  const handleCommentChange = (e) => {
-    setEditedCommentText(e.target.value);
-  };
-
   const handleNewCommentChange = (e) => {
-    setNewComment(e.target.value);
+    const value = e.target.value;
+    setNewComment(value);
+    console.log("Input value:", value);
+    console.log("newComment", newComment);
   };
+  useEffect(() => {
+    // handleAddComment();
+    console.log("newComment updated:", newComment);
+  }, [newComment]);
 
-  const handleAddComment = () => {
+  const handleAddComment = async () => {
+    console.log("handleAddComment called");
+    console.log("Current newComment value:", newComment);
     if (newComment.trim()) {
-      setComments([...comments, newComment]);
-      setNewComment("");
+      const commentData = {
+        content: newComment,
+        diaryId: dailyData.diaryId,
+      };
+
+      console.log("Sending comment: ", commentData); // 콘솔 로그 추가
+
+      try {
+        const response = await instance.post(`/api/comment`, commentData, {
+          headers: { Authorization: `Bearer ${getCookie("accessToken")}` },
+        });
+        console.log("Comment commentData: ", commentData);
+        console.log("Comment Submitted: ", response.data);
+
+        setComments([...comments, response.data]);
+        setNewComment("");
+      } catch (error) {
+        console.error("Error submitting comment: ", error);
+      }
+    } else {
+      console.log("Comment is empty!"); // 빈 댓글일 경우 로그 추가
     }
   };
 
-  const handleCommentDelete = (index) => {
-    const updatedComments = comments.filter((_, i) => i !== index);
-    setComments(updatedComments);
-  };
+  // const handleCommentDelete = (index) => {
+  //   const updatedComments = comments.filter((_, i) => i !== index);
+  //   setComments(updatedComments);
+  // };
 
   const stamps = [
     { color: "red", Component: Stampred },
@@ -118,7 +126,9 @@ function Card({ dailyData, CommentWriteData }) {
                   value={newComment}
                   onChange={handleNewCommentChange}
                   placeholder="댓글을 입력해주세요"
+                  style={{ fontFamily: "Ownglyph_meetme-Rg" }}
                 />
+
                 <Btn onClick={handleAddComment}>작성</Btn>
               </CommentWrapper>
             )}
@@ -128,10 +138,10 @@ function Card({ dailyData, CommentWriteData }) {
                   <CommentWrapper>
                     <CommentWrite
                       value={editedCommentText}
-                      onChange={handleCommentChange}
+                      // onChange={handleCommentChange}
                       placeholder="수정할 댓글을 입력하세요"
                     />
-                    <Btn onClick={() => handleCommentSave(index)}>저장</Btn>
+                    {/* <Btn onClick={() => handleCommentSave(index)}>저장</Btn> */}
                   </CommentWrapper>
                 ) : (
                   <>
@@ -139,19 +149,19 @@ function Card({ dailyData, CommentWriteData }) {
                       <CommentMenu>
                         <div>
                           <CommentLogo />
-                          <span>l_yerimi</span>
+                          <span key={index}>{comment.nickname}</span>
                         </div>
-                        <p>{comment}</p>
+                        <p key={index}>{comment.content}</p>
                         <div>
                           <CommentBtn
-                            onClick={() =>
-                              handleCommentModifyClick(index, comment)
-                            }
+                          // onClick={() =>
+                          //   handleCommentModifyClick(index, comment.content)
+                          // }
                           >
                             수정하기
                           </CommentBtn>
                           <CommentBtn
-                            onClick={() => handleCommentDelete(index)}
+                          // onClick={() => handleCommentDelete(index)}
                           >
                             | 삭제하기
                           </CommentBtn>
@@ -171,6 +181,7 @@ function Card({ dailyData, CommentWriteData }) {
 }
 
 export default Card;
+
 // Styled components
 
 const Diary = styled.div`
@@ -293,7 +304,7 @@ const CommentWrapper = styled.div`
   }
 `;
 
-const CommentWrite = styled.input`
+const CommentWrite = styled.input.attrs({ type: "text" })`
   display: flex;
   justify-content: center;
   align-items: center;
