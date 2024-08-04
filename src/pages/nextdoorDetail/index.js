@@ -5,8 +5,6 @@ import Card from "../../components/card/card";
 import Header from "../../components/common/Header";
 import Menubar from "../../components/common/Menubar";
 import {
-  PinImg,
-  PinImgNone,
   BookmarkImg,
   BookmarkImgNone,
   PublicSwitch,
