@@ -67,13 +67,37 @@ function WeeklySoda() {
     blue: BlueSodaIcons,
   };
 
+  // const getIconForDate = (color, soda) => {
+  //   const sodaIcons = iconsMap[color];
+  //   if (!sodaIcons) return null;
+  //
+  //   const iconData = sodaIcons.find(icon => icon.name === soda);
+  //   return iconData ? iconData.icon() : <EmptySoda/>;
+  // };
   const getIconForDate = (color, soda) => {
     const sodaIcons = iconsMap[color];
     if (!sodaIcons) return null;
 
-    const iconData = sodaIcons.find(icon => icon.name === soda);
-    return iconData ? iconData.icon() : <EmptySoda/>;
+    // 소다량에 따라 적절한 아이콘을 반환합니다.
+    let iconName;
+    if (soda > 0 && soda <= 20) {
+      iconName = 20;
+    } else if (soda > 20 && soda <= 40) {
+      iconName = 40;
+    } else if (soda > 40 && soda <= 60) {
+      iconName = 60;
+    } else if (soda > 60 && soda <= 80) {
+      iconName = 80;
+    } else if (soda > 80 && soda <= 100) {
+      iconName = 100;
+    } else {
+      return <EmptySoda />;
+    }
+
+    const iconData = sodaIcons.find(icon => icon.name === iconName);
+    return iconData ? iconData.icon() : <EmptySoda />;
   };
+
 
   const tileContent = ({ date }) => {
     const day = date.getDate();
@@ -111,8 +135,6 @@ function WeeklySoda() {
           Authorization:` Bearer ${accessToken}`
         }
       })
-      console.log(year, month);
-      console.log('response:', response.data);
       setData(response.data)
     }catch (e){
       console.log('error:', e);
@@ -129,7 +151,7 @@ function WeeklySoda() {
     if (year && month) {
       setDate(new Date(year, month - 1)); // month is 0-indexed
     }
-    getData()
+    getData();
   }, [year, month]);
 
   return (
