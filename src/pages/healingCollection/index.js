@@ -45,6 +45,7 @@ function HealingCollection() {
       </>
     );
   }
+  const CommentWriteData = false;
 
   return (
     <>
@@ -68,7 +69,7 @@ function HealingCollection() {
                 {data.isShared == true ? <PublicSwitch /> : <PrivateSwitch />}
               </IconDiv>
             </DiaryHeader>
-            <Card dailyData={data} />
+            <Card dailyData={data} CommentWriteData={CommentWriteData} />
           </Diary>
         ))}
       </Wrapper>

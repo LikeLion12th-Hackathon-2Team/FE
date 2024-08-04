@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   More,
   Modify,
@@ -10,8 +10,12 @@ import {
   Stampgreen,
   Stampyellow,
 } from "../../components/icons/cardIcons";
+import instance from "../../api/axios";
+import { getCookie } from "../../auth/cookie";
 
-function Card({ dailyData }) {
+function Card({ dailyData, CommentWriteData }) {
+  // const [inputComment,setInputComment] = useState([]);
+
   const [cardColor, setCardColor] = useState("#96D3FF");
   const [isShowComments, setIsShowComments] = useState(false);
   const [editableCommentIndex, setEditableCommentIndex] = useState(null);
@@ -73,6 +77,7 @@ function Card({ dailyData }) {
     const StampComponent = stamp.Component;
     return <StampComponent />;
   };
+
   return (
     <Diary>
       <p style={{ marginTop: "10px" }}>{dailyData.diaryTitle}</p>
@@ -107,14 +112,16 @@ function Card({ dailyData }) {
         <>
           <hr />
           <CommentsSection>
-            <CommentWrapper>
-              <CommentWrite
-                value={newComment}
-                onChange={handleNewCommentChange}
-                placeholder="댓글을 입력해주세요"
-              />
-              <Btn onClick={handleAddComment}>작성</Btn>
-            </CommentWrapper>
+            {CommentWriteData && (
+              <CommentWrapper>
+                <CommentWrite
+                  value={newComment}
+                  onChange={handleNewCommentChange}
+                  placeholder="댓글을 입력해주세요"
+                />
+                <Btn onClick={handleAddComment}>작성</Btn>
+              </CommentWrapper>
+            )}
             {comments.map((comment, index) => (
               <Comment key={index}>
                 {editableCommentIndex === index ? (
@@ -136,8 +143,18 @@ function Card({ dailyData }) {
                         </div>
                         <p>{comment}</p>
                         <div>
-                          <CommentBtn>수정하기</CommentBtn>
-                          <CommentBtn>| 삭제하기</CommentBtn>
+                          <CommentBtn
+                            onClick={() =>
+                              handleCommentModifyClick(index, comment)
+                            }
+                          >
+                            수정하기
+                          </CommentBtn>
+                          <CommentBtn
+                            onClick={() => handleCommentDelete(index)}
+                          >
+                            | 삭제하기
+                          </CommentBtn>
                           <CommentBtn>| 채택하기</CommentBtn>
                         </div>
                       </CommentMenu>
@@ -154,7 +171,6 @@ function Card({ dailyData }) {
 }
 
 export default Card;
-
 // Styled components
 
 const Diary = styled.div`

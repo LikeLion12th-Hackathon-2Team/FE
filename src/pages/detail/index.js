@@ -62,6 +62,8 @@ function Detail() {
 
   const todayDate = dailyData.length > 0 ? dailyData[0].date : "날짜 없음";
 
+  const CommentWriteData = false;
+
   return (
     <>
       <Header />
@@ -86,7 +88,7 @@ function Detail() {
                 {data.isShared == true ? <PublicSwitch /> : <PrivateSwitch />}
               </IconDiv>
             </DiaryHeader>
-            <Card dailyData={data} />
+            <Card dailyData={data} CommentWriteData={CommentWriteData} />
           </Diary>
         ))}
       </Wrapper>

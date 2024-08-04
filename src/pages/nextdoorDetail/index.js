@@ -23,6 +23,8 @@ function NextdoorDetail() {
 
   console.log(location.state);
 
+  const CommentWriteData = true;
+
   return (
     <>
       <Header />
@@ -40,7 +42,7 @@ function NextdoorDetail() {
               {data.isShared == true ? <PublicSwitch /> : <PrivateSwitch />}
             </IconDiv>
           </DiaryHeader>
-          <Card dailyData={data} />
+          <Card dailyData={data} CommentWriteData={CommentWriteData} />
         </Diary>
       </Wrapper>
       <Menubar />
