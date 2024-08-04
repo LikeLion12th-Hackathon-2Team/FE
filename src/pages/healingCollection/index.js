@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import { useParams, useNavigate } from "react-router-dom";
 import Card from "../../components/card/card";
 import Header from "../../components/common/Header";
 import Menubar from "../../components/common/Menubar";
+import Loading from "../../components/common/Loading";
 import {
   PinImg,
   PinImgNone,
@@ -11,89 +13,38 @@ import {
   PublicSwitch,
   PrivateSwitch,
 } from "../../components/icons/cardIcons";
+import instance from "../../api/axios";
+import { getCookie } from "../../auth/cookie";
 
 function HealingCollection() {
-  const dailyData = [
-    {
-      date: "7월 14일",
-      title: "오늘은 얼레벌레 나는 그냥 벌레",
-      percent: "70%",
-      time: "15:20:01",
-      content:
-        "오늘도 늦잠을 잤다. 어제 할 일을 오늘로 미뤘다. 근데 내일 또 미룰것. 왜냐면 인생은 얼레벌레.. 그 중에 나는 그냥 벌레이기 때문이다. 유후~",
-      advice:
-        "오늘도 늦잠을 잤다니! 충분한 휴식은 정말 중요해요. 어제 할 일을 오늘로 미뤘어도 괜찮아요. 때로는 휴식이 필요할 때가 있으니까요. '인생은 얼레벌레'라는 말처럼 가끔은 여유롭게 살아가는 것도 필요하답니다. 벌레처럼 소소하게 살아가도, 그 안에서 행복을 찾을 수 있을 거예요. 유후~ 긍정적인 마음이 느껴져서 참 좋아요! 내일은 조금 더 힘내서 할일을 하나씩 해보는 건 어떨까요? 응원할게요!",
-      comments: [
-        "결국 아무것도 못한 쓸애기 잇츠 미 ~! 등장..>! 누워있는게 최고야",
-        "어쨌든 실컷 누웠으니 기분 째지고 너는 2팀이니까 완전 럭키비키잖아 ~",
-      ],
-    },
-    {
-      date: "7월 14일",
-      title: "결국 아무것도 못한 쓸애기",
-      percent: "20%",
-      time: "15:40:01",
-      content:
-        "결국 아무것도 못한 쓸애기 잇츠 미 ~! 등장..>! 누워있는게 최고야",
-      advice:
-        "어쨌든 실컷 누웠으니 기분 째지고 너는 2팀이니까 완전 럭키비키잖아 ~",
-      comments: [
-        "결국 아무것도 못한 쓸애기 잇츠 미 ~! 등장..>! 누워있는게 최고야",
-        "어쨌든 실컷 누웠으니 기분 째지고 너는 2팀이니까 완전 럭키비키잖아 ~",
-      ],
-    },
-    {
-      date: "7월 15일",
-      title: "결국 아무것도 못한 쓸애기",
-      percent: "20%",
-      time: "15:40:01",
-      content:
-        "결국 아무것도 못한 쓸애기 잇츠 미 ~! 등장..>! 누워있는게 최고야",
-      advice:
-        "어쨌든 실컷 누웠으니 기분 째지고 너는 2팀이니까 완전 럭키비키잖아 ~",
-      comments: [
-        "결국 아무것도 못한 쓸애기 잇츠 미 ~! 등장..>! 누워있는게 최고야",
-        "어쨌든 실컷 누웠으니 기분 째지고 너는 2팀이니까 완전 럭키비키잖아 ~",
-      ],
-    },
-    {
-      date: "7월 19일",
-      title: "결국 아무것도 못한 쓸애기",
-      percent: "20%",
-      time: "15:40:01",
-      content:
-        "결국 아무것도 못한 쓸애기 잇츠 미 ~! 등장..>! 누워있는게 최고야",
-      advice:
-        "어쨌든 실컷 누웠으니 기분 째지고 너는 2팀이니까 완전 럭키비키잖아 ~",
+  const accessToken = getCookie("access_token");
+  const [dailyData, setDailyData] = useState("");
 
-      comments: [
-        "결국 아무것도 못한 쓸애기 잇츠 미 ~! 등장..>! 누워있는게 최고야",
-        "어쨌든 실컷 누웠으니 기분 째지고 너는 2팀이니까 완전 럭키비키잖아 ~",
-      ],
-    },
-  ];
-
-  const [pinnedIndex, setPinnedIndex] = useState(0);
-  const handlePinClick = (index) => {
-    setPinnedIndex(index);
-    console.log(index, " 📍");
+  const getHealingData = async () => {
+    try {
+      const response = await instance.get("/api/diary/favorites", {
+        headers: {
+          Authorization: ` Bearer ${accessToken}`,
+        },
+      });
+      console.log("response:", response.data);
+      setDailyData(response.data);
+    } catch (e) {
+      console.error("Error:", e);
+    }
   };
 
-  const [bookmarkIndex, setBookmarkIndex] = useState([]);
-  const handleBookmarkClick = (index) => {
-    setBookmarkIndex((prev) =>
-      prev.includes(index) ? prev.filter((i) => i !== index) : [...prev, index]
+  useEffect(() => {
+    getHealingData();
+  });
+
+  if (!dailyData) {
+    return (
+      <>
+        <Loading />
+      </>
     );
-    console.log(index, " 📚");
-  };
-
-  const [switchIndex, setSwitchIndex] = useState([]);
-  const handleSwitchClick = (index) => {
-    setSwitchIndex((prev) =>
-      prev.includes(index) ? prev.filter((i) => i !== index) : [...prev, index]
-    );
-    console.log(index, "🍀");
-  };
+  }
 
   return (
     <>
@@ -103,31 +54,18 @@ function HealingCollection() {
         {dailyData.map((data, index) => (
           <Diary key={index}>
             <DiaryHeader>
-              <IconDiv
-                color={pinnedIndex === index ? "#C9E8FF" : "#C9E8FF"}
-                onClick={() => handlePinClick(index)}
-              >
-                {pinnedIndex === index ? <PinImg /> : <PinImgNone />}
+              <IconDiv>
+                {data.isRepresentative == true ? <PinImg /> : <PinImgNone />}
               </IconDiv>
-              <IconDiv
-                color={bookmarkIndex.includes(index) ? "#C9E8FF" : "#C9E8FF"}
-                onClick={() => handleBookmarkClick(index)}
-              >
-                {bookmarkIndex.includes(index) ? (
+              <IconDiv>
+                {data.isFavorite == true ? (
                   <BookmarkImg />
                 ) : (
                   <BookmarkImgNone />
                 )}
               </IconDiv>
-              <IconDiv
-                color={switchIndex.includes(index) ? "#C9E8FF" : "#C9E8FF"}
-                onClick={() => handleSwitchClick(index)}
-              >
-                {switchIndex.includes(index) ? (
-                  <PrivateSwitch />
-                ) : (
-                  <PublicSwitch />
-                )}
+              <IconDiv>
+                {data.isShared == true ? <PublicSwitch /> : <PrivateSwitch />}
               </IconDiv>
             </DiaryHeader>
             <Card dailyData={data} />

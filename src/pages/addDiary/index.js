@@ -16,10 +16,10 @@ import Header from "../../components/common/Header";
 import Menubar from "../../components/common/Menubar";
 import instance from "../../api/axios";
 import { getCookie } from "../../auth/cookie";
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function AddDiary() {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [inputData, setInputData] = useState({
     title: "",
     carbonationIndex: "",
@@ -35,7 +35,7 @@ function AddDiary() {
     }));
   };
 
-  const [pinned, setPinned] = useState(false);
+  const [pinned, setPinned] = useState(true);
   const handlePinClick = () => {
     setPinned(!pinned);
     console.log("📍 Pin toggled");
@@ -80,7 +80,7 @@ function AddDiary() {
         headers: { Authorization: `Bearer ${getCookie("accessToken")}` },
       });
       console.log("Diary Submitted: ", response.data);
-      navigate('/soda')
+      navigate("/soda");
     } catch (error) {
       console.error("Error submitting diary: ", error);
     }
@@ -122,7 +122,7 @@ function AddDiary() {
               color={switchIndex.includes(0) ? "#C9E8FF" : "#C9E8FF"}
               onClick={() => handleSwitchClick(0)}
             >
-              {switchIndex.includes(0) ? <PrivateSwitch /> : <PublicSwitch />}
+              {switchIndex.includes(0) ? <PublicSwitch /> : <PrivateSwitch />}
             </IconDiv>
           </DiaryHeader>
           <input
