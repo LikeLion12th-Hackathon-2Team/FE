@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import React, { useEffect } from 'react';
 import Loading from '../../common/Loading';
 import instance from '../../../api/axios';
+import {setCookie} from "../../../auth/cookie";
 
 function NaverLogin() {
     const location = useLocation();
@@ -20,6 +21,8 @@ function NaverLogin() {
                 });
                 console.log('백엔드 응답:', response.data);
                 navigate('/soda');
+                setCookie('accessToken',response.data.accessToken)
+                setCookie('refreshToken',response.data.refreshToken)
             } catch (error) {
                 // 자바스크립트에서는 error 객체의 속성 접근을 적절히 처리
                 console.log('에러 발생:', error.response ? error.response.data : error.message);
