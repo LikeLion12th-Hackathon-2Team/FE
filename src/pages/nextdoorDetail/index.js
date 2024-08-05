@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Card from "../../components/card/card";
@@ -19,13 +19,12 @@ function NextdoorDetail() {
 
   const handleClosedClick = () => {
     navigate("/nextdoor");
+    console.log(data);
   };
 
   console.log(location.state);
 
   const CommentWriteData = true;
-
-
 
   return (
     <>
@@ -58,18 +57,18 @@ const Wrapper = styled.div`
   padding-top: 60px;
   padding-bottom: 70px;
   background: linear-gradient(
-      ${({ theme }) => theme.backgroundColors.mainColor} 25%,
-      white 100%
+    ${({ theme }) => theme.backgroundColors.mainColor} 25%,
+    white 100%
   );
   // height: 100vh;
-    // height: ${(props) => (props.isTall ? "auto" : "100vh")};
+  // height: ${(props) => (props.isTall ? "auto" : "100vh")};
   display: flex;
   flex-direction: column;
   align-items: center;
   font-family: "LOTTERIACHAB";
   color: white;
   @media (max-width: ${({ theme }) => theme.mobile}) {
-      // height: ${(props) => (props.isTall ? "auto" : "100vh")};
+    // height: ${(props) => (props.isTall ? "auto" : "100vh")};
     height: 100vh;
   }
 `;
