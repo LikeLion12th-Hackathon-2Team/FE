@@ -9,6 +9,7 @@ function SodaCollection({accessToken}) {
     const navigate = useNavigate()
     const handleLogOut =()=>{
         removeCookie('accessToken')
+        removeCookie('refreshToken')
         navigate('/')
     }
 

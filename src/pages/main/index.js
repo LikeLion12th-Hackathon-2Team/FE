@@ -1,13 +1,18 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { MainPageLogo } from "../../components/icons/logo";
+import {getCookie} from "../../auth/cookie";
 
 
 
 function Main() {
+    const accessToken = getCookie('accessToken')
+    const linkPath = accessToken ? '/soda' : '/login';
+
+
   return (
     <>
-        <Link to={'/login'}>
+        <Link to={linkPath}>
             <Wrapper>
                 <LogoBox>
                     <MainPageLogo />

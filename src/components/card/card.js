@@ -140,13 +140,17 @@ function Card({ dailyData, CommentWriteData }) {
     return <StampComponent />;
   };
 
+  const updatedAt = dailyData.updatedAt
+    ? dailyData.updatedAt.split("T")[1]
+    : "정보 없음";
+
   return (
     <Diary>
       <p style={{ marginTop: "10px" }}>{dailyData.diaryTitle}</p>
       <hr style={{ height: "2px" }} />
       <Row>
         <p>오늘의 하루 탄산지수: {dailyData.sodaIndex}%</p>
-        <p>{dailyData.updatedAt.split("T")[1]}</p>
+        <p>{updatedAt}</p>
       </Row>
       <hr />
       <DiaryText>
@@ -179,7 +183,7 @@ function Card({ dailyData, CommentWriteData }) {
                 <CommentWrite
                   value={newComment}
                   onChange={handleNewCommentChange}
-                  placeholder="댓글을 입력해주세요"
+                  placeholder="댓글을 입력해 주세요."
                   style={{ fontFamily: "Ownglyph_meetme-Rg" }}
                 />
 
@@ -200,7 +204,7 @@ function Card({ dailyData, CommentWriteData }) {
                         <CommentWrite
                           value={editedCommentText}
                           onChange={handleCommentChange}
-                          placeholder="수정할 댓글을 입력하세요"
+                          placeholder="수정할 댓글을 입력해 주세요."
                         />
                         <Btn onClick={() => handleCommentSave(index)}>저장</Btn>
                       </div>

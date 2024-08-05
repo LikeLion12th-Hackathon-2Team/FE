@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { useParams, useNavigate } from "react-router-dom";
+import {useParams, useNavigate, Link} from "react-router-dom";
 import Card from "../../components/card/card";
 import Header from "../../components/common/Header";
 import Menubar from "../../components/common/Menubar";
@@ -15,6 +15,7 @@ import {
 } from "../../components/icons/cardIcons";
 import instance from "../../api/axios";
 import { getCookie } from "../../auth/cookie";
+import {EmptySoda} from "../../components/icons/monthlyIcons";
 
 function Detail() {
   const { year, month, date } = useParams();
@@ -60,40 +61,55 @@ function Detail() {
     );
   }
 
-  const todayDate = dailyData.length > 0 ? dailyData[0].date : "날짜 없음";
+  const isDiaryDataEmpty = (diary) => {
+    return diary.diaryId === null && diary.content === null;
+  };
+  const shouldShowButton = dailyData.some(isDiaryDataEmpty);
 
   const CommentWriteData = false;
 
   return (
-    <>
-      <Header />
-      <Wrapper isTall={true}>
-        <Title>
-          {month}월 {date}일의 소다
-        </Title>
-        {dailyData.map((data, index) => (
-          <Diary key={index}>
-            <DiaryHeader>
-              <IconDiv>
-                {data.isRepresentative == true ? <PinImg /> : <PinImgNone />}
-              </IconDiv>
-              <IconDiv>
-                {data.isFavorite == true ? (
-                  <BookmarkImg />
-                ) : (
-                  <BookmarkImgNone />
-                )}
-              </IconDiv>
-              <IconDiv>
-                {data.isShared == true ? <PublicSwitch /> : <PrivateSwitch />}
-              </IconDiv>
-            </DiaryHeader>
-            <Card dailyData={data} CommentWriteData={CommentWriteData} />
-          </Diary>
-        ))}
-      </Wrapper>
-      <Menubar />
-    </>
+      <>
+
+        <Header/>
+        <Wrapper isTall={true}>
+          <Title>
+            {month}월 {date}일의 소다
+          </Title>
+          {shouldShowButton ? (
+
+                <EmptyDataBox>
+                  <EmptyDataItem>
+                    <SodaIconBox>
+                      <EmptySoda/>
+                    </SodaIconBox>
+                    <h2>
+                      작성된 일기가 없습니다.
+                    </h2>
+                  </EmptyDataItem>
+                </EmptyDataBox>
+
+          ) : (
+              dailyData.map((data, index) => (
+                  <Diary key={index}>
+                    <DiaryHeader>
+                      <IconDiv>
+                        {data.isRepresentative ? <PinImg/> : <PinImgNone/>}
+                      </IconDiv>
+                      <IconDiv>
+                        {data.isFavorite ? <BookmarkImg/> : <BookmarkImgNone/>}
+                      </IconDiv>
+                      <IconDiv>
+                        {data.isShared ? <PublicSwitch/> : <PrivateSwitch/>}
+                      </IconDiv>
+                    </DiaryHeader>
+                    <Card dailyData={data} CommentWriteData={CommentWriteData}/>
+                  </Diary>
+              ))
+          )}
+        </Wrapper>
+        <Menubar/>
+      </>
   );
 }
 
@@ -186,3 +202,26 @@ const IconDiv = styled.div`
     opacity: 0.8;
   }
 `;
+
+const EmptyDataBox = styled.div`
+  color: ${({theme}) => theme.colors.fontColor};
+  height: 72vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`
+const EmptyDataItem =styled.div`
+  font-family: "Noto Nastaliq Urdu";
+  h2{
+    padding: 10px;
+    font-size: 20px;
+    color: white;
+    text-align: center;
+  }
+`
+
+const SodaIconBox =styled.div`
+    display: flex;
+    justify-content: center;
+  padding: 10px;
+`
