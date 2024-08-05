@@ -27,6 +27,10 @@ function ModifyDiary() {
 
   const [dailyData, setDailyData] = useState(initialDailyData);
   const [inputData, setInputData] = useState({
+    isRepresentative: dailyData.isRepresentative,
+    isShared: dailyData.isShared,
+    isFavorite: dailyData.isShared,
+
     diaryTitle: dailyData.diaryTitle || "",
     carbonationIndex: dailyData.sodaIndex || "",
     content: dailyData.content || "",
@@ -36,6 +40,9 @@ function ModifyDiary() {
   useEffect(() => {
     if (dailyData) {
       setInputData({
+        isRepresentative: dailyData.isRepresentative,
+        isShared: dailyData.isShared,
+        isFavorite: dailyData.isShared,
         diaryTitle: dailyData.diaryTitle || "",
         carbonationIndex: dailyData.sodaIndex || "",
         content: dailyData.content || "",
@@ -57,24 +64,63 @@ function ModifyDiary() {
     }));
   };
 
+  const [pinned, setPinned] = useState(true);
+  const handlePinClick = () => {
+    setPinned(!pinned);
+    setInputData((prevData) => ({
+      ...prevData,
+      isRepresentative: !pinned,
+    }));
+    console.log("📍 Pin toggled", pinned);
+  };
+
+  const [bookmarkIndex, setBookmarkIndex] = useState([]);
+  const handleBookmarkClick = (index) => {
+    const isBookmarked = bookmarkIndex.includes(index);
+
+    setBookmarkIndex((prev) =>
+        isBookmarked ? prev.filter((i) => i !== index) : [...prev, index]
+    );
+
+    setInputData((prevData) => ({
+      ...prevData,
+      isFavorite: !isBookmarked,
+    }));
+
+    console.log(index, " 📚");
+  };
+
+  const [switchIndex, setSwitchIndex] = useState([]);
+  const handleSwitchClick = (index) => {
+    const isSwitch = switchIndex.includes(index);
+    setSwitchIndex((prev) =>
+        prev.includes(index) ? prev.filter((i) => i !== index) : [...prev, index]
+    );
+    setInputData((prevData) => ({
+      ...prevData,
+      isShared: !isSwitch,
+    }));
+    console.log(index, "🍀");
+  };
+
   const handleDailyModifySubmit = async () => {
     try {
       const response = await instance.put(
-        `/api/diary/${dailyData.diaryId}`,
-        inputData,
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        }
+          `/api/diary/${dailyData.diaryId}`,
+          inputData,
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
       );
       console.log("Diary Modified: ", response.data);
       setDailyData(response.data);
       navigate(-1); // 이전 페이지로 이동
     } catch (error) {
       console.error(
-        "Error:",
-        error.response ? error.response.data : error.message
+          "Error:",
+          error.response ? error.response.data : error.message
       );
     }
   };
@@ -82,29 +128,29 @@ function ModifyDiary() {
   const handleDailyDeleteSubmit = async () => {
     try {
       const response = await instance.delete(
-        `/api/diary/${dailyData.diaryId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        }
+          `/api/diary/${dailyData.diaryId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
       );
       console.log("Diary Deleted: ", response.data);
       console.log("Diary Deleted: ", dailyData.diaryId);
       navigate(-1);
     } catch (error) {
       console.error(
-        "Error:",
-        error.response ? error.response.data : error.message
+          "Error:",
+          error.response ? error.response.data : error.message
       );
     }
   };
 
   const todayDate = dailyData.diaryDate
-    ? `${dailyData.diaryDate.split("-")[1]}월 ${
-        dailyData.diaryDate.split("-")[2]
+      ? `${dailyData.diaryDate.split("-")[1]}월 ${
+          dailyData.diaryDate.split("-")[2]
       }일`
-    : "날짜 없음";
+      : "날짜 없음";
 
   const [selectedStamp, setSelectedStamp] = useState(null);
   const handleStampClick = (stampColor) => {
@@ -124,87 +170,87 @@ function ModifyDiary() {
   ];
 
   return (
-    <>
-      <Header />
-      <Wrapper>
-        <Title>{todayDate}의 소다</Title>
-        <Diary>
-          <DiaryHeader>
-            <IconDiv>
-              {dailyData.isRepresentative ? <PinImg /> : <PinImgNone />}
-            </IconDiv>
-            <IconDiv>
-              {dailyData.isFavorite ? <BookmarkImgNone /> : <BookmarkImg />}
-            </IconDiv>
-            <IconDiv>
-              {dailyData.isShared ? <PrivateSwitch /> : <PublicSwitch />}
-            </IconDiv>
-          </DiaryHeader>
-          <input
-            type="text"
-            name="diaryTitle"
-            value={inputData.diaryTitle}
-            onChange={handleChange}
-            placeholder="제목을 입력하세요"
-          />
-          <hr style={{ height: "2px" }} />
-          <Row>
-            <p>오늘의 하루 탄산지수 :</p>
-            <div>
-              <input
-                type="number"
-                name="carbonationIndex"
-                value={inputData.carbonationIndex}
+      <>
+        <Header />
+        <Wrapper>
+          <Title>{todayDate}의 소다</Title>
+          <Diary>
+            <DiaryHeader>
+              <IconDiv onClick={handlePinClick}>
+                {inputData.isRepresentative ? <PinImg /> : <PinImgNone />}
+              </IconDiv>
+              <IconDiv onClick={() => handleBookmarkClick(0)}>
+                {inputData.isFavorite ? <BookmarkImgNone /> : <BookmarkImg />}
+              </IconDiv>
+              <IconDiv onClick={() => handleSwitchClick(0)}>
+                {inputData.isShared ? <PrivateSwitch /> : <PublicSwitch />}
+              </IconDiv>
+            </DiaryHeader>
+            <input
+                type="text"
+                name="diaryTitle"
+                value={inputData.diaryTitle}
                 onChange={handleChange}
-                style={{ width: "60px", padding: "5px", outline: "none" }}
-              />
-              <p>%</p>
-            </div>
-          </Row>
-          <hr />
-          <DiaryText>
+                placeholder="제목을 입력하세요"
+            />
+            <hr style={{ height: "2px" }} />
+            <Row>
+              <p>오늘의 하루 탄산지수 :</p>
+              <div>
+                <input
+                    type="number"
+                    name="carbonationIndex"
+                    value={inputData.carbonationIndex}
+                    onChange={handleChange}
+                    style={{ width: "60px", padding: "5px", outline: "none" }}
+                />
+                <p>%</p>
+              </div>
+            </Row>
+            <hr />
+            <DiaryText>
             <textarea
-              name="content"
-              value={inputData.content}
-              onChange={handleChange}
-              placeholder="일기를 입력하세요"
-              style={{
-                width: "100%",
-                height: "100px",
-                padding: "5px",
-                resize: "none",
-                fontFamily: "Ownglyph_meetme-Rg",
-              }}
+                name="content"
+                value={inputData.content}
+                onChange={handleChange}
+                placeholder="일기를 입력하세요"
+                style={{
+                  width: "100%",
+                  height: "100px",
+                  padding: "5px",
+                  resize: "none",
+                  fontFamily: "Ownglyph_meetme-Rg",
+                }}
             ></textarea>
-          </DiaryText>
-          <hr />
-          <Row>
-            <span>소다가 필요한 이유</span>
-          </Row>
-          <hr />
-          <DiaryText>
-            <StampWrapper>
-              {stamps.map(({ color, Component }) => (
-                <Stamp
-                  key={color}
-                  color={selectedStamp === color ? "#ffffff" : "#ffffff"}
-                  isSelected={selectedStamp === color}
-                  onClick={() => handleStampClick(color)}
-                >
-                  <Component />
-                </Stamp>
-              ))}
-            </StampWrapper>
-          </DiaryText>
-          <hr />
-          <ButtonContainer>
-            <Btn onClick={handleDailyDeleteSubmit}>삭제하기</Btn>
-            <Btn onClick={handleDailyModifySubmit}>수정하기</Btn>
-          </ButtonContainer>
-        </Diary>
-      </Wrapper>
-      <Menubar />
-    </>
+            </DiaryText>
+            <hr />
+            <Row>
+              <span>소다가 필요한 이유</span>
+            </Row>
+            <hr />
+            <DiaryText>
+              <StampWrapper>
+                {stamps.map(({ color, Component }) => (
+                    <Stamp
+                        key={color}
+                        color={selectedStamp === color ? "#ffffff" : "#ffffff"}
+                        isSelected={selectedStamp === color}
+                        onClick={() => handleStampClick(color)}
+                    >
+                      <Component />
+                    </Stamp>
+                ))}
+              </StampWrapper>
+            </DiaryText>
+            <hr />
+            <ButtonContainer>
+              <Btn onClick={handleDailyDeleteSubmit}>삭제하기</Btn>
+              <Btn onClick={handleDailyModifySubmit}>수정하기</Btn>
+            </ButtonContainer>
+          </Diary>
+        </Wrapper>
+        <Menubar />
+      </>
   );
 }
 
@@ -313,14 +359,12 @@ const Row = styled.div`
   width: 100%;
   span {
     font-size: 30px;
-    font-weight: regular;
     margin: 0;
     color: ${({ theme }) => theme.colors.fontColor};
     font-family: "Ownglyph_meetme-Rg";
   }
   p {
     font-size: 20px;
-    font-weight: regular;
     margin: 0 20px 0 0;
   }
   svg {
@@ -354,7 +398,6 @@ const DiaryText = styled.div`
   flex-direction: column;
   p {
     font-size: 23px;
-    font-weight: regular;
     margin: 10px;
     line-height: 2;
   }
@@ -391,7 +434,7 @@ const Stamp = styled.div`
   align-items: center;
   justify-content: space-around;
   background-color: ${({ color }) => color};
-  width: 90px
+  width: 90px;
   height: 90px;
   border-radius: 30px;
   cursor: pointer;
