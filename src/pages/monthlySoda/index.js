@@ -14,33 +14,32 @@ function MonthlySoda() {
     const accessToken = getCookie('accessToken')
     const [year, setYear] = useState(currentYear)
     const [data, setData] = useState({});
-    const testData = {1: 25, 2: 100, 3: 50, 4: 75, 5: 25, 6: 100, 7: 75, 8:100, 9: 50, 10: 25, 11: 75, 12: 0}
     const tileContent = ({ date, view }) => {
         if (view === 'year') {
             const month = date.getMonth() + 1; // 월은 0부터 시작하므로 +1
             const value = data[month];
 
             if (date.getFullYear() === year) {
-                if (value === 100) {
+                if ( 20<value && value <= 31) {
                     return (
                         <IconBox className="current-month">
                             <FullSoda />
                         </IconBox>
                     );
-                } else if (50 < value && value <= 75) {
+                } else if (10 < value && value <= 20) {
                     return (
                         <IconBox className="current-month">
                             <Soda_75per/>
                         </IconBox>
                     );
-                } else if (25 < value && value <= 50) {
+                } else if (5 < value && value <= 10) {
                     return (
                         <IconBox className="current-month">
                             <HalfSoda/>
                         </IconBox>
                     );
                 }
-                else if (value > 0 && value <= 25) {
+                else if (0<value && value <= 5) {
                     return (
                         <IconBox className="current-month">
                             <Soda_25per/>

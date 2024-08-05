@@ -14,47 +14,12 @@ import Menubar from "../../components/common/Menubar";
 import {getCookie} from "../../auth/cookie";
 import instance from "../../api/axios";
 
-
 function WeeklySoda() {
   const { year, month } = useParams();
   const [date, setDate] = useState(new Date());
   const navigate = useNavigate();
   const accessToken = getCookie('accessToken')
   const [data, setData] = useState([])
-
-  const testData ={
-    1: { color: 'red', soda: 20 },
-    2: { color: 'yellow', soda: 40 },
-    3: { color: 'red', soda: 100 },
-    4: { color: 'red', soda: 80 },
-    5: { color: 'green', soda: 60 },
-    6: { color: 'blue', soda: 80 },
-    7: { color: 'green', soda: 40 },
-    8: { color: 'red', soda: 100 },
-    9: { color: 'yellow', soda: 60 },
-    10: { color: 'green', soda: 80 },
-    11: { color: 'red', soda: 20 },
-    12: { color: 'yellow', soda: 40 },
-    13: { color: 'yellow', soda: 60 },
-    14: { color: 'red', soda: 100},
-    15: { color: 'green', soda: 40 },
-    16: { color: 'blue', soda: 80 },
-    17: { color: 'yellow', soda: 80},
-    18: { color: 'red', soda: 100 },
-    19: { color: 'yellow', soda: 60 },
-    20: { color: 'red', soda:60},
-    21: { color: 'green', soda: 80},
-    22: { color: 'blue', soda: 80},
-    23: { color: 'yellow', soda: 40 },
-    24: { color: 'red', soda: 20 },
-    25: { color: 'green', soda: 60 },
-    26: { color: 'blue', soda: 20 },
-    27: { color: 'yellow', soda: 80 },
-    28: { color: 'red', soda: 100},
-    29: { color: 'blue', soda: 60 },
-    30: { color: 'red', soda: 20 },
-    31: { color: 'green', soda: 100 },
-  }
 
   const onChange = (date) => {
     setDate(date);
@@ -67,13 +32,6 @@ function WeeklySoda() {
     blue: BlueSodaIcons,
   };
 
-  // const getIconForDate = (color, soda) => {
-  //   const sodaIcons = iconsMap[color];
-  //   if (!sodaIcons) return null;
-  //
-  //   const iconData = sodaIcons.find(icon => icon.name === soda);
-  //   return iconData ? iconData.icon() : <EmptySoda/>;
-  // };
   const getIconForDate = (color, soda) => {
     const sodaIcons = iconsMap[color];
     if (!sodaIcons) return null;
