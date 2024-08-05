@@ -17,8 +17,8 @@ import instance from "../../api/axios";
 import { getCookie } from "../../auth/cookie";
 
 function HealingCollection() {
-  const accessToken = getCookie("access_token");
   const [dailyData, setDailyData] = useState("");
+  const accessToken = getCookie("accessToken");
 
   const getHealingData = async () => {
     try {
@@ -36,7 +36,7 @@ function HealingCollection() {
 
   useEffect(() => {
     getHealingData();
-  });
+  }, []);
 
   if (!dailyData) {
     return (
