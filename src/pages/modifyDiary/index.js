@@ -260,8 +260,8 @@ const Wrapper = styled.div`
   padding-top: 60px;
   padding-bottom: 70px;
   background: linear-gradient(
-    ${({ theme }) => theme.backgroundColors.mainColor} 25%,
-    white 100%
+      ${({ theme }) => theme.backgroundColors.mainColor} 25%,
+      white 100%
   );
   height: auto; /* isTall prop 제거 */
   display: flex;
@@ -290,7 +290,7 @@ const Diary = styled.div`
   padding: 30px 30px 20px 30px;
   border-radius: 8px;
   background-color: ${({ theme }) =>
-    theme.backgroundColors.cardbackgroundColor};
+      theme.backgroundColors.cardbackgroundColor};
   p {
     font-family: "Ownglyph_meetme-Rg";
     font-size: 30px;
@@ -434,7 +434,7 @@ const Stamp = styled.div`
   align-items: center;
   justify-content: space-around;
   background-color: ${({ color }) => color};
-  width: 90px;
+  width: 90px
   height: 90px;
   border-radius: 30px;
   cursor: pointer;
@@ -457,10 +457,10 @@ const Stamp = styled.div`
   }
 
   ${({ isSelected }) =>
-    isSelected &&
-    css`
-      animation: ${grow} 0.2s forwards;
-    `}
+      isSelected &&
+      css`
+        animation: ${grow} 0.2s forwards;
+      `}
 `;
 
 const Btn = styled.button`
