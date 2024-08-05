@@ -11,7 +11,7 @@ function NaverButton() {
     // const REDIRECT_URI = 'http://localhost:3000/naverLogin'; // Callback URL
     // const [state, setState] = useState('');
     // const NAVER_AUTH_URL = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${NAVER_CLIENT_ID}&state=${state}&redirect_uri=${REDIRECT_URI}`;
-    const NAVER_AUTH_URL = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=X9wShuIX0XXcW2_LlG93&state=hLiDdL2uhPtsftcU&redirect_uri=https://soda-ruby.vercel.app/naverLogin`;
+    const NAVER_AUTH_URL = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=X9wShuIX0XXcW2_LlG93&state=hLiDdL2uhPtsftcU&redirect_uri=https://soda-rust.vercel.app/naverLogin`;
 
     const handleLogin1 = () => {
         window.location.href = NAVER_AUTH_URL;
