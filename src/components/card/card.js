@@ -228,41 +228,44 @@ function Card({ dailyData, CommentWriteData }) {
                   </CommentWrapper>
                 ) : (
                   <>
-                    <CommentWrapper>
-                      <CommentMenu>
-                        <div>
-                          <CommentLogo />
-                          <span key={index}>{comment.nickname}</span>
-                        </div>
-                        <p key={index}>{comment.content}</p>
-                        <div>
-                          {comment.updateButton && (
-                            <CommentBtn
-                              onClick={() =>
-                                handleCommentModifyClick(
-                                  index,
-                                  comment.content,
-                                  comment.commentId,
-                                  dailyData.diaryId // 여기에 diaryId를 전달
-                                )
-                              }
-                            >
-                              수정하기
-                            </CommentBtn>
-                          )}
-                          {comment.deleteButton && (
-                            <CommentBtn
-                              onClick={() => handleCommentDelete(index)}
-                            >
-                              | 삭제하기
-                            </CommentBtn>
-                          )}
-                          {comment.chooseButton && (
-                            <CommentBtn onClick={()=>handleCommentChoose(index)}>| 채택하기</CommentBtn>
-                          )}
-                        </div>
-                      </CommentMenu>
-                    </CommentWrapper>
+                    {comment.commentId  !== null ? (
+                        <CommentWrapper>
+                          <CommentMenu>
+                            <div>
+                              <CommentLogo />
+                              <span key={index}>{comment.nickname}</span>
+                            </div>
+                            <p key={index}>{comment.content}</p>
+                            <div>
+                              {comment.updateButton && (
+                                  <CommentBtn
+                                      onClick={() =>
+                                          handleCommentModifyClick(
+                                              index,
+                                              comment.content,
+                                              comment.commentId,
+                                              dailyData.diaryId // 여기에 diaryId를 전달
+                                          )
+                                      }
+                                  >
+                                    수정하기
+                                  </CommentBtn>
+                              )}
+                              {comment.deleteButton && (
+                                  <CommentBtn
+                                      onClick={() => handleCommentDelete(index)}
+                                  >
+                                    | 삭제하기
+                                  </CommentBtn>
+                              )}
+                              {comment.chooseButton && (
+                                  <CommentBtn onClick={()=>handleCommentChoose(index)}>| 채택하기</CommentBtn>
+                              )}
+                            </div>
+                          </CommentMenu>
+                        </CommentWrapper>
+                    ): null}
+
                   </>
                 )}
               </Comment>

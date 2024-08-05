@@ -45,7 +45,7 @@ function HealingCollection() {
       </>
     );
   }
-  const CommentWriteData = false;
+  const CommentWriteData = true;
 
   return (
     <>

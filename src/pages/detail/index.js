@@ -66,7 +66,7 @@ function Detail() {
   };
   const shouldShowButton = dailyData.some(isDiaryDataEmpty);
 
-  const CommentWriteData = false;
+  const CommentWriteData = true;
 
   return (
       <>
