@@ -8,7 +8,7 @@ function KakaoButton() {
     // const redirect_uri = 'http://localhost:3000/kakaoLogin'; // Redirect URI
 // oauth 요청 URL
 //  const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${Rest_api_key}&redirect_uri=${redirect_uri}&response_type=code`;
-    const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=7ae2c4174f19e854c31dc918a2fe265e&redirect_uri=https://soda-ruby.vercel.app/kakaoLogin&response_type=code`;
+    const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=7ae2c4174f19e854c31dc918a2fe265e&redirect_uri=http://localhost:3000/kakaoLogin&response_type=code`;
 
     const handleLogin2 = () => {
         window.location.href = kakaoURL;
