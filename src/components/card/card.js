@@ -22,16 +22,16 @@ function Card({ dailyData, CommentWriteData }) {
   const [newComment, setNewComment] = useState("");
   const [inputCommentData, setInputCommentData] = useState({
     content: "",
-    diary_id: dailyData.diaryId,
-    comment_id: "",
+    diaryId: dailyData.diaryId,
+    commentId: "",
   });
 
   useEffect(() => {
     if (dailyData) {
       setInputCommentData({
         content: dailyData.commentResponses.content || "",
-        diary_id: dailyData.diaryId,
-        comment_id: dailyData.commentResponses.commentId || "",
+        diaryId: dailyData.diaryId,
+        commentId: dailyData.commentResponses.commentId || "",
       });
     }
   }, [dailyData]);
@@ -52,7 +52,6 @@ function Card({ dailyData, CommentWriteData }) {
         content: newComment,
         diaryId: dailyData.diaryId,
       };
-
       try {
         const response = await instance.post(`/api/comment`, commentData, {
           headers: { Authorization: `Bearer ${getCookie("accessToken")}` },
@@ -74,8 +73,8 @@ function Card({ dailyData, CommentWriteData }) {
     setInputCommentData((prevData) => ({
       ...prevData,
       content: text,
-      comment_id: commentId,
-      diary_id: diaryId,
+      commentId: commentId,
+      diaryId: diaryId,
     }));
   };
   const handleCommentChange = (e) => {
@@ -89,10 +88,10 @@ function Card({ dailyData, CommentWriteData }) {
   };
 
   const handleCommentSave = async (index) => {
-    console.log("Saving comment with data:", inputCommentData); // 디버깅용 출력
+    console.log("Saving comment with data:", inputCommentData);
     try {
       const response = await instance.put(
-        `/api/comment/${inputCommentData.comment_id}/update`,
+        `/api/comment/update`,
         inputCommentData,
         {
           headers: { Authorization: `Bearer ${getCookie("accessToken")}` },
@@ -112,6 +111,7 @@ function Card({ dailyData, CommentWriteData }) {
 
   const handleCommentDelete = async (index) => {
     const comment = comments[index];
+    console.log('comment.commentId:',comment.commentId);
     try {
       await instance.delete(`/api/comment/${comment.commentId}/delete`, {
         headers: { Authorization: `Bearer ${getCookie("accessToken")}` },
@@ -119,6 +119,22 @@ function Card({ dailyData, CommentWriteData }) {
 
       const updatedComments = comments.filter((_, i) => i !== index);
       setComments(updatedComments);
+    } catch (error) {
+      console.error("Error deleting comment: ", error);
+    }
+  };
+
+  const handleCommentChoose = async (index) => {
+    const comment = comments[index];
+    console.log('comment.commentId:',comment.commentId);
+    try {
+      await instance.put(`/api/comment/choose`, {
+        diaryId: comment.diaryId,
+        commentId: comment.commentId
+      },{
+        headers: { Authorization: `Bearer ${getCookie("accessToken")}` },
+      });
+
     } catch (error) {
       console.error("Error deleting comment: ", error);
     }
@@ -242,7 +258,7 @@ function Card({ dailyData, CommentWriteData }) {
                             </CommentBtn>
                           )}
                           {comment.chooseButton && (
-                            <CommentBtn>| 채택하기</CommentBtn>
+                            <CommentBtn onClick={()=>handleCommentChoose(index)}>| 채택하기</CommentBtn>
                           )}
                         </div>
                       </CommentMenu>
@@ -267,7 +283,7 @@ const Diary = styled.div`
   flex-direction: column;
   height: auto;
   background-color: ${({ theme }) =>
-    theme.backgroundColors.cardbackgroundColor};
+      theme.backgroundColors.cardbackgroundColor};
   p {
     font-family: "Ownglyph_meetme-Rg";
     font-size: 30px;
@@ -301,14 +317,12 @@ const Row = styled.div`
 
   span {
     font-size: 30px;
-    font-weight: regular;
     margin: 0;
     color: ${({ theme }) => theme.colors.fontColor};
     font-family: "Ownglyph_meetme-Rg";
   }
   p {
     font-size: 20px;
-    font-weight: regular;
     margin: 0;
   }
   svg {
@@ -344,7 +358,6 @@ const DiaryText = styled.div`
   flex-direction: column;
   p {
     font-size: 23px;
-    font-weight: regular;
     margin: 10px;
     line-height: 2;
   }
@@ -375,7 +388,7 @@ const CommentWrapper = styled.div`
   border: 1px solid ${({ theme }) => theme.card.btnColor};
   border-radius: 10px;
   width: 100%;
-  justify-content: row;
+  //justify-content: row;
   align-items: center;
   @media (max-width: ${({ theme }) => theme.mobile}) {
     padding: 5px;
