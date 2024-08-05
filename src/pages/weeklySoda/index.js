@@ -57,12 +57,14 @@ function WeeklySoda() {
   };
 
 
-  const tileContent = ({ date }) => {
+  const tileContent = ({ date, view  }) => {
     const day = date.getDate();
-    const entry = data[day];
-    if (entry) {
-      const Icon = getIconForDate(entry.color, entry.soda);
-      return Icon ? <IconBox>{Icon}</IconBox> : <IconBox><EmptySoda /></IconBox>;
+    if (view === 'month' && date.getMonth() + 1 === parseInt(month)) {
+      const entry = data[day];
+      if (entry) {
+        const Icon = getIconForDate(entry.color, entry.soda);
+        return Icon ? <IconBox>{Icon}</IconBox> : <IconBox><EmptySoda /></IconBox>;
+      }
     }
     return <IconBox><EmptySoda /></IconBox>;
   };
