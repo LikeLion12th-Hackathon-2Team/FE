@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Card from "../../components/card/card";
@@ -24,6 +24,8 @@ function NextdoorDetail() {
   console.log(location.state);
 
   const CommentWriteData = true;
+
+
 
   return (
     <>
@@ -59,16 +61,16 @@ const Wrapper = styled.div`
     ${({ theme }) => theme.backgroundColors.mainColor} 25%,
     white 100%
   );
-
-  height: ${(props) => (props.isTall ? "auto" : "100vh")};
+  height: 100vh;
+  // height: ${(props) => (props.isTall ? "auto" : "100vh")};
   display: flex;
   flex-direction: column;
   align-items: center;
   font-family: "LOTTERIACHAB";
   color: white;
-  @media (max-width: ${({ theme }) => theme.mobile}) {
-    height: ${(props) => (props.isTall ? "auto" : "100vh")};
-  }
+  // @media (max-width: ${({ theme }) => theme.mobile}) {
+  //   height: ${(props) => (props.isTall ? "auto" : "100vh")};
+  // }
 `;
 
 const Title = styled.p`

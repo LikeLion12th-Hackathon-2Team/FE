@@ -21,7 +21,6 @@ function Detail() {
   const { year, month, date } = useParams();
   const accessToken = getCookie("accessToken");
   const [dailyData, setDailyData] = useState("");
-
   const getDailyData = async () => {
     // year를 4자리로, month를 2자리로 date를 2자리로 채움
     const paddedYear = year.padStart(4, "0");
@@ -43,6 +42,7 @@ function Detail() {
       console.error("Error:", `${paddedYear}-${paddedMonth}-${paddedDate}`);
     }
   };
+
   // const [pinned, setPinned] = useState(false);
   // const handlePinClick = () => {
   //   setPinned(!pinned);
@@ -119,8 +119,8 @@ const Wrapper = styled.div`
   padding-top: 60px;
   padding-bottom: 70px;
   background: linear-gradient(
-    ${({ theme }) => theme.backgroundColors.mainColor} 25%,
-    white 100%
+      ${({ theme }) => theme.backgroundColors.mainColor} 25%,
+      white 100%
   );
 
   height: ${(props) => (props.isTall ? "auto" : "100vh")};
@@ -129,6 +129,7 @@ const Wrapper = styled.div`
   align-items: center;
   font-family: "LOTTERIACHAB";
   color: white;
+  
 `;
 
 const Title = styled.p`
@@ -148,7 +149,7 @@ const Diary = styled.div`
   padding: 30px 30px 20px 30px;
   border-radius: 8px;
   background-color: ${({ theme }) =>
-    theme.backgroundColors.cardbackgroundColor};
+      theme.backgroundColors.cardbackgroundColor};
   p {
     font-family: "Ownglyph_meetme-Rg";
     font-size: 30px;
@@ -221,7 +222,7 @@ const EmptyDataItem =styled.div`
 `
 
 const SodaIconBox =styled.div`
-    display: flex;
-    justify-content: center;
+  display: flex;
+  justify-content: center;
   padding: 10px;
 `
