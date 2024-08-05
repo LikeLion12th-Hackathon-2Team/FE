@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled, { css, keyframes } from "styled-components";
 import {
   PinImg,
@@ -36,32 +36,33 @@ function AddDiary() {
   };
 
   const [pinned, setPinned] = useState(true);
+  const [bookmarked, setBookmarked] = useState(false);
+  const [switched, setSwitched] = useState(false);
+  const [selectedStamp, setSelectedStamp] = useState(null);
+
   const handlePinClick = () => {
     setPinned(!pinned);
-    console.log("📍 Pin toggled");
+    console.log(!pinned, "핀📍");
+  };
+  const handleBookmarkClick = () => {
+    setBookmarked(!bookmarked);
+    console.log(!bookmarked, " 즐겨찾기📚");
+  };
+  const handleSwitchClick = () => {
+    setSwitched(!switched);
+    console.log(!switched, "공개여부🍀");
   };
 
-  const [bookmarkIndex, setBookmarkIndex] = useState([]);
-  const handleBookmarkClick = (index) => {
-    setBookmarkIndex((prev) =>
-      prev.includes(index) ? prev.filter((i) => i !== index) : [...prev, index]
-    );
-    console.log(index, " 📚");
-  };
-
-  const [switchIndex, setSwitchIndex] = useState([]);
-  const handleSwitchClick = (index) => {
-    setSwitchIndex((prev) =>
-      prev.includes(index) ? prev.filter((i) => i !== index) : [...prev, index]
-    );
-    console.log(index, "🍀");
-  };
-
-  const [selectedStamp, setSelectedStamp] = useState(null);
   const handleStampClick = (stampColor) => {
     setSelectedStamp(stampColor);
     console.log(stampColor, " 🛑");
   };
+
+  // useEffect(() => {
+  //   setPinned(!pinned);
+  //   setBookmarked(!bookmarked);
+  //   setSwitched(!switched);
+  // }, [pinned, bookmarked, switched]);
 
   const handleSubmit = async () => {
     const diaryData = {
@@ -71,15 +72,18 @@ function AddDiary() {
       purpose: selectedStamp || "",
       diaryDate: inputData.diaryDate,
       isRepresentative: pinned,
-      isFavorite: bookmarkIndex.length > 0,
-      isShared: switchIndex.length > 0,
+      isFavorite: bookmarked,
+      isShared: switched,
     };
 
     try {
       const response = await instance.post("/api/diary", diaryData, {
         headers: { Authorization: `Bearer ${getCookie("accessToken")}` },
       });
-      console.log("Diary Submitted: ", response.data);
+      console.log("Diary response Submitted: ", response.data);
+      console.log("핀: ", diaryData.isRepresentative);
+      console.log("즐찾: ", diaryData.isFavorite);
+      console.log("공개: ", diaryData.isShared);
       navigate("/soda");
     } catch (error) {
       console.error("Error submitting diary: ", error);
@@ -96,111 +100,98 @@ function AddDiary() {
   ];
 
   return (
-    <>
-      <Header />
-      <Wrapper>
-        <Title>소다쓰기</Title>
-        <Diary>
-          <DiaryHeader>
-            <IconDiv
-              color={pinned ? "#C9E8FF" : "#C9E8FF"}
-              onClick={handlePinClick}
-            >
-              {pinned ? <PinImg /> : <PinImgNone />}
-            </IconDiv>
-            <IconDiv
-              color={bookmarkIndex.includes(0) ? "#C9E8FF" : "#C9E8FF"}
-              onClick={() => handleBookmarkClick(0)}
-            >
-              {bookmarkIndex.includes(0) ? (
-                <BookmarkImg />
-              ) : (
-                <BookmarkImgNone />
-              )}
-            </IconDiv>
-            <IconDiv
-              color={switchIndex.includes(0) ? "#C9E8FF" : "#C9E8FF"}
-              onClick={() => handleSwitchClick(0)}
-            >
-              {switchIndex.includes(0) ? <PublicSwitch /> : <PrivateSwitch />}
-            </IconDiv>
-          </DiaryHeader>
-          <input
-            type="text"
-            name="title"
-            value={inputData.title}
-            onChange={handleChange}
-            placeholder="제목을 입력하세요"
-          />
-          <hr style={{ height: "2px" }} />
-          <Row>
-            <div>
-              <p>오늘의 하루 탄산지수 :</p>
-              <input
-                type="number"
-                name="carbonationIndex"
-                value={inputData.carbonationIndex}
+      <>
+        <Header />
+        <Wrapper>
+          <Title>소다쓰기</Title>
+          <Diary>
+            <DiaryHeader>
+              <IconDiv onClick={handlePinClick}>
+                {pinned ? <PinImg /> : <PinImgNone />}
+              </IconDiv>
+              <IconDiv onClick={handleBookmarkClick}>
+                {bookmarked ? <BookmarkImg /> : <BookmarkImgNone />}
+              </IconDiv>
+              <IconDiv onClick={handleSwitchClick}>
+                {switched ? <PublicSwitch /> : <PrivateSwitch />}
+              </IconDiv>
+            </DiaryHeader>
+            <input
+                type="text"
+                name="title"
+                value={inputData.title}
                 onChange={handleChange}
-                style={{ width: "60px", padding: "5px", outline: "none" }}
-              />
-              <p>%</p>
-            </div>
-            <div>
-              <input
-                type="date"
-                id="date"
-                name="diaryDate"
-                max="2094-10-19"
-                min="2004-10-19"
-                onChange={handleChange}
-                value={inputData.diaryDate}
-              />
-            </div>
-          </Row>
-          <hr />
-          <DiaryText>
+                placeholder="제목을 입력하세요"
+            />
+            <hr style={{ height: "2px" }} />
+            <Row>
+              <div>
+                <p>오늘의 하루 탄산지수 :</p>
+                <input
+                    type="number"
+                    name="carbonationIndex"
+                    value={inputData.carbonationIndex}
+                    onChange={handleChange}
+                    style={{ width: "60px", padding: "5px", outline: "none" }}
+                />
+                <p>%</p>
+              </div>
+              <div>
+                <input
+                    type="date"
+                    id="date"
+                    name="diaryDate"
+                    max="2094-10-19"
+                    min="2004-10-19"
+                    onChange={handleChange}
+                    value={inputData.diaryDate}
+                />
+              </div>
+            </Row>
+            <hr />
+            <DiaryText>
             <textarea
-              name="diaryText"
-              value={inputData.diaryText}
-              onChange={handleChange}
-              placeholder="일기를 입력하세요"
-              style={{
-                width: "100%",
-                height: "100px",
-                padding: "5px",
-                resize: "none",
-                fontFamily: "Ownglyph_meetme-Rg",
-                fontSize: "20px",
-              }}
+                name="diaryText"
+                value={inputData.diaryText}
+                onChange={handleChange}
+                placeholder="일기를 입력하세요"
+                style={{
+                  width: "100%",
+                  height: "100px",
+                  padding: "5px",
+                  resize: "none",
+                  fontFamily: "Ownglyph_meetme-Rg",
+                  fontSize: "20px",
+                }}
             ></textarea>
-          </DiaryText>
-          <hr />
-          <Row>
-            <span>소다가 필요한 이유</span>
-          </Row>
-          <hr />
-          <DiaryText>
-            <StampWrapper>
-              {stamps.map(({ color, Component }) => (
-                <Stamp
-                  key={color}
-                  color={selectedStamp === color ? "#ffffff" : "#ffffff"}
-                  isSelected={selectedStamp === color}
-                  onClick={() => handleStampClick(color)}
-                >
-                  <Component />
-                </Stamp>
-              ))}
-            </StampWrapper>
-          </DiaryText>
-          <hr />
-          <ButtonContainer>
-            <Btn onClick={handleSubmit}>작성완료</Btn>
-          </ButtonContainer>
-        </Diary>
-      </Wrapper>
-      <Menubar />
-    </>
+            </DiaryText>
+            <hr />
+            <Row>
+              <span>소다가 필요한 이유</span>
+            </Row>
+            <hr />
+            <DiaryText>
+              <StampWrapper>
+                {stamps.map(({ color, Component }) => (
+                    <Stamp
+                        key={color}
+                        color={selectedStamp === color ? "#ffffff" : "#ffffff"}
+                        isSelected={selectedStamp === color}
+                        onClick={() => handleStampClick(color)}
+                    >
+                      <Component />
+                    </Stamp>
+                ))}
+              </StampWrapper>
+            </DiaryText>
+            <hr />
+            <ButtonContainer>
+              <Btn onClick={handleSubmit}>작성완료</Btn>
+            </ButtonContainer>
+          </Diary>
+        </Wrapper>
+        <Menubar />
+      </>
   );
 }
 
@@ -210,8 +201,8 @@ const Wrapper = styled.div`
   padding-top: 60px;
   padding-bottom: 70px;
   background: linear-gradient(
-    ${({ theme }) => theme.backgroundColors.mainColor} 25%,
-    white 100%
+      ${({ theme }) => theme.backgroundColors.mainColor} 25%,
+      white 100%
   );
   height: auto; /* isTall prop 제거 */
   display: flex;
@@ -240,7 +231,7 @@ const Diary = styled.div`
   padding: 30px 30px 20px 30px;
   border-radius: 8px;
   background-color: ${({ theme }) =>
-    theme.backgroundColors.cardbackgroundColor};
+      theme.backgroundColors.cardbackgroundColor};
   p {
     font-family: "Ownglyph_meetme-Rg";
     font-size: 30px;
@@ -416,10 +407,10 @@ const Stamp = styled.div`
   }
 
   ${({ isSelected }) =>
-    isSelected &&
-    css`
-      animation: ${grow} 0.2s forwards;
-    `}
+      isSelected &&
+      css`
+        animation: ${grow} 0.2s forwards;
+      `}
 `;
 
 const Btn = styled.button`
