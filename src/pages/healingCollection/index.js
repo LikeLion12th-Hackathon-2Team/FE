@@ -15,7 +15,7 @@ import {
 } from "../../components/icons/cardIcons";
 import instance from "../../api/axios";
 import { getCookie } from "../../auth/cookie";
-import {EmptySoda} from "../../components/icons/monthlyIcons";
+import { EmptySoda } from "../../components/icons/monthlyIcons";
 
 function HealingCollection() {
   const [dailyData, setDailyData] = useState("");
@@ -52,8 +52,6 @@ function HealingCollection() {
   };
   const shouldShowButton = dailyData.some(isDiaryDataEmpty);
 
-
-
   const CommentWriteData = true;
 
   return (
@@ -61,40 +59,37 @@ function HealingCollection() {
       <Header />
       <Wrapper>
         <Title>힐링소다 모음집</Title>
-        {shouldShowButton? (
-            <EmptyDataBox>
-              <EmptyDataItem>
-                <SodaIconBox>
-                  <EmptySoda/>
-                </SodaIconBox>
-                <h2>
-                  즐겨찾기된 일기가 없습니다.
-                </h2>
-              </EmptyDataItem>
-            </EmptyDataBox>
-        ):(
-            dailyData.map((data, index) => (
-                <Diary key={index}>
-                  <DiaryHeader>
-                    <IconDiv>
-                      {data.isRepresentative == true ? <PinImg /> : <PinImgNone />}
-                    </IconDiv>
-                    <IconDiv>
-                      {data.isFavorite == true ? (
-                          <BookmarkImg />
-                      ) : (
-                          <BookmarkImgNone />
-                      )}
-                    </IconDiv>
-                    <IconDiv>
-                      {data.isShared == true ? <PublicSwitch /> : <PrivateSwitch />}
-                    </IconDiv>
-                  </DiaryHeader>
-                  <Card dailyData={data} CommentWriteData={CommentWriteData} />
-                </Diary>
-            ))
+        {shouldShowButton ? (
+          <EmptyDataBox>
+            <EmptyDataItem>
+              <SodaIconBox>
+                <EmptySoda />
+              </SodaIconBox>
+              <h2>즐겨찾기된 일기가 없습니다.</h2>
+            </EmptyDataItem>
+          </EmptyDataBox>
+        ) : (
+          dailyData.map((data, index) => (
+            <Diary key={index}>
+              <DiaryHeader>
+                <IconDiv>
+                  {data.isRepresentative == true ? <PinImg /> : <PinImgNone />}
+                </IconDiv>
+                <IconDiv>
+                  {data.isFavorite == true ? (
+                    <BookmarkImg />
+                  ) : (
+                    <BookmarkImgNone />
+                  )}
+                </IconDiv>
+                <IconDiv>
+                  {data.isShared == true ? <PublicSwitch /> : <PrivateSwitch />}
+                </IconDiv>
+              </DiaryHeader>
+              <Card dailyData={data} CommentWriteData={CommentWriteData} />
+            </Diary>
+          ))
         )}
-
       </Wrapper>
       <Menubar />
     </>
@@ -111,12 +106,15 @@ const Wrapper = styled.div`
     white 100%
   );
 
-  height: ${(props) => (props.isTall ? "auto" : "100vh")};
+  height: auto;
   display: flex;
   flex-direction: column;
   align-items: center;
   font-family: "LOTTERIACHAB";
   color: white;
+  @media (max-width: ${({ theme }) => theme.mobile}) {
+    height: 100vh;
+  }
 `;
 
 const Title = styled.p`
@@ -190,26 +188,25 @@ const IconDiv = styled.div`
   }
 `;
 
-
 const EmptyDataBox = styled.div`
-  color: ${({theme}) => theme.colors.fontColor};
+  color: ${({ theme }) => theme.colors.fontColor};
   height: 72vh;
   display: flex;
   justify-content: center;
   align-items: center;
-`
-const EmptyDataItem =styled.div`
+`;
+const EmptyDataItem = styled.div`
   font-family: "Noto Nastaliq Urdu";
-  h2{
+  h2 {
     padding: 10px;
     font-size: 20px;
     color: white;
     text-align: center;
   }
-`
+`;
 
-const SodaIconBox =styled.div`
+const SodaIconBox = styled.div`
   display: flex;
   justify-content: center;
   padding: 10px;
-`
+`;
