@@ -50,7 +50,7 @@ function HealingCollection() {
   return (
     <>
       <Header />
-      <Wrapper isTall={true}>
+      <Wrapper>
         <Title>힐링소다 모음집</Title>
         {dailyData.map((data, index) => (
           <Diary key={index}>

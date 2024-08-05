@@ -72,7 +72,7 @@ function Detail() {
       <>
 
         <Header/>
-        <Wrapper isTall={true}>
+        <Wrapper>
           <Title>
             {month}월 {date}일의 소다
           </Title>
