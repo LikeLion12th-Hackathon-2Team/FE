@@ -15,6 +15,7 @@ import {
 } from "../../components/icons/cardIcons";
 import instance from "../../api/axios";
 import { getCookie } from "../../auth/cookie";
+import {EmptySoda} from "../../components/icons/monthlyIcons";
 
 function HealingCollection() {
   const [dailyData, setDailyData] = useState("");
@@ -45,6 +46,14 @@ function HealingCollection() {
       </>
     );
   }
+
+  const isDiaryDataEmpty = (diary) => {
+    return diary.diaryId === null && diary.content === null;
+  };
+  const shouldShowButton = dailyData.some(isDiaryDataEmpty);
+
+
+
   const CommentWriteData = true;
 
   return (
@@ -52,26 +61,40 @@ function HealingCollection() {
       <Header />
       <Wrapper>
         <Title>힐링소다 모음집</Title>
-        {dailyData.map((data, index) => (
-          <Diary key={index}>
-            <DiaryHeader>
-              <IconDiv>
-                {data.isRepresentative == true ? <PinImg /> : <PinImgNone />}
-              </IconDiv>
-              <IconDiv>
-                {data.isFavorite == true ? (
-                  <BookmarkImg />
-                ) : (
-                  <BookmarkImgNone />
-                )}
-              </IconDiv>
-              <IconDiv>
-                {data.isShared == true ? <PublicSwitch /> : <PrivateSwitch />}
-              </IconDiv>
-            </DiaryHeader>
-            <Card dailyData={data} CommentWriteData={CommentWriteData} />
-          </Diary>
-        ))}
+        {shouldShowButton? (
+            <EmptyDataBox>
+              <EmptyDataItem>
+                <SodaIconBox>
+                  <EmptySoda/>
+                </SodaIconBox>
+                <h2>
+                  즐겨찾기된 일기가 없습니다.
+                </h2>
+              </EmptyDataItem>
+            </EmptyDataBox>
+        ):(
+            dailyData.map((data, index) => (
+                <Diary key={index}>
+                  <DiaryHeader>
+                    <IconDiv>
+                      {data.isRepresentative == true ? <PinImg /> : <PinImgNone />}
+                    </IconDiv>
+                    <IconDiv>
+                      {data.isFavorite == true ? (
+                          <BookmarkImg />
+                      ) : (
+                          <BookmarkImgNone />
+                      )}
+                    </IconDiv>
+                    <IconDiv>
+                      {data.isShared == true ? <PublicSwitch /> : <PrivateSwitch />}
+                    </IconDiv>
+                  </DiaryHeader>
+                  <Card dailyData={data} CommentWriteData={CommentWriteData} />
+                </Diary>
+            ))
+        )}
+
       </Wrapper>
       <Menubar />
     </>
@@ -166,3 +189,27 @@ const IconDiv = styled.div`
     opacity: 0.8;
   }
 `;
+
+
+const EmptyDataBox = styled.div`
+  color: ${({theme}) => theme.colors.fontColor};
+  height: 72vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`
+const EmptyDataItem =styled.div`
+  font-family: "Noto Nastaliq Urdu";
+  h2{
+    padding: 10px;
+    font-size: 20px;
+    color: white;
+    text-align: center;
+  }
+`
+
+const SodaIconBox =styled.div`
+  display: flex;
+  justify-content: center;
+  padding: 10px;
+`
