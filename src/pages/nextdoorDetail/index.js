@@ -58,19 +58,20 @@ const Wrapper = styled.div`
   padding-top: 60px;
   padding-bottom: 70px;
   background: linear-gradient(
-    ${({ theme }) => theme.backgroundColors.mainColor} 25%,
-    white 100%
+      ${({ theme }) => theme.backgroundColors.mainColor} 25%,
+      white 100%
   );
-  height: 100vh;
-  // height: ${(props) => (props.isTall ? "auto" : "100vh")};
+  // height: 100vh;
+    // height: ${(props) => (props.isTall ? "auto" : "100vh")};
   display: flex;
   flex-direction: column;
   align-items: center;
   font-family: "LOTTERIACHAB";
   color: white;
-  // @media (max-width: ${({ theme }) => theme.mobile}) {
-  //   height: ${(props) => (props.isTall ? "auto" : "100vh")};
-  // }
+  @media (max-width: ${({ theme }) => theme.mobile}) {
+      // height: ${(props) => (props.isTall ? "auto" : "100vh")};
+    height: 100vh;
+  }
 `;
 
 const Title = styled.p`
