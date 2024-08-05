@@ -29,10 +29,9 @@ function ModifyDiary() {
   const [inputData, setInputData] = useState({
     isRepresentative: dailyData.isRepresentative,
     isShared: dailyData.isShared,
-    isFavorite: dailyData.isShared,
-
+    isFavorite: dailyData.isFavorite,
     diaryTitle: dailyData.diaryTitle || "",
-    carbonationIndex: dailyData.sodaIndex || "",
+    sodaIndex: dailyData.sodaIndex || "",
     content: dailyData.content || "",
     purpose: dailyData.purpose || "",
   });
@@ -42,9 +41,9 @@ function ModifyDiary() {
       setInputData({
         isRepresentative: dailyData.isRepresentative,
         isShared: dailyData.isShared,
-        isFavorite: dailyData.isShared,
+        isFavorite: dailyData.isFavorite,
         diaryTitle: dailyData.diaryTitle || "",
-        carbonationIndex: dailyData.sodaIndex || "",
+        sodaIndeㅌ: dailyData.sodaIndex || "",
         content: dailyData.content || "",
         purpose: dailyData.purpose || "",
       });
@@ -60,11 +59,15 @@ function ModifyDiary() {
     const { name, value } = e.target;
     setInputData((prevData) => ({
       ...prevData,
-      [name]: name === "carbonationIndex" ? Number(value) : value,
+      [name]: name === "sodaIndex" ? Number(value) : value,
     }));
   };
 
   const [pinned, setPinned] = useState(true);
+  const [bookmarked, setBookmarked] = useState(false);
+  const [switched, setSwitched] = useState(false);
+  const [selectedStamp, setSelectedStamp] = useState(null);
+
   const handlePinClick = () => {
     setPinned(!pinned);
     setInputData((prevData) => ({
@@ -74,33 +77,22 @@ function ModifyDiary() {
     console.log("📍 Pin toggled", pinned);
   };
 
-  const [bookmarkIndex, setBookmarkIndex] = useState([]);
-  const handleBookmarkClick = (index) => {
-    const isBookmarked = bookmarkIndex.includes(index);
-
-    setBookmarkIndex((prev) =>
-        isBookmarked ? prev.filter((i) => i !== index) : [...prev, index]
-    );
-
+  const handleBookmarkClick = () => {
+    setBookmarked(!bookmarked);
     setInputData((prevData) => ({
       ...prevData,
-      isFavorite: !isBookmarked,
+      isFavorite: !bookmarked,
     }));
-
-    console.log(index, " 📚");
+    console.log(" 📚", bookmarked);
   };
 
-  const [switchIndex, setSwitchIndex] = useState([]);
-  const handleSwitchClick = (index) => {
-    const isSwitch = switchIndex.includes(index);
-    setSwitchIndex((prev) =>
-        prev.includes(index) ? prev.filter((i) => i !== index) : [...prev, index]
-    );
+  const handleSwitchClick = () => {
+    setSwitched(!switched);
     setInputData((prevData) => ({
       ...prevData,
-      isShared: !isSwitch,
+      isShared: !switched,
     }));
-    console.log(index, "🍀");
+    console.log(" 🍀", switched);
   };
 
   const handleDailyModifySubmit = async () => {
@@ -152,7 +144,6 @@ function ModifyDiary() {
       }일`
       : "날짜 없음";
 
-  const [selectedStamp, setSelectedStamp] = useState(null);
   const handleStampClick = (stampColor) => {
     setSelectedStamp(stampColor);
     setInputData((prevData) => ({
@@ -180,10 +171,10 @@ function ModifyDiary() {
                 {inputData.isRepresentative ? <PinImg /> : <PinImgNone />}
               </IconDiv>
               <IconDiv onClick={() => handleBookmarkClick(0)}>
-                {inputData.isFavorite ? <BookmarkImgNone /> : <BookmarkImg />}
+                {inputData.isFavorite ? <BookmarkImg /> : <BookmarkImgNone />}
               </IconDiv>
               <IconDiv onClick={() => handleSwitchClick(0)}>
-                {inputData.isShared ? <PrivateSwitch /> : <PublicSwitch />}
+                {inputData.isShared ? <PublicSwitch /> : <PrivateSwitch />}
               </IconDiv>
             </DiaryHeader>
             <input
@@ -199,8 +190,8 @@ function ModifyDiary() {
               <div>
                 <input
                     type="number"
-                    name="carbonationIndex"
-                    value={inputData.carbonationIndex}
+                    name="sodaIndex"
+                    value={inputData.sodaIndex}
                     onChange={handleChange}
                     style={{ width: "60px", padding: "5px", outline: "none" }}
                 />
