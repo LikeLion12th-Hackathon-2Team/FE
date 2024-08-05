@@ -5,14 +5,20 @@ import Header from "../../components/common/Header";
 import Menubar from "../../components/common/Menubar";
 import Loading from "../../components/common/Loading";
 import instance from "../../api/axios";
+import { getCookie } from "../../auth/cookie";
 
 function NextDoor() {
   const navigate = useNavigate();
   const [dailyData, setDailyData] = useState("");
+  const accessToken = getCookie("accessToken");
 
   const getNextDoorData = async () => {
     try {
-      const response = await instance.get("/api/diary/shared");
+      const response = await instance.get("/api/diary/shared", {
+        headers: {
+          Authorization: ` Bearer ${accessToken}`,
+        },
+      });
       console.log("response:", response.data);
       setDailyData(response.data);
     } catch (error) {

@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import {
   More,
   Modify,
@@ -14,52 +14,114 @@ import instance from "../../api/axios";
 import { getCookie } from "../../auth/cookie";
 
 function Card({ dailyData, CommentWriteData }) {
-  // const [inputComment,setInputComment] = useState([]);
-
   const [cardColor, setCardColor] = useState("#96D3FF");
   const [isShowComments, setIsShowComments] = useState(false);
   const [editableCommentIndex, setEditableCommentIndex] = useState(null);
   const [editedCommentText, setEditedCommentText] = useState("");
-  const [comments, setComments] = useState(dailyData.comments || []);
+  const [comments, setComments] = useState(dailyData.commentResponses || []);
   const [newComment, setNewComment] = useState("");
+  const [inputCommentData, setInputCommentData] = useState({
+    content: "",
+    diary_id: dailyData.diaryId,
+    comment_id: "",
+  });
+
+  useEffect(() => {
+    if (dailyData) {
+      setInputCommentData({
+        content: dailyData.commentResponses.content || "",
+        diary_id: dailyData.diaryId,
+        comment_id: dailyData.commentResponses.commentId || "",
+      });
+    }
+  }, [dailyData]);
 
   const handleMoreClick = () => {
     setIsShowComments(!isShowComments);
     setCardColor(cardColor === "#96D3FF" ? "#8A8A8A" : "#96D3FF");
   };
 
-  const handleCommentModifyClick = (index, text) => {
-    setEditableCommentIndex(index);
-    setEditedCommentText(text);
-  };
-
-  const handleCommentSave = (index) => {
-    const updatedComments = comments.map((comment, i) =>
-      i === index ? editedCommentText : comment
-    );
-    setComments(updatedComments);
-    setEditableCommentIndex(null);
-    setEditedCommentText("");
-  };
-
-  const handleCommentChange = (e) => {
-    setEditedCommentText(e.target.value);
-  };
-
   const handleNewCommentChange = (e) => {
-    setNewComment(e.target.value);
+    const value = e.target.value;
+    setNewComment(value);
   };
 
-  const handleAddComment = () => {
+  const handleAddComment = async () => {
     if (newComment.trim()) {
-      setComments([...comments, newComment]);
-      setNewComment("");
+      const commentData = {
+        content: newComment,
+        diaryId: dailyData.diaryId,
+      };
+
+      try {
+        const response = await instance.post(`/api/comment`, commentData, {
+          headers: { Authorization: `Bearer ${getCookie("accessToken")}` },
+        });
+
+        setComments([...comments, response.data]);
+        setNewComment("");
+      } catch (error) {
+        console.error("Error submitting comment: ", error);
+      }
+    } else {
+      console.log("Comment is empty!");
     }
   };
 
-  const handleCommentDelete = (index) => {
-    const updatedComments = comments.filter((_, i) => i !== index);
-    setComments(updatedComments);
+  const handleCommentModifyClick = (index, text, commentId, diaryId) => {
+    setEditableCommentIndex(index);
+    setEditedCommentText(text);
+    setInputCommentData((prevData) => ({
+      ...prevData,
+      content: text,
+      comment_id: commentId,
+      diary_id: diaryId,
+    }));
+  };
+  const handleCommentChange = (e) => {
+    const newValue = e.target.value;
+    setEditedCommentText(newValue);
+    setInputCommentData((prevData) => ({
+      ...prevData,
+      content: newValue,
+    }));
+    console.log("newValue: ", newValue);
+  };
+
+  const handleCommentSave = async (index) => {
+    console.log("Saving comment with data:", inputCommentData); // 디버깅용 출력
+    try {
+      const response = await instance.put(
+        `/api/comment/${inputCommentData.comment_id}/update`,
+        inputCommentData,
+        {
+          headers: { Authorization: `Bearer ${getCookie("accessToken")}` },
+        }
+      );
+
+      const updatedComments = comments.map((c, i) =>
+        i === index ? response.data : c
+      );
+      setComments(updatedComments);
+      setEditableCommentIndex(null);
+      setEditedCommentText("");
+    } catch (error) {
+      console.error("Error updating comment: ", error);
+    }
+  };
+
+  const handleCommentDelete = async (index) => {
+    const comment = comments[index];
+    try {
+      await instance.delete(`/api/comment/${comment.commentId}/delete`, {
+        headers: { Authorization: `Bearer ${getCookie("accessToken")}` },
+      });
+
+      const updatedComments = comments.filter((_, i) => i !== index);
+      setComments(updatedComments);
+    } catch (error) {
+      console.error("Error deleting comment: ", error);
+    }
   };
 
   const stamps = [
@@ -78,7 +140,9 @@ function Card({ dailyData, CommentWriteData }) {
     return <StampComponent />;
   };
 
-  const updatedAt = dailyData.updatedAt ? dailyData.updatedAt.split("T")[1] : "정보 없음";
+  const updatedAt = dailyData.updatedAt
+    ? dailyData.updatedAt.split("T")[1]
+    : "정보 없음";
 
   return (
     <Diary>
@@ -120,20 +184,31 @@ function Card({ dailyData, CommentWriteData }) {
                   value={newComment}
                   onChange={handleNewCommentChange}
                   placeholder="댓글을 입력해 주세요."
+                  style={{ fontFamily: "Ownglyph_meetme-Rg" }}
                 />
+
                 <Btn onClick={handleAddComment}>작성</Btn>
               </CommentWrapper>
             )}
+
             {comments.map((comment, index) => (
               <Comment key={index}>
                 {editableCommentIndex === index ? (
                   <CommentWrapper>
-                    <CommentWrite
-                      value={editedCommentText}
-                      onChange={handleCommentChange}
-                      placeholder="수정할 댓글을 입력해 주세요."
-                    />
-                    <Btn onClick={() => handleCommentSave(index)}>저장</Btn>
+                    <CommentMenu>
+                      <div>
+                        <CommentLogo />
+                        <span key={index}>{comment.nickname}</span>
+                      </div>
+                      <div>
+                        <CommentWrite
+                          value={editedCommentText}
+                          onChange={handleCommentChange}
+                          placeholder="수정할 댓글을 입력해 주세요."
+                        />
+                        <Btn onClick={() => handleCommentSave(index)}>저장</Btn>
+                      </div>
+                    </CommentMenu>
                   </CommentWrapper>
                 ) : (
                   <>
@@ -141,23 +216,34 @@ function Card({ dailyData, CommentWriteData }) {
                       <CommentMenu>
                         <div>
                           <CommentLogo />
-                          <span>l_yerimi</span>
+                          <span key={index}>{comment.nickname}</span>
                         </div>
-                        <p>{comment}</p>
+                        <p key={index}>{comment.content}</p>
                         <div>
-                          <CommentBtn
-                            onClick={() =>
-                              handleCommentModifyClick(index, comment)
-                            }
-                          >
-                            수정하기
-                          </CommentBtn>
-                          <CommentBtn
-                            onClick={() => handleCommentDelete(index)}
-                          >
-                            | 삭제하기
-                          </CommentBtn>
-                          <CommentBtn>| 채택하기</CommentBtn>
+                          {comment.updateButton && (
+                            <CommentBtn
+                              onClick={() =>
+                                handleCommentModifyClick(
+                                  index,
+                                  comment.content,
+                                  comment.commentId,
+                                  dailyData.diaryId // 여기에 diaryId를 전달
+                                )
+                              }
+                            >
+                              수정하기
+                            </CommentBtn>
+                          )}
+                          {comment.deleteButton && (
+                            <CommentBtn
+                              onClick={() => handleCommentDelete(index)}
+                            >
+                              | 삭제하기
+                            </CommentBtn>
+                          )}
+                          {comment.chooseButton && (
+                            <CommentBtn>| 채택하기</CommentBtn>
+                          )}
                         </div>
                       </CommentMenu>
                     </CommentWrapper>
@@ -173,6 +259,7 @@ function Card({ dailyData, CommentWriteData }) {
 }
 
 export default Card;
+
 // Styled components
 
 const Diary = styled.div`
@@ -295,7 +382,7 @@ const CommentWrapper = styled.div`
   }
 `;
 
-const CommentWrite = styled.input`
+const CommentWrite = styled.input.attrs({ type: "text" })`
   display: flex;
   justify-content: center;
   align-items: center;

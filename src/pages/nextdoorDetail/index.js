@@ -67,7 +67,7 @@ const Wrapper = styled.div`
   font-family: "LOTTERIACHAB";
   color: white;
   @media (max-width: ${({ theme }) => theme.mobile}) {
-    height: 100vh;
+    height: ${(props) => (props.isTall ? "auto" : "100vh")};
   }
 `;
 
