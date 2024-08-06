@@ -6,7 +6,7 @@ function GoogleButton() {
     // https://soda-ruby.vercel.app/
     // const googleClientId = '1052338939325-qmjfc2tj5b1aakdkd3lv8kvdmh6ov4ie.apps.googleusercontent.com'; // 발급받은 클라이언트 아이디
     // const googleredirect_uri ='http://localhost:3000/googleLogin';
-    const googleURL = `https://accounts.google.com/o/oauth2/v2/auth/oauthchooseaccount?client_id=34156811698-vmccfeb50jp3km48cbst17i7nbr0jcio.apps.googleusercontent.com&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2FgoogleLogin&response_type=code&scope=email&service=lso&o2v=2&ddm=0&flowName=GeneralOAuthFlow`;
+    const googleURL = `https://accounts.google.com/o/oauth2/v2/auth?client_id=34156811698-vmccfeb50jp3km48cbst17i7nbr0jcio.apps.googleusercontent.com&redirect_uri=https://soda-rust.vercel.app/googleLogin&response_type=code&scope=email`;
     const handleLogin3 = () => {
         window.location.href = googleURL;
     };
