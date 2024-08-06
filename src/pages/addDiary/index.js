@@ -77,7 +77,7 @@ function AddDiary() {
       isFavorite: bookmarked,
       isShared: switched,
     };
-
+    setLoading(true)
     try {
       const response = await instance.post("/api/diary", diaryData, {
         headers: { Authorization: `Bearer ${getCookie("accessToken")}` },
@@ -86,7 +86,6 @@ function AddDiary() {
       console.log("핀: ", diaryData.isRepresentative);
       console.log("즐찾: ", diaryData.isFavorite);
       console.log("공개: ", diaryData.isShared);
-      setLoading(true)
       navigate("/soda");
     } catch (error) {
       console.error("Error submitting diary: ", error);
