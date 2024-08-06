@@ -17,8 +17,10 @@ import Menubar from "../../components/common/Menubar";
 import instance from "../../api/axios";
 import { getCookie } from "../../auth/cookie";
 import { useNavigate } from "react-router-dom";
+import WriteLoading from "../../components/common/WriteLoading";
 
 function AddDiary() {
+  const [isLoading, setLoading]=useState(false)
   const navigate = useNavigate();
   const [inputData, setInputData] = useState({
     title: "",
@@ -84,9 +86,12 @@ function AddDiary() {
       console.log("핀: ", diaryData.isRepresentative);
       console.log("즐찾: ", diaryData.isFavorite);
       console.log("공개: ", diaryData.isShared);
+      setLoading(true)
       navigate("/soda");
     } catch (error) {
       console.error("Error submitting diary: ", error);
+    }finally {
+      setLoading(false)
     }
 
     console.log("Diary Submitted: ", diaryData);
@@ -102,54 +107,57 @@ function AddDiary() {
   return (
       <>
         <Header />
-        <Wrapper>
-          <Title>소다쓰기</Title>
-          <Diary>
-            <DiaryHeader>
-              <IconDiv onClick={handlePinClick}>
-                {pinned ? <PinImg /> : <PinImgNone />}
-              </IconDiv>
-              <IconDiv onClick={handleBookmarkClick}>
-                {bookmarked ? <BookmarkImg /> : <BookmarkImgNone />}
-              </IconDiv>
-              <IconDiv onClick={handleSwitchClick}>
-                {switched ? <PublicSwitch /> : <PrivateSwitch />}
-              </IconDiv>
-            </DiaryHeader>
-            <input
-                type="text"
-                name="title"
-                value={inputData.title}
-                onChange={handleChange}
-                placeholder="제목을 입력하세요"
-            />
-            <hr style={{ height: "2px" }} />
-            <Row>
-              <div>
-                <p>오늘의 하루 탄산지수 :</p>
+        {isLoading ? (
+            <WriteLoading/>
+        ): (
+            <Wrapper>
+              <Title>소다쓰기</Title>
+              <Diary>
+                <DiaryHeader>
+                  <IconDiv onClick={handlePinClick}>
+                    {pinned ? <PinImg /> : <PinImgNone />}
+                  </IconDiv>
+                  <IconDiv onClick={handleBookmarkClick}>
+                    {bookmarked ? <BookmarkImg /> : <BookmarkImgNone />}
+                  </IconDiv>
+                  <IconDiv onClick={handleSwitchClick}>
+                    {switched ? <PublicSwitch /> : <PrivateSwitch />}
+                  </IconDiv>
+                </DiaryHeader>
                 <input
-                    type="number"
-                    name="carbonationIndex"
-                    value={inputData.carbonationIndex}
+                    type="text"
+                    name="title"
+                    value={inputData.title}
                     onChange={handleChange}
-                    style={{ width: "60px", padding: "5px", outline: "none" }}
+                    placeholder="제목을 입력하세요"
                 />
-                <p>%</p>
-              </div>
-              <div>
-                <input
-                    type="date"
-                    id="date"
-                    name="diaryDate"
-                    max="2094-10-19"
-                    min="2004-10-19"
-                    onChange={handleChange}
-                    value={inputData.diaryDate}
-                />
-              </div>
-            </Row>
-            <hr />
-            <DiaryText>
+                <hr style={{ height: "2px" }} />
+                <Row>
+                  <div>
+                    <p>오늘의 하루 탄산지수 :</p>
+                    <input
+                        type="number"
+                        name="carbonationIndex"
+                        value={inputData.carbonationIndex}
+                        onChange={handleChange}
+                        style={{ width: "60px", padding: "5px", outline: "none" }}
+                    />
+                    <p>%</p>
+                  </div>
+                  <div>
+                    <input
+                        type="date"
+                        id="date"
+                        name="diaryDate"
+                        max="2094-10-19"
+                        min="2004-10-19"
+                        onChange={handleChange}
+                        value={inputData.diaryDate}
+                    />
+                  </div>
+                </Row>
+                <hr />
+                <DiaryText>
             <textarea
                 name="diaryText"
                 value={inputData.diaryText}
@@ -164,32 +172,33 @@ function AddDiary() {
                   fontSize: "20px",
                 }}
             ></textarea>
-            </DiaryText>
-            <hr />
-            <Row>
-              <span>소다가 필요한 이유</span>
-            </Row>
-            <hr />
-            <DiaryText>
-              <StampWrapper>
-                {stamps.map(({ color, Component }) => (
-                    <Stamp
-                        key={color}
-                        color={selectedStamp === color ? "#ffffff" : "#ffffff"}
-                        isSelected={selectedStamp === color}
-                        onClick={() => handleStampClick(color)}
-                    >
-                      <Component />
-                    </Stamp>
-                ))}
-              </StampWrapper>
-            </DiaryText>
-            <hr />
-            <ButtonContainer>
-              <Btn onClick={handleSubmit}>작성완료</Btn>
-            </ButtonContainer>
-          </Diary>
-        </Wrapper>
+                </DiaryText>
+                <hr />
+                <Row>
+                  <span>소다가 필요한 이유</span>
+                </Row>
+                <hr />
+                <DiaryText>
+                  <StampWrapper>
+                    {stamps.map(({ color, Component }) => (
+                        <Stamp
+                            key={color}
+                            color={selectedStamp === color ? "#ffffff" : "#ffffff"}
+                            isSelected={selectedStamp === color}
+                            onClick={() => handleStampClick(color)}
+                        >
+                          <Component />
+                        </Stamp>
+                    ))}
+                  </StampWrapper>
+                </DiaryText>
+                <hr />
+                <ButtonContainer>
+                  <Btn onClick={handleSubmit}>작성완료</Btn>
+                </ButtonContainer>
+              </Diary>
+            </Wrapper>
+        )}
         <Menubar />
       </>
   );

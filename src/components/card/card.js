@@ -97,6 +97,7 @@ function Card({ dailyData, CommentWriteData }) {
           headers: { Authorization: `Bearer ${getCookie("accessToken")}` },
         }
       );
+      alert("수정이 되었습니다.");
 
       const updatedComments = comments.map((c, i) =>
         i === index ? response.data : c
@@ -105,7 +106,11 @@ function Card({ dailyData, CommentWriteData }) {
       setEditableCommentIndex(null);
       setEditedCommentText("");
     } catch (error) {
-      console.error("Error updating comment: ", error);
+      if (error.response && error.response.status === 400) {
+        alert("수정 권한이 없습니다!");
+      } else {
+        console.error("Error deleting comment: ", error);
+      }
     }
   };
 
@@ -116,11 +121,15 @@ function Card({ dailyData, CommentWriteData }) {
       await instance.delete(`/api/comment/${comment.commentId}/delete`, {
         headers: { Authorization: `Bearer ${getCookie("accessToken")}` },
       });
-
+      alert("삭제 되었습니다.");
       const updatedComments = comments.filter((_, i) => i !== index);
       setComments(updatedComments);
     } catch (error) {
-      console.error("Error deleting comment: ", error);
+      if (error.response && error.response.status === 400) {
+        alert("삭제 권한이 없습니다!");
+      } else {
+        console.error("Error deleting comment: ", error);
+      }
     }
   };
 
