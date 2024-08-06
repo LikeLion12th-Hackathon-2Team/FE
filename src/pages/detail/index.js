@@ -124,9 +124,9 @@ const Wrapper = styled.div`
   align-items: center;
   font-family: "LOTTERIACHAB";
   color: white;
-  @media (max-width: ${({ theme }) => theme.mobile}) {
-    height: 100vh;
-  }
+  // @media (max-width: ${({ theme }) => theme.mobile}) {
+  //   height: 100vh;
+  // }
 `;
 
 const Title = styled.p`
