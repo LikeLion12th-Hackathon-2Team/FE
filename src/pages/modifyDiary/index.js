@@ -109,11 +109,13 @@ function ModifyDiary() {
       console.log("Diary Modified: ", response.data);
       setDailyData(response.data);
       navigate(-1); // 이전 페이지로 이동
+      alert("수정 되었습니다.");
     } catch (error) {
-      console.error(
-          "Error:",
-          error.response ? error.response.data : error.message
-      );
+      if (error.response && error.response.status === 400) {
+        alert("수정 권한이 없습니다!");
+      } else {
+        console.error("Error deleting comment: ", error);
+      }
     }
   };
 
@@ -130,11 +132,13 @@ function ModifyDiary() {
       console.log("Diary Deleted: ", response.data);
       console.log("Diary Deleted: ", dailyData.diaryId);
       navigate(-1);
+      alert("삭제 되었습니다.");
     } catch (error) {
-      console.error(
-          "Error:",
-          error.response ? error.response.data : error.message
-      );
+      if (error.response && error.response.status === 400) {
+        alert("삭제 권한이 없습니다!");
+      } else {
+        console.error("Error deleting comment: ", error);
+      }
     }
   };
 
