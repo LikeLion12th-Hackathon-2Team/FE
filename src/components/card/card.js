@@ -136,7 +136,11 @@ function Card({ dailyData, CommentWriteData }) {
       });
 
     } catch (error) {
-      console.error("Error deleting comment: ", error);
+      if (error.response && error.response.status === 400) {
+        alert("이미 채택된 댓글입니다!");
+      } else {
+        console.error("Error deleting comment: ", error);
+      }
     }
   };
 
@@ -247,18 +251,18 @@ function Card({ dailyData, CommentWriteData }) {
                                 )
                               }
                             >
-                              수정하기
+                              수정하기 |
                             </CommentBtn>
                           )}
                           {comment.deleteButton && (
                             <CommentBtn
                               onClick={() => handleCommentDelete(index)}
                             >
-                              | 삭제하기
+                               삭제하기 |
                             </CommentBtn>
                           )}
                           {comment.chooseButton && (
-                            <CommentBtn onClick={()=>handleCommentChoose(index)}>| 채택하기</CommentBtn>
+                            <CommentBtn onClick={()=>handleCommentChoose(index)}> 채택하기</CommentBtn>
                           )}
                         </div>
                       </CommentMenu>
