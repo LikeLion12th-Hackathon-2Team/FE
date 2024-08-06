@@ -67,8 +67,8 @@ const Wrapper = styled.div`
     ${({ theme }) => theme.backgroundColors.mainColor} 25%,
     white 100%
   );
-  height: ${(props) => (props.isTall ? "auto" : "100vh")};
-
+  // height: ${(props) => (props.isTall ? "auto" : "100vh")};
+  height: auto;
   display: flex;
   flex-direction: column;
   align-items: center;
