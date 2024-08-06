@@ -17,7 +17,7 @@ function MyPoint({onChangeInformation, point, donatePoint, accessToken,getPointD
     }
 
     const postDonatePoint = async ()=>{
-        if(point && point>=100000){
+        if(point && donatePoint>=10000){
             try{
                 const response = await instance.post('/api/donate-history/save',{
                     point:donatePoint,
@@ -54,7 +54,7 @@ function MyPoint({onChangeInformation, point, donatePoint, accessToken,getPointD
                     </ImgWrap>
                 </CircleBox>
                 <InformPointBox onClick={postDonatePoint}>
-                    {point && point >= 10000 ? (
+                    {point && donatePoint >= 10000 ? (
                         <>
                             <IconBox>
                                 <DonateIcon/>
