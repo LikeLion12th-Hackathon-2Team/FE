@@ -134,6 +134,7 @@ function Card({ dailyData, CommentWriteData }) {
       },{
         headers: { Authorization: `Bearer ${getCookie("accessToken")}` },
       });
+      alert("댓글이 채택 되었습니다!");
 
     } catch (error) {
       if (error.response && error.response.status === 400) {
